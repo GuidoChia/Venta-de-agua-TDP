@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Yporá app</string>
+    <string name="nombre_del_cliente">Nombre del cliente</string>
+    <string name="cantidad_de_bidones_que_llevo_20">Bidones que llevo de 20L</string>
+    <string name="cantidad_de_bidones_que_llevo_12">Bidones que llevo de 12L</string>
+    <string name="cantidad_de_bidones_devueltos">Bidones devueltos</string>
+    <string name="fecha">Fecha</string>
+    <string name="cantidad_de_dinero_pagado">Dinero pagado</string>
+    <string name="cliente_a_buscar">Cliente a buscar</string>
+    <string name="buscar">Buscar</string>
+    <string name="confirmar_venta">Confirmar venta</string>
+    <string name="about">Esta aplicación fue desarrollada para el proyecto final de la materia
+        "Tecnologías de Programación" de la carrera Ingeniería en Sistemas de Información.</string>
+    <string name="autor">Autor: Guido Chia</string>
+</resources>

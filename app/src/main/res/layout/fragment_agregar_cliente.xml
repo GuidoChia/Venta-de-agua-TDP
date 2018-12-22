@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ScrollView
+        android:id='@+id/fragment'
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <LinearLayout
+            android:id='@+id/layoutBajoAppBar'
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:dividerPadding="16dp"
+            android:gravity="fill_vertical"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/InputLayoutClient"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:hapticFeedbackEnabled="true"
+                android:hint="@string/nombre_del_cliente"
+                app:boxCornerRadiusBottomEnd="8dp"
+                app:boxCornerRadiusBottomStart="8dp"
+                app:boxCornerRadiusTopEnd="8dp"
+                app:boxCornerRadiusTopStart="8dp"
+                app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/NombreCliente"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+
+                    android:textSize="20sp"
+                    app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:hapticFeedbackEnabled="true"
+                android:hint="@string/cantidad_de_bidones_que_llevo_20"
+                app:boxCornerRadiusBottomEnd="8dp"
+                app:boxCornerRadiusBottomStart="8dp"
+                app:boxCornerRadiusTopEnd="8dp"
+                app:boxCornerRadiusTopStart="8dp">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/BidonesLlevoDe20"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="number"
+                    android:textSize="20sp" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:hapticFeedbackEnabled="true"
+                android:hint="@string/cantidad_de_bidones_que_llevo_12"
+                app:boxCornerRadiusBottomEnd="8dp"
+                app:boxCornerRadiusBottomStart="8dp"
+                app:boxCornerRadiusTopEnd="8dp"
+                app:boxCornerRadiusTopStart="8dp">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/BidonesLlevoDe12"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="number"
+                    android:textSize="20sp" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:hapticFeedbackEnabled="true"
+                android:hint="@string/cantidad_de_bidones_devueltos"
+                app:boxCornerRadiusBottomEnd="8dp"
+                app:boxCornerRadiusBottomStart="8dp"
+                app:boxCornerRadiusTopEnd="8dp"
+                app:boxCornerRadiusTopStart="8dp">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/BidonesDevueltos"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="number"
+                    android:textSize="20sp" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:hapticFeedbackEnabled="true"
+                android:hint="@string/cantidad_de_dinero_pagado"
+                app:boxCornerRadiusBottomEnd="8dp"
+                app:boxCornerRadiusBottomStart="8dp"
+                app:boxCornerRadiusTopEnd="8dp"
+                app:boxCornerRadiusTopStart="8dp">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/DineroPagado"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="number"
+                    android:textSize="20sp" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.button.MaterialButton
+                android:id='@+id/BotonFecha'
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="120dp"
+                android:layout_height="50dp"
+                android:autoSizeTextType="uniform"
+                android:hint="@string/fecha"
+                android:textAppearance="@style/ThemeOverlay.MaterialComponents.Light"
+                android:textColor="@color/colorAccent"
+                android:textSize="20sp">
+
+            </android.support.design.button.MaterialButton>
+
+            <android.support.design.button.MaterialButton
+                android:id='@+id/BotonConfirmar'
+                style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:text="@string/confirmar_venta"
+                android:textAppearance="@style/ThemeOverlay.MaterialComponents.Light"
+                android:textSize="20sp">
+
+            </android.support.design.button.MaterialButton>
+
+
+        </LinearLayout>
+
+    </ScrollView>
+</LinearLayout>
