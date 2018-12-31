@@ -11,7 +11,7 @@ public interface BuyInfo {
      * Paid getter.
      * @return Amount of money paid
      */
-    float getPaid();
+    double getPaid();
 
     /**
      * Twenty canister getter
@@ -42,4 +42,5 @@ public interface BuyInfo {
      * @return Name of the customer
      */
     String getName();
+
 }

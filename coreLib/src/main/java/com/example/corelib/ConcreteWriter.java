@@ -1,5 +1,6 @@
 package com.example.corelib;
 
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -9,6 +10,7 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.FileOutputStream;
 import java.io.FilenameFilter;
+import java.util.Iterator;
 
 /**
  * Implementation of the ExcelWriter interface
@@ -26,15 +28,31 @@ public class ConcreteWriter implements ExcelWriter {
     }
 
     @Override
-    public void WriteBuy(BuyInfo info) {
+    public void WriteBuy(BuyInfo info, PriceInfo prices) {
         String name = info.getName();
         File file = findFile(name);
 
-        WorkbookFactory factory = new WorkbookFactory();
-        Workbook customerWorkbook = factory.create(file);
+        Workbook customerWorkbook = WorkbookFactory.create(file);
         Sheet customerSheet = customerWorkbook.getSheetAt(0);
 
         Row lastRow = moveToEnd(customerSheet);
+
+        int cellIndex = lastRow.getFirstCellNum();
+
+        Cell currentCell = lastRow.getCell(++cellIndex);
+        currentCell.setCellValue(info.getDate());
+
+        currentCell = lastRow.getCell(++cellIndex);
+        currentCell.setCellValue(info.getTwentyCanister());
+
+        currentCell = lastRow.getCell(++cellIndex);
+        currentCell.setCellValue(info.getTwelveCanister());
+
+        currentCell = lastRow.getCell(++cellIndex);
+        currentCell.setCellValue(info.getReturnedCanister());
+
+        currentCell = lastRow.getCell(++cellIndex);
+        currentCell.setCellValue(info.getTwentyCanister());
 
     }
 
@@ -50,7 +68,27 @@ public class ConcreteWriter implements ExcelWriter {
         res.createNewFile();
     }
 
+    /**
+     * Looks for the first empty row in the given sheet.
+     * @param sheet The given sheet.
+     * @return The first empty row.
+     */
     private Row moveToEnd(Sheet sheet){
+        Row res = null;
 
+        Iterator<Row> it = sheet.iterator();
+
+        while (it.hasNext() || res!=null){
+            Row row = it.next();
+            if (isEmpty(row.getCell(row.getFirstCellNum()))){
+                res=row;
+            }
+        }
+
+        return res;
+    }
+
+    private boolean isEmpty(Cell c){
+        return ( (c.getRichStringCellValue().getString().isEmpty()) || c==null );
     }
 }
