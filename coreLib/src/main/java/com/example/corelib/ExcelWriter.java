@@ -8,7 +8,7 @@ package com.example.corelib;
  * Third column: amount of twelve canisters bought.
  * Forth column: total price of the buy.
  * Fifth column: total amount of money paid.
- * Sixth column: balance of the customer on the date.
+ * Sixth column: customer's balance on the date.
  * Seventh column: amount of returned twenty canisters.
  * Eighth column: balance of twenty canisters.
  * Ninth column: amount of returned twelve canisters.
