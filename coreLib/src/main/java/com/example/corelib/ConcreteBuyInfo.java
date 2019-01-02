@@ -10,7 +10,8 @@ public class ConcreteBuyInfo implements BuyInfo {
     private float paid;
     private int twentyCanister;
     private int twelveCanister;
-    private int returnedCanister;
+    private int twentyReturned;
+    private int twelveReturned;
     private Date date;
     private String name;
 
@@ -24,11 +25,12 @@ public class ConcreteBuyInfo implements BuyInfo {
      * @param name Name of the customer
      */
 
-    public ConcreteBuyInfo(float paid, int twenty, int twelve, int returned, Date date, String name){
+    public ConcreteBuyInfo(float paid, int twenty, int twelve, int twentyReturned, int twelveReturned,  Date date, String name){
         this.paid=paid;
         this.twentyCanister=twenty;
         this.twelveCanister=twelve;
-        this.returnedCanister=returned;
+        this.twentyReturned=twentyReturned;
+        this.twelveReturned=twelveReturned;
         this.date=date;
         this.name=name;
     }
@@ -50,9 +52,11 @@ public class ConcreteBuyInfo implements BuyInfo {
     }
 
     @Override
-    public int getReturnedCanister() {
-        return returnedCanister;
-    }
+    public int getTwentyReturnedCanister() { return twentyReturned; }
+
+    @Override
+    public int getTwelveReturnedCanister() { return twelveReturned; }
+
 
     @Override
     public Date getDate() {

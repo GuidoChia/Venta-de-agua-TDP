@@ -1,5 +1,6 @@
 package skrb.appprueba;
 
+import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
@@ -9,7 +10,18 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 
+import com.example.corelib.BuyInfo;
+import com.example.corelib.ConcreteBuyInfo;
+import com.example.corelib.ConcretePriceInfo;
+import com.example.corelib.ConcreteWriter;
+import com.example.corelib.ExcelWriter;
+import com.example.corelib.PriceInfo;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 
 public class AgregarClienteFragment extends Fragment implements DatePickerDialog.OnDateSetListener {
@@ -25,8 +37,7 @@ public class AgregarClienteFragment extends Fragment implements DatePickerDialog
         day = actualDate.get(Calendar.DAY_OF_MONTH);
         month = actualDate.get(Calendar.MONTH);
         year = actualDate.get(Calendar.YEAR);
-        final DatePickerDialog dialogFecha = new DatePickerDialog(this.getContext(), AgregarClienteFragment.this, year, month + 1, day);
-
+        final DatePickerDialog dialogFecha = new DatePickerDialog(this.getContext(), AgregarClienteFragment.this, year, month, day);
 
         Button botonFecha = view.findViewById(R.id.BotonFecha);
         botonFecha.setText(day + "/" + (month+1) + "/" + year);
@@ -34,6 +45,50 @@ public class AgregarClienteFragment extends Fragment implements DatePickerDialog
             @Override
             public void onClick(View v) {
                 dialogFecha.show();
+            }
+        });
+
+        Button botonConfirmar = view.findViewById(R.id.BotonConfirmar);
+        botonConfirmar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ExcelWriter writer = new ConcreteWriter();
+
+                TextInputEditText input = v.findViewById(R.id.NombreCliente);
+                String name = input.getText().toString();
+
+                input = v.findViewById(R.id.BidonesLlevoDe20);
+                int bidones20 = Integer.parseInt(input.getText().toString());
+
+                input = v.findViewById(R.id.BidonesLlevoDe12);
+                int bidones12 = Integer.parseInt(input.getText().toString());
+
+                input = v.findViewById(R.id.BidonesDevueltos20);
+                int bidones_devueltos_20 = Integer.parseInt(input.getText().toString());
+
+                input = v.findViewById(R.id.BidonesDevueltos12);
+                int bidones_devueltos_12 = Integer.parseInt(input.getText().toString());
+
+                input = v.findViewById(R.id.DineroPagado);
+                int dinero_pagado = Integer.parseInt(input.getText().toString());
+
+                input = v.findViewById(R.id.BotonFecha);
+                String dateString = input.getText().toString();
+                DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+                Date date = null;
+                try {
+                    date = format.parse(dateString);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                BuyInfo info = new ConcreteBuyInfo(dinero_pagado,bidones20,bidones12,bidones_devueltos_20,
+                        bidones_devueltos_12,date,name);
+
+                /* esto va a cambiar*/
+                PriceInfo prices = new ConcretePriceInfo(50,70);
+
+                writer.WriteBuy(info, prices);
             }
         });
 

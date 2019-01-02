@@ -3,7 +3,8 @@
     <string name="nombre_del_cliente">Nombre del cliente</string>
     <string name="cantidad_de_bidones_que_llevo_20">Bidones que llevo de 20L</string>
     <string name="cantidad_de_bidones_que_llevo_12">Bidones que llevo de 12L</string>
-    <string name="cantidad_de_bidones_devueltos">Bidones devueltos</string>
+    <string name="cantidad_de_bidones_devueltos_20">Bidones devueltos de 20L</string>
+    <string name="cantidad_de_bidones_devueltos_12">Bidones devueltos de 12L</string>
     <string name="fecha">Fecha</string>
     <string name="cantidad_de_dinero_pagado">Dinero pagado</string>
     <string name="cliente_a_buscar">Cliente a buscar</string>

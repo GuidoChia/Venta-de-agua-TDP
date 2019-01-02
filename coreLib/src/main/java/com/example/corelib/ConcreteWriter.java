@@ -17,6 +17,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFRichTextString;
 
 import java.io.File;
@@ -114,9 +115,15 @@ public class ConcreteWriter implements ExcelWriter {
         /*
         Create the first row, with the name of the customer
          */
+        CellRangeAddress range = new CellRangeAddress(0,0,0,10);
+        sheet.addMergedRegion(range);
         Row row = sheet.createRow(0);
         Cell cell = row.createCell(0);
         cell.setCellValue(name);
+        CellStyle style= workbook.createCellStyle();
+        style.setAlignment(HorizontalAlignment.CENTER);
+        style.setVerticalAlignment(VerticalAlignment.CENTER);
+        cell.setCellStyle(style);
 
         /*
         Create the third row, with the titles.
@@ -153,10 +160,18 @@ public class ConcreteWriter implements ExcelWriter {
      * @return The first empty row.
      */
     private Row moveToEnd(Sheet sheet){
+        /*
+        This method is needed in case the sheet has been created outside this program.
+        If it was created with this program, the first empty row is the one with the
+        index sheet.getLastRowIndex(). But as it's unknown if the sheet was or not created
+        by this program, its needed to check in this way.
+         */
+
         Row res = null;
         /*
         The start row is the number 3, after the row with the titles.
          */
+
         int startRow = 3;
 
         boolean found = false;
@@ -172,6 +187,7 @@ public class ConcreteWriter implements ExcelWriter {
             }
         }
 
+
         if (res==null){
             res= sheet.createRow(startRow);
         }
@@ -179,6 +195,13 @@ public class ConcreteWriter implements ExcelWriter {
         return res;
     }
 
+    /**
+     * Checks if the given cell is empty.
+     * A cell is considered empty if is null, or is of the CellType.BLANK type, or if is a String cell
+     * with an empty string.
+     * @param c The cell to check if is empty
+     * @return true if the cell is empty, false otherwise.
+     */
     private boolean isEmpty(Cell c){
         return ( c==null ||  (c.getCellTypeEnum() == CellType.BLANK ) ||  (c.getCellTypeEnum() == CellType.STRING && c.getStringCellValue().trim().isEmpty()));
     }
@@ -214,6 +237,7 @@ public class ConcreteWriter implements ExcelWriter {
         Initialize the second cell, the amount of twenty canisters bought.
          */
         currentCell = lastRow.createCell(cellIndex);
+        currentCell.setCellType(CellType.NUMERIC);
         currentCell.setCellValue(info.getTwentyCanister());
         cellIndex++;
 
@@ -221,6 +245,7 @@ public class ConcreteWriter implements ExcelWriter {
         Initialize the third cell, the amount of twelve canisters bought.
          */
         currentCell = lastRow.createCell(cellIndex);
+        currentCell.setCellType(CellType.NUMERIC);
         currentCell.setCellValue(info.getTwelveCanister());
         cellIndex++;
 
@@ -239,6 +264,7 @@ public class ConcreteWriter implements ExcelWriter {
         Initialize the fifth cell, the amount of money paid
          */
         currentCell = lastRow.createCell(cellIndex);
+        currentCell.setCellType(CellType.NUMERIC);
         currentCell.setCellValue(info.getPaid());
         cellIndex++;
 
@@ -262,7 +288,8 @@ public class ConcreteWriter implements ExcelWriter {
         Initialize the seventh cell, the amount of returned twenty canisters.
          */
         currentCell = lastRow.createCell(cellIndex);
-        currentCell.setCellValue(info.getReturnedCanister());
+        currentCell.setCellType(CellType.NUMERIC);
+        currentCell.setCellValue(info.getTwentyReturnedCanister());
         cellIndex++;
 
         /*
@@ -285,7 +312,8 @@ public class ConcreteWriter implements ExcelWriter {
         Initialize the  ninth cell, the amount of returned twelve canisters.
          */
         currentCell = lastRow.createCell(cellIndex);
-        currentCell.setCellValue(info.getTwentyCanister());
+        currentCell.setCellType(CellType.NUMERIC);
+        currentCell.setCellValue(info.getTwelveReturnedCanister());
         cellIndex++;
 
         /*
@@ -308,7 +336,7 @@ public class ConcreteWriter implements ExcelWriter {
         Calculate the eleventh cell, the total balance of canisters.
          */
 
-        formula = "H"+lastRowNum+"+J"+lastRowNum+postFix;
+        formula = "H"+lastRowNum+"+J"+lastRowNum;
         currentCell = lastRow.createCell(cellIndex);
         currentCell.setCellType(CellType.FORMULA);
         currentCell.setCellFormula(formula);
@@ -322,7 +350,7 @@ public class ConcreteWriter implements ExcelWriter {
     private void initTitles(Row row){
         this.row = row;
 
-        row.setHeightInPoints(20);
+        row.setHeightInPoints(40);
 
         CellStyle style= row.getSheet().getWorkbook().createCellStyle();
         style.setAlignment(HorizontalAlignment.CENTER);
@@ -340,6 +368,11 @@ public class ConcreteWriter implements ExcelWriter {
 
     }
 
+    /**
+     * Checks if the given rowNum corresponds to the first row (row 4).
+     * @param rowNum Number of the row.
+     * @return true if the row is the first after the titles, false otherwise.
+     */
     private boolean isFirstRow(int rowNum){
         return (rowNum<=4);
     }

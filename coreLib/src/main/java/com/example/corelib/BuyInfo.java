@@ -26,10 +26,16 @@ public interface BuyInfo {
     int getTwelveCanister();
 
     /**
-     * Returned canisters getter
-     * @return Amount of returned canisters
+     * Returned twenty canisters getter
+     * @return Amount of returned twenty canisters
      */
-    int getReturnedCanister();
+    int getTwentyReturnedCanister();
+
+    /**
+     * Returned twelve canisters getter
+     * @return Amount of returned twelve canisters
+     */
+    int getTwelveReturnedCanister();
 
     /**
      * Date getter
