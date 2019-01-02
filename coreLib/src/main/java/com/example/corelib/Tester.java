@@ -7,9 +7,9 @@ public class Tester {
     public static void main(String [] args){
         Calendar cal = Calendar.getInstance();
         Date today = cal.getTime();
-        BuyInfo info = new ConcreteBuyInfo(50, 1, 1, 2, today, "Ancin Nidia");
+        BuyInfo info = new ConcreteBuyInfo(100, 2, 0, 2, today, "Perez Juan");
 
-        PriceInfo prices = new ConcretePriceInfo(25, 20);
+        PriceInfo prices = new ConcretePriceInfo(50, 70);
 
         ExcelWriter writer = new ConcreteWriter();
 

@@ -3,21 +3,29 @@ package com.example.corelib;
 import org.apache.commons.collections4.iterators.ArrayIterator;
 import org.apache.poi.hssf.usermodel.HSSFRichTextString;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.RichTextString;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.xssf.usermodel.XSSFRichTextString;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Iterator;
 
 import static org.apache.poi.ss.usermodel.WorkbookFactory.*;
@@ -29,6 +37,8 @@ import static org.apache.poi.ss.usermodel.WorkbookFactory.*;
 public class ConcreteWriter implements ExcelWriter {
 
     private static final String baseDir="/Ypora Clientes/";
+    private final int columnsAmount = 12;
+    private Row row;
 
     /**
      * Creates a new instance of ConcreteWriter
@@ -48,7 +58,21 @@ public class ConcreteWriter implements ExcelWriter {
 
         initializeRow(lastRow, info, prices);
 
+        /*
+        Autosize columns to fit content.
+         */
+        for (int  i=0; i<columnsAmount; i++){
+            customerSheet.autoSizeColumn(i);
+            customerSheet.setColumnWidth(i,customerSheet.getColumnWidth(i)+4 );
+        }
+
+        /*
+        Write the workbook on a file and close both the file and workbook.
+         */
         try {
+            FileOutputStream fileOut = new FileOutputStream(file);
+            customerWorkbook.write(fileOut);
+            fileOut.close();
             customerWorkbook.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -65,7 +89,7 @@ public class ConcreteWriter implements ExcelWriter {
         Workbook res=null;
         if (file.length() != 0){
             try {
-                res = WorkbookFactory.create(file);
+                res = WorkbookFactory.create(new FileInputStream(file));
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (InvalidFormatException e) {
@@ -74,12 +98,17 @@ public class ConcreteWriter implements ExcelWriter {
         }
         else{
             res = new HSSFWorkbook();
-            initWorkbook(res,  file, name);
+            initWorkbook(res, name);
         }
         return res;
     }
 
-    public void initWorkbook(Workbook workbook, File file, String name){
+    /**
+     * Initializes the workbook with the given name and the titles.
+     * @param workbook Workbook to initialize.
+     * @param name Customer's name.
+     */
+    private void initWorkbook(Workbook workbook, String name){
         Sheet sheet = workbook.createSheet();
 
         /*
@@ -125,18 +154,26 @@ public class ConcreteWriter implements ExcelWriter {
      */
     private Row moveToEnd(Sheet sheet){
         Row res = null;
+        /*
+        The start row is the number 3, after the row with the titles.
+         */
+        int startRow = 3;
 
-        Iterator<Row> it = sheet.iterator();
+        boolean found = false;
 
-        while (it.hasNext()){
-            Row row = it.next();
-            if (isEmpty(row.getCell(row.getFirstCellNum()))){
+        while (!found){
+            Row row = sheet.getRow(startRow);
+            if ((row==null)||isEmpty(row.getCell(row.getFirstCellNum()))){
                 res=row;
+                found=true;
+            }
+            else{
+                startRow++;
             }
         }
 
         if (res==null){
-            res= sheet.createRow(sheet.getLastRowNum());
+            res= sheet.createRow(startRow);
         }
 
         return res;
@@ -154,12 +191,23 @@ public class ConcreteWriter implements ExcelWriter {
      */
     private void initializeRow(Row lastRow, BuyInfo info, PriceInfo prices){
         int cellIndex=0;
+        String formula,
+                postFix;
+        formula = "";
+        postFix = "";
+
+        /*
+        This is the row num of the lastRow, but plus one to use it in formulas.
+         */
+        int lastRowNum=lastRow.getRowNum()+1;
 
         /*
         Initialize the first cell, the date.
          */
         Cell currentCell = lastRow.createCell(cellIndex);
-        currentCell.setCellValue(info.getDate());
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        String format = formatter.format(info.getDate());
+        currentCell.setCellValue(format);
         cellIndex++;
 
         /*
@@ -179,8 +227,9 @@ public class ConcreteWriter implements ExcelWriter {
         /*
         Calculate the forth cell, the total price of the buy.
          */
-        String formula = "B"+lastRow.getRowNum()+"*"+prices.getTwentyPrice()
-                +"+C"+lastRow.getRowNum()+"*"+prices.getTwelvePrice();
+
+        formula = "B"+lastRowNum+"*"+prices.getTwentyPrice()
+                +"+C"+lastRowNum+"*"+prices.getTwelvePrice();
         currentCell = lastRow.createCell(cellIndex);
         currentCell.setCellType(CellType.FORMULA);
         currentCell.setCellFormula(formula);
@@ -196,6 +245,17 @@ public class ConcreteWriter implements ExcelWriter {
         /*
         Calculate the sixth cell, the customer's balance.
          */
+        if (isFirstRow(lastRowNum)){
+            postFix="";
+        }
+        else{
+            postFix="+F"+(lastRowNum-1);
+        }
+
+        formula = "D"+lastRowNum+"-E"+lastRowNum+postFix;
+        currentCell = lastRow.createCell(cellIndex);
+        currentCell.setCellType(CellType.FORMULA);
+        currentCell.setCellFormula(formula);
         cellIndex++;
 
         /*
@@ -208,6 +268,17 @@ public class ConcreteWriter implements ExcelWriter {
         /*
         Calculate the eighth cell, the balance of twenty canisters.
          */
+        if (isFirstRow(lastRowNum)){
+            postFix="";
+        }
+        else{
+            postFix="+H"+(lastRowNum-1);
+        }
+
+        formula = "B"+lastRowNum+"-G"+lastRowNum+postFix;
+        currentCell = lastRow.createCell(cellIndex);
+        currentCell.setCellType(CellType.FORMULA);
+        currentCell.setCellFormula(formula);
         cellIndex++;
 
         /*
@@ -220,11 +291,27 @@ public class ConcreteWriter implements ExcelWriter {
         /*
         Calculate the tenth cell, the balance of twelve canisters.
          */
+        if (isFirstRow(lastRowNum)){
+            postFix="";
+        }
+        else{
+            postFix="+J"+(lastRowNum-1);
+        }
+
+        formula = "C"+lastRowNum+"-I"+lastRowNum+postFix;
+        currentCell = lastRow.createCell(cellIndex);
+        currentCell.setCellType(CellType.FORMULA);
+        currentCell.setCellFormula(formula);
         cellIndex++;
 
         /*
         Calculate the eleventh cell, the total balance of canisters.
          */
+
+        formula = "H"+lastRowNum+"+J"+lastRowNum+postFix;
+        currentCell = lastRow.createCell(cellIndex);
+        currentCell.setCellType(CellType.FORMULA);
+        currentCell.setCellFormula(formula);
 
     }
 
@@ -233,6 +320,13 @@ public class ConcreteWriter implements ExcelWriter {
      * @param row The row to initialize
      */
     private void initTitles(Row row){
+        this.row = row;
+
+        row.setHeightInPoints(20);
+
+        CellStyle style= row.getSheet().getWorkbook().createCellStyle();
+        style.setAlignment(HorizontalAlignment.CENTER);
+        style.setVerticalAlignment(VerticalAlignment.CENTER);
 
         String [] titles = {"Fecha","20","12","Total","Pagó","Saldo",
         "Envases devueltos 20","Envases 20", "Envases devueltos 12",
@@ -241,7 +335,12 @@ public class ConcreteWriter implements ExcelWriter {
         for (int index=0; index<titles.length;index++){
             Cell cell = row.createCell(index);
             cell.setCellValue(titles[index]);
+            cell.setCellStyle(style);
         }
 
+    }
+
+    private boolean isFirstRow(int rowNum){
+        return (rowNum<=4);
     }
 }
