@@ -1,10 +1,14 @@
 apply plugin: 'java-library'
 
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'org.apache.poi:poi:3.17'
-    implementation 'org.apache.poi:poi-ooxml:3.17'
+
+    implementation files('../coreLib/libs/poishadow-all.jar')
 }
+
+
 
 sourceCompatibility = "7"
 targetCompatibility = "7"
+
