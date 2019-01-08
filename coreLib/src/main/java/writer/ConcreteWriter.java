@@ -1,7 +1,5 @@
 package writer;
 
-
-
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
@@ -23,6 +21,7 @@ import java.text.SimpleDateFormat;
 
 import infos.BuyInfo;
 import infos.PriceInfo;
+import reader.ConcreteReader;
 
 
 /**
@@ -31,21 +30,27 @@ import infos.PriceInfo;
  */
 public class ConcreteWriter implements ExcelWriter {
 
+    private static ConcreteWriter INSTANCE;
     private static final String baseDir="/sdcard/Ypora Clientes/";
     private final int columnsAmount = 12;
     private Row row;
 
+    public static ConcreteWriter getInstance(){
+        if (INSTANCE==null){
+            INSTANCE=new ConcreteWriter();
+        }
+        return INSTANCE;
+    }
+
     /**
      * Creates a new instance of ConcreteWriter
      */
-    public ConcreteWriter(){}
+    private ConcreteWriter(){}
 
     @Override
-    public void WriteBuy(BuyInfo info, PriceInfo prices) {
+    public void WriteBuy(BuyInfo info, PriceInfo prices, File file) {
         String name = info.getName();
-        File file = findFile(name);
-
-        Workbook customerWorkbook= createWorkbook(file, name);
+        Workbook customerWorkbook= createWorkbook(name, file);
 
         Sheet customerSheet = customerWorkbook.getSheetAt(0);
 
@@ -64,9 +69,6 @@ public class ConcreteWriter implements ExcelWriter {
             customerSheet.setColumnWidth(i,sizes[i]);
         }
 
-        /*
-        Write the workbook on a file and close both the file and workbook.
-         */
         try {
             FileOutputStream fileOut = new FileOutputStream(file);
             customerWorkbook.write(fileOut);
@@ -78,12 +80,12 @@ public class ConcreteWriter implements ExcelWriter {
     }
 
     /**
-     * Creates the workbook for the given file. If the file doesn't exist,
-     * it creates the excel file of type .xls .
-     * @param file Excel file.
+     * Creates a new workbook for the name given.
+     * @param name Name of the customer
+     * @param file File to read the workbook if it exists.
      * @return The workbook of the given file
      */
-    private Workbook createWorkbook(File file, String name){
+    private Workbook createWorkbook(String name, File file){
         Workbook res=null;
         if (file.length() != 0){
             try {
@@ -129,26 +131,6 @@ public class ConcreteWriter implements ExcelWriter {
         initTitles(row);
 
 
-    }
-
-    /**
-     * Finds the file of the customer
-     * If it doesn't exist, it creates one.
-     * @param name the name of the customer
-     * @return the File instance of the file opened.
-     */
-    private File findFile(final String name){
-        File directory = new File(baseDir+name.charAt(0));
-        directory.mkdirs();
-
-        File res = new File(baseDir+name.charAt(0)+"/"+name+".xls");
-        try {
-            res.createNewFile();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return res;
     }
 
     /**

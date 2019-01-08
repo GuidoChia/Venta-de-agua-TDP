@@ -11,13 +11,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+
+import exceptions.WorkbookException;
+import infos.OutputInfo;
+import reader.ConcreteReader;
+import reader.ExcelReader;
 import skrb.appprueba.MainActivity;
 import skrb.appprueba.R;
+import skrb.appprueba.helpers.fileRW;
 
 public class BuscarClienteFragment extends Fragment {
-    private final int FRAGMENT_RESULTADOS=0;
+    private final int FRAGMENT_RESULTADOS = 0;
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_buscar_cliente, container, false);
 
         final MainActivity act = (MainActivity) getActivity();
@@ -27,11 +36,42 @@ public class BuscarClienteFragment extends Fragment {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TextInputEditText txt=getActivity().findViewById(R.id.InputBuscar);
-                Editable nombre = txt.getText();
-                Bundle bnd = new Bundle();
-                bnd.putString("nombre",nombre.toString());
-                setFragment(FRAGMENT_RESULTADOS,bnd);
+                TextInputEditText txt = getActivity().findViewById(R.id.InputBuscar);
+                Editable nombreEditable = txt.getText();
+                String name = nombreEditable.toString();
+
+                ExcelReader reader = ConcreteReader.getInstance();
+                File file = fileRW.findFile(name);
+                OutputInfo out = null;
+                if (file.exists()) {
+                    try {
+                        out = reader.readInfo(file);
+                    } catch (WorkbookException e) {
+                        e.printStackTrace();
+                        return;
+                    }
+                    Bundle bnd = new Bundle();
+
+                    bnd.putString("name", name);
+
+                    bnd.putDouble("balance", out.getBalance());
+
+                    DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+                    String dateString = format.format(out.getLastDate());
+                    bnd.putString("date", dateString);
+
+                    bnd.putInt("twelveBalance",out.getTwelveBalance());
+
+                    bnd.putInt("twentyBalance", out.getTwentyBalance());
+
+                    bnd.putInt("canistersBalance", out.getCanistersBalance());
+
+                    setFragment(FRAGMENT_RESULTADOS, bnd);
+                }
+                else{
+                    //Mostrar Error
+                }
+
             }
         });
 
@@ -44,7 +84,7 @@ public class BuscarClienteFragment extends Fragment {
 
         FragmentManager fragmentManager;
         FragmentTransaction fragmentTransaction;
-        Fragment frag= null;
+        Fragment frag = null;
         switch (position) {
             case FRAGMENT_RESULTADOS:
                 fragmentManager = act.getSupportFragmentManager();

@@ -1,6 +1,10 @@
 package writer;
 
 
+import org.apache.poi.ss.usermodel.Workbook;
+
+import java.io.File;
+
 import infos.BuyInfo;
 import infos.PriceInfo;
 
@@ -22,10 +26,12 @@ import infos.PriceInfo;
  */
 public interface ExcelWriter {
     /**
-     * Writes a new buy with the info given in a BuyInfo.
+     * Writes a new buy with the info given in a BuyInfo, on the file given.
+     * If the file doesn't exist, it creates one.
      * Requires a BuyInfo object non-null and with non-nulls returns on its methods.
-     * If the customer is new, it creates the correspondent file.
      * @param info BuyInfo object that contains the info of the buy.
+     * @param prices PriceInfo object that contais the prices.
+     * @param file The file to read and write.
      */
-    void WriteBuy(BuyInfo info, PriceInfo prices);
+    void WriteBuy(BuyInfo info, PriceInfo prices, File file);
 }

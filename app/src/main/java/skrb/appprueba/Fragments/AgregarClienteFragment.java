@@ -1,6 +1,7 @@
 package skrb.appprueba.Fragments;
 
 import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
@@ -9,9 +10,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 
 
+import org.apache.poi.ss.usermodel.Workbook;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -27,10 +32,12 @@ import skrb.appprueba.R;
 import writer.ConcreteWriter;
 import writer.ExcelWriter;
 
+import static skrb.appprueba.helpers.fileRW.findFile;
+
 
 public class AgregarClienteFragment extends Fragment implements DatePickerDialog.OnDateSetListener {
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_agregar_cliente, container, false);
 
         MainActivity act = (MainActivity) getActivity();
@@ -44,7 +51,7 @@ public class AgregarClienteFragment extends Fragment implements DatePickerDialog
         final DatePickerDialog dialogFecha = new DatePickerDialog(this.getContext(), AgregarClienteFragment.this, year, month, day);
 
         Button botonFecha = view.findViewById(R.id.BotonFecha);
-        botonFecha.setText(day + "/" + (month+1) + "/" + year);
+        botonFecha.setText(day + "/" + (month + 1) + "/" + year);
         botonFecha.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,11 +63,11 @@ public class AgregarClienteFragment extends Fragment implements DatePickerDialog
         botonConfirmar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ExcelWriter writer = new ConcreteWriter();
+                ExcelWriter writer = ConcreteWriter.getInstance();
 
-                TextInputEditText input = view.findViewById(R.id.NombreCliente);
-                //String name = input.getText().toString();
-                String name ="caca";
+                TextInputLayout lay = view.findViewById(R.id.InputLayoutClient);
+                EditText input = lay.getEditText();
+                String name = input.getText().toString();
 
                 input = view.findViewById(R.id.BidonesLlevoDe20);
                 int bidones20 = Integer.parseInt(input.getText().toString());
@@ -87,13 +94,16 @@ public class AgregarClienteFragment extends Fragment implements DatePickerDialog
                     e.printStackTrace();
                 }
 
-                BuyInfo info = new ConcreteBuyInfo(dinero_pagado,bidones20,bidones12,bidones_devueltos_20,
-                        bidones_devueltos_12,date,name);
+                BuyInfo info = new ConcreteBuyInfo(dinero_pagado, bidones20, bidones12, bidones_devueltos_20,
+                        bidones_devueltos_12, date, name);
 
                 /* esto va a cambiar*/
-                PriceInfo prices = new ConcretePriceInfo(50,70);
+                PriceInfo prices = new ConcretePriceInfo(50, 70);
 
-                writer.WriteBuy(info, prices);
+                File file = findFile(name);
+
+                writer.WriteBuy(info, prices, file);
+
             }
         });
 
@@ -103,6 +113,6 @@ public class AgregarClienteFragment extends Fragment implements DatePickerDialog
     public void onDateSet(DatePicker view, int year, int month, int day) {
         MainActivity act = (MainActivity) getActivity();
         Button btn = act.findViewById(R.id.BotonFecha);
-        btn.setText(day + "/" + (month+1) + "/" + year);
+        btn.setText(day + "/" + (month + 1) + "/" + year);
     }
 }

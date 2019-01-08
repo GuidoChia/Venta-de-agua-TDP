@@ -17,25 +17,34 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import exceptions.WorkbookException;
 import infos.ConcreteOutputInfo;
 import infos.OutputInfo;
 
 
 public class ConcreteReader implements ExcelReader {
-    private static final String baseDir="/Ypora Clientes/";
+
+    private static ConcreteReader INSTANCE;
+
+    public static ConcreteReader getInstance(){
+        if (INSTANCE==null){
+            INSTANCE = new ConcreteReader();
+        }
+        return INSTANCE;
+    }
+
+    private ConcreteReader(){}
 
     @Override
-    public OutputInfo readInfo(String name) throws FileNotFoundException {
+    public OutputInfo readInfo(File customerFile) throws WorkbookException {
         OutputInfo res;
-
-        File file = findFile(name);
         Workbook customerWorkbook = null;
         try {
-            customerWorkbook = WorkbookFactory.create(file);
+            customerWorkbook = WorkbookFactory.create(customerFile);
         } catch (IOException e) {
-            throw new FileNotFoundException();
+            throw new WorkbookException();
         } catch (InvalidFormatException e) {
-            throw new FileNotFoundException();
+            throw new WorkbookException();
         }
 
         Sheet sheet = customerWorkbook.getSheetAt(0);
@@ -53,25 +62,12 @@ public class ConcreteReader implements ExcelReader {
     }
 
     /**
-     * Looks for the excel file of the customer with the given name.
-     * @param name Name of the customer.
-     * @return The file of the customer.
-     * @throws FileNotFoundException if the customer it's not registered.
-     */
-    private File findFile(String name) throws FileNotFoundException {
-        File res = new File(baseDir+name.charAt(0)+"/"+name+".xls");
-        if (!res.exists()){
-            throw new FileNotFoundException();
-        }
-        return res;
-    }
-
-    /**
      * Looks for the row with the last sell.
+     *
      * @param sheet The sheet to look in.
      * @return The row with the last sell.
      */
-    private Row getLastRow(Sheet sheet){
+    private Row getLastRow(Sheet sheet) {
         Row res = null;
 
         int startRow = 3;
@@ -79,13 +75,12 @@ public class ConcreteReader implements ExcelReader {
         boolean found = false;
 
         res = sheet.getRow(startRow);
-        while (!found){
-            Row row = sheet.getRow(startRow+1);
+        while (!found) {
+            Row row = sheet.getRow(startRow + 1);
 
-            if ( (row==null) || isEmpty(row.getCell(row.getFirstCellNum())) ){
+            if ((row == null) || isEmpty(row.getCell(row.getFirstCellNum()))) {
                 found = true;
-            }
-            else{
+            } else {
                 res = row;
                 startRow++;
             }
@@ -98,19 +93,21 @@ public class ConcreteReader implements ExcelReader {
      * Checks if the given cell is empty.
      * A cell is considered empty if is null, or is of the CellType.BLANK type, or if is a String cell
      * with an empty string.
+     *
      * @param c The cell to check if is empty
      * @return true if the cell is empty, false otherwise.
      */
-    private boolean isEmpty(Cell c){
-        return ( c==null ||  (c.getCellTypeEnum() == CellType.BLANK ) ||  (c.getCellTypeEnum() == CellType.STRING && c.getStringCellValue().trim().isEmpty()));
+    private boolean isEmpty(Cell c) {
+        return (c == null || (c.getCellTypeEnum() == CellType.BLANK) || (c.getCellTypeEnum() == CellType.STRING && c.getStringCellValue().trim().isEmpty()));
     }
 
     /**
      * Initializes and returns an OutputInfo object with the info from the given row
+     *
      * @param row The row containing the info.
      * @return OutputInfo with the info from the row.
      */
-    private OutputInfo getInfo(Row row){
+    private OutputInfo getInfo(Row row) {
 
         String dateString = row.getCell(0).getStringCellValue();
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");

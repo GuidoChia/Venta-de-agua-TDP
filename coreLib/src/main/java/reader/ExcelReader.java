@@ -1,7 +1,11 @@
 package reader;
 
+import org.apache.poi.ss.usermodel.Workbook;
+
+import java.io.File;
 import java.io.FileNotFoundException;
 
+import exceptions.WorkbookException;
 import infos.OutputInfo;
 
 
@@ -23,10 +27,10 @@ import infos.OutputInfo;
  */
 public interface ExcelReader {
     /**
-     * Reads the info of an excel from the given name, and stores it in an OutputInfo object.
-     * @param name Name of the customer
-     * @throws FileNotFoundException if the given name is not from a registered customer.
+     * Reads the info of the given file, and stores it in an OutputInfo object.
+     * @param customerFile the file of the customer.
      * @return OutputInfo containing the info read from the excel.
+     * @throws WorkbookException if the customer Workbook is damaged or null.
      */
-    OutputInfo readInfo(String name) throws FileNotFoundException;
+    OutputInfo readInfo(File customerFile) throws WorkbookException;
 }

@@ -13,4 +13,9 @@
     <string name="about">Esta aplicación fue desarrollada para el proyecto final de la materia
         "Tecnologías de Programación" de la carrera Ingeniería en Sistemas de Información.</string>
     <string name="autor">Autor: Guido Chia</string>
+    <string name="saldo">Saldo: </string>
+    <string name="nombre">Nombre: </string>
+    <string name="saldoDe12">Saldo de 12: </string>
+    <string name="saldoDe20">Saldo de 20: </string>
+    <string name="ultimaFecha">Fecha de última compra: </string>
 </resources>
