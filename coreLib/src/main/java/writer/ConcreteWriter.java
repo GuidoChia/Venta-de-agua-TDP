@@ -21,7 +21,6 @@ import java.text.SimpleDateFormat;
 
 import infos.BuyInfo;
 import infos.PriceInfo;
-import reader.ConcreteReader;
 
 
 /**
@@ -209,6 +208,7 @@ public class ConcreteWriter implements ExcelWriter {
         Cell currentCell = lastRow.createCell(cellIndex);
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         String format = formatter.format(info.getDate());
+        currentCell.setCellType(CellType.STRING);
         currentCell.setCellValue(format);
         cellIndex++;
 

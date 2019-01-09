@@ -7,22 +7,19 @@ import infos.OutputInfo;
 
 public class testerParameters {
 
-    public static void main (String [] args){
-        OutputInfo out = null;
-
-        out = createOutput(out);
-
-        System.out.println("Saldo: "+out.getBalance());
-        System.out.println("debe de 20: "+out.getTwentyBalance());
-        System.out.println("debe de 12: "+out.getTwelveBalance());
-        System.out.println("Date: "+out.getLastDate());
-        System.out.println("Debe total: "+out.getCanistersBalance());
-    }
-
-    public static OutputInfo createOutput(OutputInfo out){
-        if (out==null){
-            return new ConcreteOutputInfo(Calendar.getInstance().getTime(),50,2,2);
+    public static void main (String [] args) {
+        String name = "guido chia";
+        String[] strings = name.split(" ");
+        String finalName = "";
+        for (int i=0; i< strings.length; i++){
+            strings[i]=Character.toUpperCase(strings[i].charAt(0))+strings[i].substring(1);
+            if (i!= strings.length-1)
+                finalName+=strings[i]+" ";
+            else
+                finalName+=strings[i];
         }
-        return out;
+
+        System.out.println("Nombre antes: "+name+"p");
+        System.out.println("Nombre despues: "+finalName+"p");
     }
 }

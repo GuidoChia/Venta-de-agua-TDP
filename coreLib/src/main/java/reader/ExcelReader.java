@@ -1,16 +1,15 @@
 package reader;
 
-import org.apache.poi.ss.usermodel.Workbook;
-
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.util.Collection;
 
+import customer.Customer;
 import exceptions.WorkbookException;
 import infos.OutputInfo;
 
 
 /**
- * The interface that represents a reader of OutputInfo from an excel file.
+ * The interface that represents a reader from an excel file.
  * The file is assumed to have the next format:
  * First column: Date of buy.
  * Second column: amount of twenty canisters bought.
@@ -33,4 +32,14 @@ public interface ExcelReader {
      * @throws WorkbookException if the customer Workbook is damaged or null.
      */
     OutputInfo readInfo(File customerFile) throws WorkbookException;
+
+    /**
+     * Reads all the costumers from the given directory, and creates Customer objects for them,
+     * with the info of the given months and year.
+     * @param months Months to look for
+     * @param year Year to look for
+     * @param directory Directory in which the customer's folder will be
+     * @return Collection of Customer that bought anything in the given month and year
+     */
+    Collection<Customer> readCostumers(int[] month, int year, File directory);
 }
