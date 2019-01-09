@@ -21,4 +21,9 @@
     <string name="errorBusqueda">Se produjo un error en la búsqueda, el cliente no existe</string>
     <string name="OK">OK</string>
     <string name="_0">0</string>
+    <string name="calcular_ingreso_bruto_mensual">Calcular ingreso bruto mensual</string>
+    <string name="calcular_cantidad_total_de_bidones">Calcular cantidad total de bidones</string>
+    <string name="calcular_cantidad_total_de_bidones_de_20">Calcular cantidad total de bidones de 20</string>
+    <string name="calcular_cantidad_total_de_bidones_de_12">Calcular cantidad total de bidones de 12</string>
+    <string name="resultado_mensual">Resultado mensual:  </string>
 </resources>

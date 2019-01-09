@@ -22,10 +22,10 @@ import writer.ConcreteWriter;
 import writer.ExcelWriter;
 
 public class Tester {
-   public static void main(String [] args){
+    public static void main(String[] args) {
         Calendar cal = Calendar.getInstance();
         Date today = cal.getTime();
-        String baseDir ="/Ypora Clientes/";
+       /* String baseDir ="/Ypora Clientes/";
         String name = "Perez Juan";
 
         BuyInfo info = new ConcreteBuyInfo(100, 2, 0, 0, 0, today, name);
@@ -60,18 +60,19 @@ public class Tester {
         System.out.println("debe de 12: "+out.getTwelveBalance());
         System.out.println("Date: "+out.getLastDate());
         System.out.println("Debe total: "+out.getCanistersBalance());
-
-        int[] months ={1};
+*/
+        ExcelReader reader = ConcreteReader.getInstance();
+        int[] months = {1};
         int year = 2019;
         File path = new File("");
 
-       Collection<Customer> customers = reader.readCostumers(months, year, path);
+        Collection<Customer> customers = reader.readCostumers(months, year, path);
 
-       MonthManager manager = new ConcreteMonthManager(customers);
-       System.out.println("Resultado manager paid: "+manager.getPaid());
-       System.out.println("Resultado manager 12: "+manager.getTwelveBought());
-       System.out.println("Resultado manager 20: "+manager.getTwentyBought());
+        MonthManager manager = new ConcreteMonthManager(customers);
+        System.out.println("Resultado manager paid: " + manager.getPaid());
+        System.out.println("Resultado manager 12: " + manager.getTwelveBought());
+        System.out.println("Resultado manager 20: " + manager.getTwentyBought());
 
-   }
+    }
 }
 

@@ -7,12 +7,22 @@
     android:gravity="fill_vertical"
     android:orientation="vertical">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:dividerPadding="16dp"
+        android:gravity="fill_horizontal"
+        android:orientation="horizontal">
+
+
+    </LinearLayout>
+
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/calcular_dinero_mensual"
         style="@style/AppTheme.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Calcular ingreso bruto mensual"
+        android:text="@string/calcular_ingreso_bruto_mensual"
         android:textAppearance="@style/ThemeOverlay.MaterialComponents.Light"
         android:textSize="20sp" />
 
@@ -21,7 +31,7 @@
         style="@style/AppTheme.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Calcular cantidad total de bidones"
+        android:text="@string/calcular_cantidad_total_de_bidones"
         android:textAppearance="@style/ThemeOverlay.MaterialComponents.Light"
         android:textSize="20sp" />
 
@@ -30,7 +40,7 @@
         style="@style/AppTheme.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Calcular cantidad total de bidones de 20 "
+        android:text="@string/calcular_cantidad_total_de_bidones_de_20"
         android:textAppearance="@style/ThemeOverlay.MaterialComponents.Light"
         android:textSize="20sp" />
 
@@ -39,13 +49,13 @@
         style="@style/AppTheme.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Calcular cantidad total de bidones de 12"
+        android:text="@string/calcular_cantidad_total_de_bidones_de_12"
         android:textAppearance="@style/ThemeOverlay.MaterialComponents.Light"
         android:textSize="20sp" />
 
-    <TextView
-        android:id="@+id/resultados_mes"
+    <ScrollView
+        android:id="@+id/fragment_resultados_mes"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content" >
 
 </LinearLayout>

@@ -102,13 +102,15 @@ public class ConcreteReader implements ExcelReader {
      * @param year   Year to look in
      */
     private void readCostumersFromSubFolder(File folder, List<Customer> list, int[] months, int year) {
-        File[] files = folder.listFiles();
+        if (folder.isDirectory()) {
+            File[] files = folder.listFiles();
 
-        for (File f : files) {
-            if (f.getName().endsWith(".xls")) {
-                Customer c = convertToCustomer(f, months, year);
-                if (!c.isEmpty()) {
-                    list.add(c);
+            for (File f : files) {
+                if (f.getName().endsWith(".xls")) {
+                    Customer c = convertToCustomer(f, months, year);
+                    if (!c.isEmpty()) {
+                        list.add(c);
+                    }
                 }
             }
         }
@@ -136,6 +138,7 @@ public class ConcreteReader implements ExcelReader {
 
         Sheet customerSheet = customerWorkbook.getSheetAt(0);
         String name = customerSheet.getRow(0).getCell(0).getStringCellValue();
+
         Customer res = new ConcreteCustomer(name);
 
         int currentRow = 3;
@@ -174,9 +177,15 @@ public class ConcreteReader implements ExcelReader {
      * @return true if the dates has the same month and year, false otherwise
      */
     private boolean belongsDate(Cell dateCell, int[] months, int year) {
+        String dateString;
+        if (dateCell.getCellTypeEnum().equals(CellType.NUMERIC)) {
+            Date date = dateCell.getDateCellValue();
+            DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+            dateString = format.format(date);
+        } else {
+            dateString = dateCell.getStringCellValue();
+        }
 
-
-        String dateString = dateCell.getStringCellValue();
         String[] strings = dateString.split("/");
 
 
@@ -199,15 +208,21 @@ public class ConcreteReader implements ExcelReader {
      * @param c   The customer
      */
     private void addRowToCustomer(Row row, Customer c) {
-        String dateString = row.getCell(0).getStringCellValue();
-        DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        String dateString;
+        Cell dateCell = row.getCell(0);
         Date date = null;
-        try {
-            date = format.parse(dateString);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
 
+        if (dateCell.getCellTypeEnum().equals(CellType.NUMERIC)) {
+            date = dateCell.getDateCellValue();
+        } else {
+            dateString = dateCell.getStringCellValue();
+            DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+            try {
+                date = format.parse(dateString);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
 
         int twentyAmount = (int) row.getCell(1).getNumericCellValue();
 
