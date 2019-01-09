@@ -1,10 +1,5 @@
 package com.example.corelib.tests;
 
-import java.util.Calendar;
-
-import infos.ConcreteOutputInfo;
-import infos.OutputInfo;
-
 public class testerParameters {
 
     public static void main (String [] args) {

@@ -1,13 +1,11 @@
 package skrb.appprueba.Fragments;
 
-import android.support.design.widget.TextInputEditText;
+import android.app.DatePickerDialog;
+import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
-import android.app.DatePickerDialog;
-import android.os.Bundle;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,11 +13,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 
-
-import org.apache.poi.ss.usermodel.Workbook;
-
 import java.io.File;
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -117,8 +111,15 @@ public class AgregarClienteFragment extends Fragment implements DatePickerDialog
                     BuyInfo info = new ConcreteBuyInfo(dinero_pagado, bidones20, bidones12, bidones_devueltos_20,
                             bidones_devueltos_12, date, name);
 
-                    /* esto va a cambiar*/
-                    PriceInfo prices = new ConcretePriceInfo(50, 70);
+
+                    double twelvePrice,
+                            twentyPrice;
+
+                    SharedPreferences preferences = getContext().getSharedPreferences(MainActivity.PRICE_PREFS, 0);
+                    twelvePrice = preferences.getFloat(MainActivity.PRICE_12, 50);
+                    twentyPrice = preferences.getFloat(MainActivity.PRICE_20, 70);
+
+                    PriceInfo prices = new ConcretePriceInfo(twelvePrice, twentyPrice);
 
                     File file = findFileWrite(name);
 
@@ -132,8 +133,9 @@ public class AgregarClienteFragment extends Fragment implements DatePickerDialog
 
             private boolean checkInputs(EditText[] inputs) {
                 for (EditText input : inputs) {
-                    if (TextUtils.isEmpty(input.getText().toString())){
-                        return false;}
+                    if (TextUtils.isEmpty(input.getText().toString())) {
+                        return false;
+                    }
                 }
                 return true;
             }

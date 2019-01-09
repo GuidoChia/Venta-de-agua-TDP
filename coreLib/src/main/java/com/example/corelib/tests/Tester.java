@@ -2,24 +2,15 @@ package com.example.corelib.tests;
 
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 
 import customer.Customer;
-import exceptions.WorkbookException;
-import infos.BuyInfo;
-import infos.ConcreteBuyInfo;
-import infos.ConcretePriceInfo;
-import infos.OutputInfo;
-import infos.PriceInfo;
 import reader.ConcreteMonthManager;
 import reader.ConcreteReader;
 import reader.ExcelReader;
 import reader.MonthManager;
-import writer.ConcreteWriter;
-import writer.ExcelWriter;
 
 public class Tester {
     public static void main(String[] args) {
@@ -62,8 +53,8 @@ public class Tester {
         System.out.println("Debe total: "+out.getCanistersBalance());
 */
         ExcelReader reader = ConcreteReader.getInstance();
-        int[] months = {1};
-        int year = 2019;
+        int[] months = {9};
+        int year = 2016;
         File path = new File("");
 
         Collection<Customer> customers = reader.readCostumers(months, year, path);

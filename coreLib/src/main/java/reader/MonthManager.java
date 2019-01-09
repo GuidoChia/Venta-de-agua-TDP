@@ -1,9 +1,5 @@
 package reader;
 
-import java.util.Collection;
-
-import customer.Customer;
-
 public interface MonthManager {
 
     /**

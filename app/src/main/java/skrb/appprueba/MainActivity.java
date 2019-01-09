@@ -1,6 +1,8 @@
 package skrb.appprueba;
 
 
+import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -10,16 +12,18 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
 
+import org.apache.poi.hssf.record.aggregates.FormulaRecordAggregate;
+
 import skrb.appprueba.Fragments.AboutFragment;
 import skrb.appprueba.Fragments.AgregarClienteFragment;
 import skrb.appprueba.Fragments.BuscarClienteFragment;
 import skrb.appprueba.Fragments.CalcularFragment;
+import skrb.appprueba.Fragments.EstablecerPrecioFragment;
 
 public class MainActivity extends AppCompatActivity  {
 
@@ -27,6 +31,10 @@ public class MainActivity extends AppCompatActivity  {
     private final int FRAGMENT_BUSCAR=1;
     private final int FRAGMENT_ABOUT=2;
     private final int FRAGMENT_CALCULAR=3;
+    private final int FRAGMENT_PRECIO=4;
+    public static final String PRICE_PREFS="prices";
+    public static final String PRICE_20="price_20";
+    public static final String PRICE_12="price_12";
 
     private DrawerLayout mDrawerLayout;
     private Toolbar tb;
@@ -67,7 +75,9 @@ public class MainActivity extends AppCompatActivity  {
                             case R.id.Calcular:
                                 setFragment(FRAGMENT_CALCULAR);
                                 break;
-
+                            case R.id.EstablecerPrecio:
+                                setFragment(FRAGMENT_PRECIO);
+                                break;
                         }
 
                         mDrawerLayout.closeDrawers();
@@ -77,6 +87,7 @@ public class MainActivity extends AppCompatActivity  {
                 }
         );
 
+        initializePrefs();
 
         Window window = getWindow();
 
@@ -90,6 +101,18 @@ public class MainActivity extends AppCompatActivity  {
         window.setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
 
 
+    }
+
+    public void initializePrefs(){
+        SharedPreferences preferences = getSharedPreferences(PRICE_PREFS,0);
+
+        if (preferences.getBoolean("first_time", true)){
+            SharedPreferences.Editor edit = preferences.edit();
+            edit.putFloat(PRICE_20,70);
+            edit.putFloat(PRICE_12,50);
+            edit.putBoolean("first_time", false);
+            edit.commit();
+        }
     }
 
     @Override
@@ -134,6 +157,14 @@ public class MainActivity extends AppCompatActivity  {
                 frag= new CalcularFragment();
                 fragmentTransaction.replace(R.id.fragment, frag);
                 fragmentTransaction.commit();
+                break;
+            case FRAGMENT_PRECIO:
+                fragmentManager = getSupportFragmentManager();
+                fragmentTransaction = fragmentManager.beginTransaction();
+                frag= new EstablecerPrecioFragment();
+                fragmentTransaction.replace(R.id.fragment, frag);
+                fragmentTransaction.commit();
+                break;
         }
     }
 }

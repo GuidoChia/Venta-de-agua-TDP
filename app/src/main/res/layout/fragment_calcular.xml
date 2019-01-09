@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:dividerPadding="16dp"
     android:gravity="fill_vertical"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:dividerPadding="16dp"
-        android:gravity="fill_horizontal"
-        android:orientation="horizontal">
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/buttonMesAño"
+        style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        android:text="@string/confirmar_venta"
+        android:textAppearance="@style/ThemeOverlay.MaterialComponents.Light"
+        android:textSize="20sp" />
 
-
-    </LinearLayout>
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/calcular_dinero_mensual"
@@ -56,6 +56,6 @@
     <ScrollView
         android:id="@+id/fragment_resultados_mes"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

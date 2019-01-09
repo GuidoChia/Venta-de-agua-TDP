@@ -19,7 +19,6 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.StringTokenizer;
 
 import customer.ConcreteCustomer;
 import customer.Customer;
@@ -148,6 +147,11 @@ public class ConcreteReader implements ExcelReader {
         if (isEmpty(customerSheet.getRow(currentRow).getCell(0)))
             finish = true;
 
+
+        /*
+        Checkeo por lineas si la fecha corresponde a los meses ingresados
+        Termino cuando encuentro una linea vacía.
+         */
         while (!finish) {
             Row row = customerSheet.getRow(currentRow);
             Cell dateCell = row.getCell(row.getFirstCellNum());
@@ -165,6 +169,12 @@ public class ConcreteReader implements ExcelReader {
             } else finish = true;
         }
 
+        try {
+            customerWorkbook.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         return res;
     }
 
@@ -177,6 +187,8 @@ public class ConcreteReader implements ExcelReader {
      * @return true if the dates has the same month and year, false otherwise
      */
     private boolean belongsDate(Cell dateCell, int[] months, int year) {
+
+
         String dateString;
         if (dateCell.getCellTypeEnum().equals(CellType.NUMERIC)) {
             Date date = dateCell.getDateCellValue();
@@ -212,6 +224,7 @@ public class ConcreteReader implements ExcelReader {
         Cell dateCell = row.getCell(0);
         Date date = null;
 
+
         if (dateCell.getCellTypeEnum().equals(CellType.NUMERIC)) {
             date = dateCell.getDateCellValue();
         } else {
@@ -223,6 +236,7 @@ public class ConcreteReader implements ExcelReader {
                 e.printStackTrace();
             }
         }
+
 
         int twentyAmount = (int) row.getCell(1).getNumericCellValue();
 

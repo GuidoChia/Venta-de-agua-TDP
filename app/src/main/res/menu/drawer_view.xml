@@ -11,6 +11,9 @@
         <item
             android:id="@+id/Calcular"
             android:title="Calcular cosas"/>
+        <item
+            android:id="@+id/EstablecerPrecio"
+            android:title="Establecer Precio"/>
     </group>
     <group
         android:checkableBehavior="single">

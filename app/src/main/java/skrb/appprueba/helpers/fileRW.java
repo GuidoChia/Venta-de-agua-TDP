@@ -1,17 +1,9 @@
 package skrb.appprueba.helpers;
 
-import android.content.Context;
 import android.os.Environment;
-import android.util.Log;
-
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.StringTokenizer;
 
 /**
  * Interface fileRW represents a helper to find a workbook and write it to storage.

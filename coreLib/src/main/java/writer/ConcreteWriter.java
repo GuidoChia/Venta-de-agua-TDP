@@ -88,7 +88,9 @@ public class ConcreteWriter implements ExcelWriter {
         Workbook res=null;
         if (file.length() != 0){
             try {
-                res = WorkbookFactory.create(new FileInputStream(file));
+                FileInputStream in = new FileInputStream(file);
+                res = WorkbookFactory.create(in);
+                in.close();
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (InvalidFormatException e) {
