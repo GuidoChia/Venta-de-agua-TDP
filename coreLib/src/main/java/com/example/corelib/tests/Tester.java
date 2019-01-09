@@ -26,7 +26,7 @@ public class Tester {
         Calendar cal = Calendar.getInstance();
         Date today = cal.getTime();
         String baseDir ="/Ypora Clientes/";
-        String name = "ancin nIdia";
+        String name = "Perez Juan";
 
         BuyInfo info = new ConcreteBuyInfo(100, 2, 0, 0, 0, today, name);
         PriceInfo prices = new ConcretePriceInfo(50, 70);
@@ -67,8 +67,10 @@ public class Tester {
 
        Collection<Customer> customers = reader.readCostumers(months, year, path);
 
-       MonthManager manager = new ConcreteMonthManager();
-       System.out.println("Resultado manager: "+manager.getPaid(customers));
+       MonthManager manager = new ConcreteMonthManager(customers);
+       System.out.println("Resultado manager paid: "+manager.getPaid());
+       System.out.println("Resultado manager 12: "+manager.getTwelveBought());
+       System.out.println("Resultado manager 20: "+manager.getTwentyBought());
 
    }
 }

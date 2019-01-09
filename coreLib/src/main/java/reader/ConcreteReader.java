@@ -65,12 +65,16 @@ public class ConcreteReader implements ExcelReader {
 
     private Workbook getWorkbook(File customerFile) throws WorkbookException {
         Workbook customerWorkbook;
-        try {
-            customerWorkbook = WorkbookFactory.create(customerFile);
-        } catch (IOException e) {
+        if (!customerFile.exists()) {
             throw new WorkbookException();
-        } catch (InvalidFormatException e) {
-            throw new WorkbookException();
+        } else {
+            try {
+                customerWorkbook = WorkbookFactory.create(customerFile);
+            } catch (IOException e) {
+                throw new WorkbookException();
+            } catch (InvalidFormatException e) {
+                throw new WorkbookException();
+            }
         }
         return customerWorkbook;
     }
@@ -155,8 +159,7 @@ public class ConcreteReader implements ExcelReader {
                 } else {
                     currentRow++;
                 }
-            }
-            else finish = true;
+            } else finish = true;
         }
 
         return res;
@@ -174,7 +177,6 @@ public class ConcreteReader implements ExcelReader {
 
 
         String dateString = dateCell.getStringCellValue();
-        System.out.println(dateString);
         String[] strings = dateString.split("/");
 
 
@@ -207,13 +209,14 @@ public class ConcreteReader implements ExcelReader {
         }
 
 
-        int twelveAmount = (int) row.getCell(1).getNumericCellValue();
+        int twentyAmount = (int) row.getCell(1).getNumericCellValue();
 
 
-        int twentyAmount = (int) row.getCell(2).getNumericCellValue();
+        int twelveAmount = (int) row.getCell(2).getNumericCellValue();
+
 
         double paid = row.getCell(4).getNumericCellValue();
-        System.out.println(paid);
+
         c.addUpdate(date, twelveAmount, twentyAmount, paid);
     }
 

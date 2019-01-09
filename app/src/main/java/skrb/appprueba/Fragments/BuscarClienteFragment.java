@@ -41,7 +41,7 @@ public class BuscarClienteFragment extends Fragment {
                 String name = nombreEditable.toString();
 
                 ExcelReader reader = ConcreteReader.getInstance();
-                File file = fileRW.findFile(name);
+                File file = fileRW.findFileRead(name);
                 OutputInfo out = null;
                 if (file.exists()) {
                     try {
@@ -69,7 +69,8 @@ public class BuscarClienteFragment extends Fragment {
                     setFragment(FRAGMENT_RESULTADOS, bnd);
                 }
                 else{
-                    //Mostrar Error
+                    ErrorFragment frag = new ErrorFragment();
+                    frag.show(getFragmentManager(),"error");
                 }
 
             }

@@ -18,4 +18,7 @@
     <string name="saldoDe12">Saldo de 12: </string>
     <string name="saldoDe20">Saldo de 20: </string>
     <string name="ultimaFecha">Fecha de última compra: </string>
+    <string name="errorBusqueda">Se produjo un error en la búsqueda, el cliente no existe</string>
+    <string name="OK">OK</string>
+    <string name="_0">0</string>
 </resources>

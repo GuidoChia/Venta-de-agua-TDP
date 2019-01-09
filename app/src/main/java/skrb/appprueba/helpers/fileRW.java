@@ -15,32 +15,34 @@ import java.util.StringTokenizer;
 
 /**
  * Interface fileRW represents a helper to find a workbook and write it to storage.
+ *
  * @author Guido Chia
  */
 public interface fileRW {
-    String baseDir ="Ypora Clientes/";
+    String baseDir = "Ypora Clientes/";
 
     /**
      * Finds the file of the Customer, and returns it. If it can't find it, it creates one.
+     *
      * @param name Name of the customer
      * @return The excel file of the customer.
      */
-    static File findFile(String name){
+    static File findFileWrite(String name) {
         File path = Environment.getExternalStorageDirectory();
         String[] strings = name.split(" ");
         String finalName = "";
-        for (int i=0; i< strings.length; i++){
-            strings[i]=Character.toUpperCase(strings[i].charAt(0))+strings[i].substring(1);
-            if (i!= strings.length-1)
-                finalName+=strings[i]+" ";
+        for (int i = 0; i < strings.length; i++) {
+            strings[i] = Character.toUpperCase(strings[i].charAt(0)) + strings[i].substring(1);
+            if (i != strings.length - 1)
+                finalName += strings[i] + " ";
             else
-                finalName+=strings[i];
+                finalName += strings[i];
         }
 
-        File directory = new File(path,baseDir+finalName.charAt(0));
+        File directory = new File(path, baseDir + finalName.charAt(0));
         directory.mkdirs();
 
-        File res = new File(directory,finalName+".xls");
+        File res = new File(directory, finalName + ".xls");
 
         try {
             res.createNewFile();
@@ -48,10 +50,18 @@ public interface fileRW {
             e.printStackTrace();
         }
 
-        return res;
 
+        return res;
     }
 
+    static File findFileRead(String name) {
+        File path = Environment.getExternalStorageDirectory();
+        File directory = new File(path, baseDir + name.charAt(0));
+        directory.mkdirs();
+        File res = new File(directory, name + ".xls");
+
+        return res;
+    }
 
 
 }

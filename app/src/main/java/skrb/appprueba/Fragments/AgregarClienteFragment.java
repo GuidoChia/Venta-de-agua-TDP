@@ -5,6 +5,9 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,7 +35,7 @@ import skrb.appprueba.R;
 import writer.ConcreteWriter;
 import writer.ExcelWriter;
 
-import static skrb.appprueba.helpers.fileRW.findFile;
+import static skrb.appprueba.helpers.fileRW.findFileWrite;
 
 
 public class AgregarClienteFragment extends Fragment implements DatePickerDialog.OnDateSetListener {
@@ -66,44 +69,73 @@ public class AgregarClienteFragment extends Fragment implements DatePickerDialog
                 ExcelWriter writer = ConcreteWriter.getInstance();
 
                 TextInputLayout lay = view.findViewById(R.id.InputLayoutClient);
-                EditText input = lay.getEditText();
-                String name = input.getText().toString();
+                EditText[] editTexts = {
+                        lay.getEditText(),
+                        view.findViewById(R.id.BidonesLlevoDe20),
+                        view.findViewById(R.id.BidonesLlevoDe12),
+                        view.findViewById(R.id.BidonesDevueltos20),
+                        view.findViewById(R.id.BidonesDevueltos12),
+                        view.findViewById(R.id.DineroPagado)
+                };
 
-                input = view.findViewById(R.id.BidonesLlevoDe20);
-                int bidones20 = Integer.parseInt(input.getText().toString());
+                if (checkInputs(editTexts)) {
+                    int i = 0;
 
-                input = view.findViewById(R.id.BidonesLlevoDe12);
-                int bidones12 = Integer.parseInt(input.getText().toString());
+                    EditText input = editTexts[i];
+                    String name = input.getText().toString();
+                    i++;
 
-                input = view.findViewById(R.id.BidonesDevueltos20);
-                int bidones_devueltos_20 = Integer.parseInt(input.getText().toString());
+                    input = editTexts[i];
+                    int bidones20 = Integer.parseInt(input.getText().toString());
+                    i++;
 
-                input = view.findViewById(R.id.BidonesDevueltos12);
-                int bidones_devueltos_12 = Integer.parseInt(input.getText().toString());
+                    input = editTexts[i];
+                    int bidones12 = Integer.parseInt(input.getText().toString());
+                    i++;
 
-                input = view.findViewById(R.id.DineroPagado);
-                int dinero_pagado = Integer.parseInt(input.getText().toString());
+                    input = editTexts[i];
+                    int bidones_devueltos_20 = Integer.parseInt(input.getText().toString());
+                    i++;
 
-                Button bt = view.findViewById(R.id.BotonFecha);
-                String dateString = bt.getText().toString();
-                DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-                Date date = null;
-                try {
-                    date = format.parse(dateString);
-                } catch (ParseException e) {
-                    e.printStackTrace();
+                    input = editTexts[i];
+                    int bidones_devueltos_12 = Integer.parseInt(input.getText().toString());
+                    i++;
+
+                    input = editTexts[i];
+                    int dinero_pagado = Integer.parseInt(input.getText().toString());
+
+                    Button bt = view.findViewById(R.id.BotonFecha);
+                    String dateString = bt.getText().toString();
+                    DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+                    Date date = null;
+                    try {
+                        date = format.parse(dateString);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+
+                    BuyInfo info = new ConcreteBuyInfo(dinero_pagado, bidones20, bidones12, bidones_devueltos_20,
+                            bidones_devueltos_12, date, name);
+
+                    /* esto va a cambiar*/
+                    PriceInfo prices = new ConcretePriceInfo(50, 70);
+
+                    File file = findFileWrite(name);
+
+                    writer.WriteBuy(info, prices, file);
+                } else {
+                    ErrorFragment frag = new ErrorFragment();
+                    frag.show(getFragmentManager(), "error");
                 }
 
-                BuyInfo info = new ConcreteBuyInfo(dinero_pagado, bidones20, bidones12, bidones_devueltos_20,
-                        bidones_devueltos_12, date, name);
+            }
 
-                /* esto va a cambiar*/
-                PriceInfo prices = new ConcretePriceInfo(50, 70);
-
-                File file = findFile(name);
-
-                writer.WriteBuy(info, prices, file);
-
+            private boolean checkInputs(EditText[] inputs) {
+                for (EditText input : inputs) {
+                    if (TextUtils.isEmpty(input.getText().toString())){
+                        return false;}
+                }
+                return true;
             }
         });
 

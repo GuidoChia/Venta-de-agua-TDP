@@ -36,7 +36,7 @@ public class CustomerInfo {
         this.twelve+=twelve;
     }
 
-    public void addTwentyCansiters(int twenty){
+    public void addTwentyCanisters(int twenty){
         this.twenty+=twenty;
     }
 }

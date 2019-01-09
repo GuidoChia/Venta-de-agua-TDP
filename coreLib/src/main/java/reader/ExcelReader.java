@@ -29,7 +29,7 @@ public interface ExcelReader {
      * Reads the info of the given file, and stores it in an OutputInfo object.
      * @param customerFile the file of the customer.
      * @return OutputInfo containing the info read from the excel.
-     * @throws WorkbookException if the customer Workbook is damaged or null.
+     * @throws WorkbookException if the file doesn't exist, or it's not available.
      */
     OutputInfo readInfo(File customerFile) throws WorkbookException;
 
@@ -41,5 +41,5 @@ public interface ExcelReader {
      * @param directory Directory in which the customer's folder will be
      * @return Collection of Customer that bought anything in the given month and year
      */
-    Collection<Customer> readCostumers(int[] month, int year, File directory);
+    Collection<Customer> readCostumers(int[] months, int year, File directory);
 }

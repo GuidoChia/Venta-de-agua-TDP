@@ -10,17 +10,17 @@ public interface MonthManager {
      * Gets the total paid money from the collection of customers
      * @return Amount of money paid
      */
-    double getPaid(Collection<Customer> customers);
+    double getPaid();
 
     /**
      * Gets the total twenty canisters bought from the collection of customers
      * @return Amount of twenty canisters bought
      */
-    int getTwentyBought(Collection<Customer> customers);
+    int getTwentyBought();
 
     /**
      * Gets the total twenty canisters bought from the collection of customers
      * @return Amount of twenty canisters bought
      */
-    int getTwelveBought(Collection<Customer> customers);
+    int getTwelveBought();
 }

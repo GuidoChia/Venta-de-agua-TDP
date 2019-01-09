@@ -82,7 +82,7 @@ public class ConcreteCustomer implements Customer {
         if (info == null) {
             info = new CustomerInfo(twelveAmount, twentyAmount, paid);
         } else {
-            info.addTwentyCansiters(twentyAmount);
+            info.addTwentyCanisters(twentyAmount);
             info.addTwelveCanisters(twelveAmount);
             info.addPaid(paid);
         }

@@ -9,31 +9,46 @@ import visitors.TwentyCanistersVisitor;
 import visitors.Visitor;
 
 public class ConcreteMonthManager implements MonthManager {
+
+    private Collection<Customer> customers;
+
+    /**
+     * Creates a new ConcreteMonthManager with the given collection as the collection of
+     * customers.
+     * @param customers Collection of customers
+     */
+    public ConcreteMonthManager(Collection<Customer> customers){
+        this.customers=customers;
+    }
     @Override
-    public double getPaid(Collection<Customer> customers) {
+    public double getPaid() {
         Visitor v = new PaidVisitor();
-        visitAll(customers, v);
+        visitAll(v);
 
         return v.getResult();
     }
 
     @Override
-    public int getTwentyBought(Collection<Customer> customers) {
+    public int getTwentyBought() {
         Visitor v = new TwentyCanistersVisitor();
-        visitAll(customers, v);
+        visitAll(v);
 
         return (int) v.getResult();
     }
 
     @Override
-    public int getTwelveBought(Collection<Customer> customers) {
+    public int getTwelveBought() {
         Visitor v = new TwelveCanistersVisitor();
-        visitAll(customers, v);
+        visitAll( v);
 
         return (int) v.getResult();
     }
 
-    private void visitAll(Collection<Customer> customers, Visitor v) {
+    /**
+     * Visits all the customers with the visitor v
+     * @param v Visitor
+     */
+    private void visitAll(Visitor v) {
         for (Customer c : customers) {
             c.accept(v);
         }
