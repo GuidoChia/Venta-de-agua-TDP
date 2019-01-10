@@ -19,6 +19,8 @@
     <string name="saldoDe20">Saldo de 20: </string>
     <string name="ultimaFecha">Fecha de última compra: </string>
     <string name="errorBusqueda">Se produjo un error en la búsqueda, el cliente no existe</string>
+    <string name="errorAgregar">Se produjo un error, debe completar todos los campos</string>
+    <string name="errorEstablecer">Se produjo un error, debe establecer un precio</string>
     <string name="OK">OK</string>
     <string name="_0">0</string>
     <string name="calcular_ingreso_bruto_mensual">Calcular ingreso bruto mensual</string>
@@ -33,5 +35,7 @@
     <string-array name="precios_array">
         <item>Precio de 20</item>
         <item>Precio de 12</item>
+        <item>Precio de botellitas</item>
+        <item>Precio de agua destilada</item>
     </string-array>
 </resources>

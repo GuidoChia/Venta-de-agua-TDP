@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,43 +41,52 @@ public class BuscarClienteFragment extends Fragment {
                 Editable nombreEditable = txt.getText();
                 String name = nombreEditable.toString();
 
-                ExcelReader reader = ConcreteReader.getInstance();
-                File file = fileRW.findFileRead(name);
-                OutputInfo out = null;
-                if (file.exists()) {
-                    try {
-                        out = reader.readInfo(file);
-                    } catch (WorkbookException e) {
-                        e.printStackTrace();
-                        return;
+                if (name.length()==0) {
+                    showError();
+                } else {
+                    ExcelReader reader = ConcreteReader.getInstance();
+                    File file = fileRW.findFileRead(name);
+                    OutputInfo out = null;
+                    if (file.exists()) {
+                        try {
+                            out = reader.readInfo(file);
+                        } catch (WorkbookException e) {
+                            e.printStackTrace();
+                            return;
+                        }
+                        Bundle bnd = new Bundle();
+
+                        bnd.putString("name", name);
+
+                        bnd.putDouble("balance", out.getBalance());
+
+                        DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+                        String dateString = format.format(out.getLastDate());
+                        bnd.putString("date", dateString);
+
+                        bnd.putInt("twelveBalance", out.getTwelveBalance());
+
+                        bnd.putInt("twentyBalance", out.getTwentyBalance());
+
+                        bnd.putInt("canistersBalance", out.getCanistersBalance());
+
+                        setFragment(FRAGMENT_RESULTADOS, bnd);
+                    } else {
+                        showError();
                     }
-                    Bundle bnd = new Bundle();
-
-                    bnd.putString("name", name);
-
-                    bnd.putDouble("balance", out.getBalance());
-
-                    DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-                    String dateString = format.format(out.getLastDate());
-                    bnd.putString("date", dateString);
-
-                    bnd.putInt("twelveBalance",out.getTwelveBalance());
-
-                    bnd.putInt("twentyBalance", out.getTwentyBalance());
-
-                    bnd.putInt("canistersBalance", out.getCanistersBalance());
-
-                    setFragment(FRAGMENT_RESULTADOS, bnd);
                 }
-                else{
-                    ErrorFragment frag = new ErrorFragment();
-                    frag.show(getFragmentManager(),"error");
-                }
-
             }
         });
 
         return view;
+    }
+
+    private void showError() {
+        Bundle bnd = new Bundle();
+        bnd.putInt("msg", R.string.errorBusqueda);
+        ErrorFragment frag = new ErrorFragment();
+        frag.setArguments(bnd);
+        frag.show(getFragmentManager(), "error");
     }
 
 

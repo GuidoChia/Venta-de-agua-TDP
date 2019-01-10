@@ -28,6 +28,7 @@ import skrb.appprueba.R;
 
 public class CalcularFragment extends Fragment {
     private static final int FRAGMENT_RESULTADOS = 0;
+    Collection<Customer> customers = null;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -39,24 +40,15 @@ public class CalcularFragment extends Fragment {
 
         File path = Environment.getExternalStorageDirectory();
 
-
-
         Button btn = view.findViewById(R.id.calcular_dinero_mensual);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Button btnMes = view.findViewById(R.id.buttonMesAño);
-                String[] strings = btnMes.getText().toString().split("/");
-                int month = Integer.parseInt(strings[0]);
-                int year = Integer.parseInt(strings[1]);
-                int months[] = {month};
-                Collection<Customer> customers = ConcreteReader.getInstance().readCostumers(months, year, path);
-
-                MonthManager manager = new ConcreteMonthManager(customers);
+                MonthManager manager = getMonthManager(view, path);
 
                 Bundle bnd = new Bundle();
-                bnd.putString("result", manager.getPaid()+"");
+                bnd.putString("result", manager.getPaid() + "");
 
                 setFragment(FRAGMENT_RESULTADOS, bnd);
             }
@@ -66,14 +58,7 @@ public class CalcularFragment extends Fragment {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Button btnMes = view.findViewById(R.id.buttonMesAño);
-                String[] strings = btnMes.getText().toString().split("/");
-                int month = Integer.parseInt(strings[0]);
-                int year = Integer.parseInt(strings[1]);
-                int months[] = {month};
-                Collection<Customer> customers = ConcreteReader.getInstance().readCostumers(months, year, path);
-
-                MonthManager manager = new ConcreteMonthManager(customers);
+                MonthManager manager = getMonthManager(view, path);
 
                 Bundle bnd = new Bundle();
                 bnd.putString("result", manager.getTwelveBought() + "");
@@ -86,14 +71,7 @@ public class CalcularFragment extends Fragment {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Button btnMes = view.findViewById(R.id.buttonMesAño);
-                String[] strings = btnMes.getText().toString().split("/");
-                int month = Integer.parseInt(strings[0]);
-                int year = Integer.parseInt(strings[1]);
-                int months[] = {month};
-                Collection<Customer> customers = ConcreteReader.getInstance().readCostumers(months, year, path);
-
-                MonthManager manager = new ConcreteMonthManager(customers);
+                MonthManager manager = getMonthManager(view, path);
 
                 Bundle bnd = new Bundle();
                 bnd.putString("result", manager.getTwentyBought() + "");
@@ -103,6 +81,21 @@ public class CalcularFragment extends Fragment {
         });
 
         return view;
+    }
+
+    @NonNull
+    private MonthManager getMonthManager(View view, File path) {
+
+        if (customers == null) {
+            Button btnMes = view.findViewById(R.id.buttonMesAño);
+            String[] strings = btnMes.getText().toString().split("/");
+            int month = Integer.parseInt(strings[0]);
+            int year = Integer.parseInt(strings[1]);
+            int months[] = {month};
+            customers = ConcreteReader.getInstance().readCostumers(months, year, path);
+        }
+
+        return new ConcreteMonthManager(customers);
     }
 
 
@@ -123,6 +116,7 @@ public class CalcularFragment extends Fragment {
                     @Override
                     public void onDateSet(int selectedMonth, int selectedYear) {
                         btn.setText((selectedMonth + 1) + "/" + selectedYear);
+                        customers = null;
                     }
                 }, year, month);
 

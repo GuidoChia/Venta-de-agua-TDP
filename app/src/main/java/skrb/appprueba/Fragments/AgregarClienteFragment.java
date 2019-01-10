@@ -73,59 +73,12 @@ public class AgregarClienteFragment extends Fragment implements DatePickerDialog
                 };
 
                 if (checkInputs(editTexts)) {
-                    int i = 0;
-
-                    EditText input = editTexts[i];
-                    String name = input.getText().toString();
-                    i++;
-
-                    input = editTexts[i];
-                    int bidones20 = Integer.parseInt(input.getText().toString());
-                    i++;
-
-                    input = editTexts[i];
-                    int bidones12 = Integer.parseInt(input.getText().toString());
-                    i++;
-
-                    input = editTexts[i];
-                    int bidones_devueltos_20 = Integer.parseInt(input.getText().toString());
-                    i++;
-
-                    input = editTexts[i];
-                    int bidones_devueltos_12 = Integer.parseInt(input.getText().toString());
-                    i++;
-
-                    input = editTexts[i];
-                    int dinero_pagado = Integer.parseInt(input.getText().toString());
-
-                    Button bt = view.findViewById(R.id.BotonFecha);
-                    String dateString = bt.getText().toString();
-                    DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-                    Date date = null;
-                    try {
-                        date = format.parse(dateString);
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-
-                    BuyInfo info = new ConcreteBuyInfo(dinero_pagado, bidones20, bidones12, bidones_devueltos_20,
-                            bidones_devueltos_12, date, name);
-
-
-                    double twelvePrice,
-                            twentyPrice;
-
-                    SharedPreferences preferences = getContext().getSharedPreferences(MainActivity.PRICE_PREFS, 0);
-                    twelvePrice = preferences.getFloat(MainActivity.PRICE_12, 50);
-                    twentyPrice = preferences.getFloat(MainActivity.PRICE_20, 70);
-
-                    PriceInfo prices = new ConcretePriceInfo(twelvePrice, twentyPrice);
-
-                    File file = findFileWrite(name);
-
-                    writer.WriteBuy(info, prices, file);
+                    writeToFile(writer, editTexts, view);
                 } else {
+                    Bundle bnd = new Bundle();
+                    bnd.putInt("msg", R.string.errorAgregar);
                     ErrorFragment frag = new ErrorFragment();
+                    frag.setArguments(bnd);
                     frag.show(getFragmentManager(), "error");
                 }
 
@@ -142,6 +95,60 @@ public class AgregarClienteFragment extends Fragment implements DatePickerDialog
         });
 
         return view;
+    }
+
+    private void writeToFile(ExcelWriter writer, EditText[] editTexts, View view) {
+        int i = 0;
+
+        EditText input = editTexts[i];
+        String name = input.getText().toString();
+        i++;
+
+        input = editTexts[i];
+        int bidones20 = Integer.parseInt(input.getText().toString());
+        i++;
+
+        input = editTexts[i];
+        int bidones12 = Integer.parseInt(input.getText().toString());
+        i++;
+
+        input = editTexts[i];
+        int bidones_devueltos_20 = Integer.parseInt(input.getText().toString());
+        i++;
+
+        input = editTexts[i];
+        int bidones_devueltos_12 = Integer.parseInt(input.getText().toString());
+        i++;
+
+        input = editTexts[i];
+        int dinero_pagado = Integer.parseInt(input.getText().toString());
+
+        Button bt = view.findViewById(R.id.BotonFecha);
+        String dateString = bt.getText().toString();
+        DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        Date date = null;
+        try {
+            date = format.parse(dateString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        BuyInfo info = new ConcreteBuyInfo(dinero_pagado, bidones20, bidones12, bidones_devueltos_20,
+                bidones_devueltos_12, date, name);
+
+
+        double twelvePrice,
+                twentyPrice;
+
+        SharedPreferences preferences = getContext().getSharedPreferences(MainActivity.PRICE_PREFS, 0);
+        twelvePrice = preferences.getFloat(MainActivity.PRICE_12, 50);
+        twentyPrice = preferences.getFloat(MainActivity.PRICE_20, 70);
+
+        PriceInfo prices = new ConcretePriceInfo(twelvePrice, twentyPrice);
+
+        File file = findFileWrite(name);
+
+        writer.WriteBuy(info, prices, file);
     }
 
     public void onDateSet(DatePicker view, int year, int month, int day) {

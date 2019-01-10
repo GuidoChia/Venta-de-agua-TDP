@@ -35,6 +35,8 @@ public class MainActivity extends AppCompatActivity  {
     public static final String PRICE_PREFS="prices";
     public static final String PRICE_20="price_20";
     public static final String PRICE_12="price_12";
+    public static final String PRICE_BOT="price_botellitas";
+    public static final String PRICE_DEST="price_destilada";
 
     private DrawerLayout mDrawerLayout;
     private Toolbar tb;
@@ -110,6 +112,8 @@ public class MainActivity extends AppCompatActivity  {
             SharedPreferences.Editor edit = preferences.edit();
             edit.putFloat(PRICE_20,70);
             edit.putFloat(PRICE_12,50);
+            edit.putFloat(PRICE_BOT,120);
+            edit.putFloat(PRICE_DEST,40);
             edit.putBoolean("first_time", false);
             edit.commit();
         }
