@@ -224,7 +224,6 @@ public class ConcreteReader implements ExcelReader {
         Cell dateCell = row.getCell(0);
         Date date = null;
 
-
         if (dateCell.getCellTypeEnum().equals(CellType.NUMERIC)) {
             date = dateCell.getDateCellValue();
         } else {
@@ -296,14 +295,19 @@ public class ConcreteReader implements ExcelReader {
      * @return OutputInfo with the info from the row.
      */
     private OutputInfo getInfo(Row row) {
-
-        String dateString = row.getCell(0).getStringCellValue();
-        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        Cell cell = row.getCell(0);
         Date date = null;
-        try {
-            date = format.parse(dateString);
-        } catch (ParseException e) {
-            e.printStackTrace();
+        if (cell.getCellTypeEnum().equals(CellType.NUMERIC))
+            date = cell.getDateCellValue();
+        else {
+            String dateString = cell.getStringCellValue();
+            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+
+            try {
+                date = format.parse(dateString);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         }
 
 

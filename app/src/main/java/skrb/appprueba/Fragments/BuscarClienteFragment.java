@@ -1,20 +1,27 @@
 package skrb.appprueba.Fragments;
 
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 
 import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.regex.Pattern;
 
 import exceptions.WorkbookException;
 import infos.OutputInfo;
@@ -27,23 +34,30 @@ import skrb.appprueba.helpers.fileRW;
 public class BuscarClienteFragment extends Fragment {
     private final int FRAGMENT_RESULTADOS = 0;
 
+    private final static String[] CLIENTES = initClientes();
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_buscar_cliente, container, false);
 
-
-
         final MainActivity act = (MainActivity) getActivity();
         act.getSupportActionBar().setTitle("Buscar Cliente");
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
+                android.R.layout.simple_dropdown_item_1line, CLIENTES);
+        AutoCompleteTextView textView =
+                view.findViewById(R.id.InputBuscar);
+
+        textView.setAdapter(adapter);
 
         Button btn = view.findViewById(R.id.BotonBuscarCliente);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TextInputEditText txt = getActivity().findViewById(R.id.InputBuscar);
+                AutoCompleteTextView txt = getActivity().findViewById(R.id.InputBuscar);
                 Editable nombreEditable = txt.getText();
                 String name = nombreEditable.toString();
 
-                if (name.length()==0) {
+                if (name.length() == 0) {
                     showError();
                 } else {
                     ExcelReader reader = ConcreteReader.getInstance();
@@ -91,8 +105,32 @@ public class BuscarClienteFragment extends Fragment {
         frag.show(getFragmentManager(), "error");
     }
 
+    private static String[] initClientes() {
+        List<String> strings = new LinkedList<>();
 
-    public void setFragment(int position, Bundle bnd) {
+        File path = Environment.getExternalStorageDirectory();
+        File directory = new File(path, "Ypora Clientes");
+
+        for (File f : directory.listFiles()) {
+            if (f.isDirectory()) {
+                for (File finalFile : f.listFiles()) {
+                    String fileName = finalFile.getName();
+                    Log.d("endswith ",fileName.endsWith(".xls")+"");
+
+                    if (fileName.endsWith(".xls")) {
+                        String[] splitted = fileName.split(Pattern.quote("."));
+                        Log.d("Nombre fin: ", splitted[0]);
+                        strings.add(splitted[0]);
+                    }
+                }
+            }
+        }
+
+        return strings.toArray(new String[0]);
+
+    }
+
+    private void setFragment(int position, Bundle bnd) {
         MainActivity act = (MainActivity) getActivity();
 
         FragmentManager fragmentManager;
