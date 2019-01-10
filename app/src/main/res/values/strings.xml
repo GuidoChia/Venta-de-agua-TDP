@@ -22,6 +22,8 @@
     <string name="errorAgregar">Se produjo un error, debe completar todos los campos</string>
     <string name="errorEstablecer">Se produjo un error, debe establecer un precio</string>
     <string name="OK">OK</string>
+    <string name="CANCEL">CANCELAR</string>
+    <string name="msg_nuevo_cliente">El cliente ingresado no está registrado, ¿desea agregarlo?</string>
     <string name="_0">0</string>
     <string name="calcular_ingreso_bruto_mensual">Calcular ingreso bruto mensual</string>
     <string name="calcular_cantidad_total_de_bidones">Calcular cantidad total de bidones</string>
@@ -31,6 +33,7 @@
     <string name="precio">Precio</string>
     <string name="establecer_precio">Establecer precio</string>
     <string name="elija_mes">Elija mes y año</string>
+    <string name="msg_agregado">Se añadio una nueva compra</string>
 
     <string-array name="precios_array">
         <item>Precio de 20</item>

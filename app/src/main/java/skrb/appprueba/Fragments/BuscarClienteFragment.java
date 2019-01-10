@@ -30,6 +30,8 @@ public class BuscarClienteFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_buscar_cliente, container, false);
 
+
+
         final MainActivity act = (MainActivity) getActivity();
         act.getSupportActionBar().setTitle("Buscar Cliente");
 

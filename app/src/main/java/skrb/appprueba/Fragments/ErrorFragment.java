@@ -10,10 +10,6 @@ import skrb.appprueba.R;
 
 public class ErrorFragment extends DialogFragment {
 
-    public static final int ERROR_BUSQUEDA = 1;
-    public static final int ERROR_AGREGAR = 2;
-    private int cod;
-
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the Builder class for convenient dialog construction

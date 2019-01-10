@@ -1,14 +1,18 @@
 package skrb.appprueba.Fragments;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -62,6 +66,9 @@ public class AgregarClienteFragment extends Fragment implements DatePickerDialog
             public void onClick(View v) {
                 ExcelWriter writer = ConcreteWriter.getInstance();
 
+                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(),0);
+
                 TextInputLayout lay = view.findViewById(R.id.InputLayoutClient);
                 EditText[] editTexts = {
                         lay.getEditText(),
@@ -82,6 +89,8 @@ public class AgregarClienteFragment extends Fragment implements DatePickerDialog
                     frag.show(getFragmentManager(), "error");
                 }
 
+
+
             }
 
             private boolean checkInputs(EditText[] inputs) {
@@ -98,6 +107,8 @@ public class AgregarClienteFragment extends Fragment implements DatePickerDialog
     }
 
     private void writeToFile(ExcelWriter writer, EditText[] editTexts, View view) {
+
+
         int i = 0;
 
         EditText input = editTexts[i];
@@ -149,6 +160,9 @@ public class AgregarClienteFragment extends Fragment implements DatePickerDialog
         File file = findFileWrite(name);
 
         writer.WriteBuy(info, prices, file);
+
+        Snackbar snackbarAgregado = Snackbar.make(view, R.string.msg_agregado, Snackbar.LENGTH_LONG);
+        snackbarAgregado.show();
     }
 
     public void onDateSet(DatePicker view, int year, int month, int day) {
@@ -156,4 +170,6 @@ public class AgregarClienteFragment extends Fragment implements DatePickerDialog
         Button btn = act.findViewById(R.id.BotonFecha);
         btn.setText(day + "/" + (month + 1) + "/" + year);
     }
+
+
 }
