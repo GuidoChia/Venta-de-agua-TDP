@@ -25,6 +25,7 @@ import reader.ExcelReader;
 import reader.MonthManager;
 import skrb.appprueba.MainActivity;
 import skrb.appprueba.R;
+import utils.Pair;
 
 public class CalcularFragment extends Fragment {
     private static final int FRAGMENT_RESULTADOS = 0;
@@ -91,8 +92,11 @@ public class CalcularFragment extends Fragment {
             String[] strings = btnMes.getText().toString().split("/");
             int month = Integer.parseInt(strings[0]);
             int year = Integer.parseInt(strings[1]);
-            int months[] = {month};
-            customers = ConcreteReader.getInstance().readCostumers(months, year, path);
+
+            Pair<Integer,Integer> monthAndYear = new Pair<>(month,year);
+
+            Pair<Integer, Integer>[] monthsAndYears = new Pair[]{monthAndYear};
+            customers = ConcreteReader.getInstance().readCostumers(monthsAndYears, path);
         }
 
         return new ConcreteMonthManager(customers);

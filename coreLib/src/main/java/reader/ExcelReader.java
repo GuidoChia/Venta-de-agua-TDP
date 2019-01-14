@@ -6,6 +6,7 @@ import java.util.Collection;
 import customer.Customer;
 import exceptions.WorkbookException;
 import infos.OutputInfo;
+import utils.Pair;
 
 
 /**
@@ -36,10 +37,9 @@ public interface ExcelReader {
     /**
      * Reads all the costumers from the given directory, and creates Customer objects for them,
      * with the info of the given months and year.
-     * @param months Months to look for
-     * @param year Year to look for
+     * @param monthsAndYears array containing pairs of month and years to check
      * @param directory Directory in which the customer's folder will be
      * @return Collection of Customer that bought anything in the given month and year
      */
-    Collection<Customer> readCostumers(int[] months, int year, File directory);
+    Collection<Customer> readCostumers(Pair<Integer,Integer>[] monthsAndYears, File directory);
 }

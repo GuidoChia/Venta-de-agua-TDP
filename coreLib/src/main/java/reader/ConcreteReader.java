@@ -25,6 +25,7 @@ import customer.Customer;
 import exceptions.WorkbookException;
 import infos.ConcreteOutputInfo;
 import infos.OutputInfo;
+import utils.Pair;
 
 
 public class ConcreteReader implements ExcelReader {
@@ -79,14 +80,14 @@ public class ConcreteReader implements ExcelReader {
     }
 
     @Override
-    public Collection<Customer> readCostumers(int[] months, int year, File directory) {
+    public Collection<Customer> readCostumers(Pair<Integer, Integer>[] monthsAndYears, File directory) {
         List<Customer> res = new LinkedList<>();
 
         File folder = new File(directory, "Ypora Clientes");
         File[] subFolders = folder.listFiles();
 
         for (File f : subFolders) {
-            readCostumersFromSubFolder(f, res, months, year);
+            readCostumersFromSubFolder(f, res, monthsAndYears);
         }
 
         return res;
@@ -97,16 +98,15 @@ public class ConcreteReader implements ExcelReader {
      *
      * @param folder Folder that contains the excel files
      * @param list   Customer list
-     * @param months Month to look in
-     * @param year   Year to look in
+     * @param monthsAndYears array containing pairs of month and years to check
      */
-    private void readCostumersFromSubFolder(File folder, List<Customer> list, int[] months, int year) {
+    private void readCostumersFromSubFolder(File folder, List<Customer> list, Pair<Integer, Integer>[] monthsAndYears) {
         if (folder.isDirectory()) {
             File[] files = folder.listFiles();
 
             for (File f : files) {
                 if (f.getName().endsWith(".xls")) {
-                    Customer c = convertToCustomer(f, months, year);
+                    Customer c = convertToCustomer(f, monthsAndYears);
                     if (!c.isEmpty()) {
                         list.add(c);
                     }
@@ -119,11 +119,10 @@ public class ConcreteReader implements ExcelReader {
      * Converts the given file to a Customer object
      *
      * @param f      File of the customer
-     * @param months Month to look in
-     * @param year   Year too look in
+     * @param monthsAndYears array containing pairs of month and years to check
      * @return Customer object containing the info of the given month of the customer
      */
-    private Customer convertToCustomer(File f, int[] months, int year) {
+    private Customer convertToCustomer(File f, Pair<Integer, Integer>[] monthsAndYears) {
 
 
         Workbook customerWorkbook = null;
@@ -156,7 +155,7 @@ public class ConcreteReader implements ExcelReader {
             Row row = customerSheet.getRow(currentRow);
             Cell dateCell = row.getCell(row.getFirstCellNum());
 
-            if (belongsDate(dateCell, months, year)) {
+            if (belongsDate(dateCell, monthsAndYears)) {
                 addRowToCustomer(row, res);
             }
 
@@ -179,14 +178,13 @@ public class ConcreteReader implements ExcelReader {
     }
 
     /**
-     * Determines if the date stored in the dateCell belongs to the given year and month
+     * Determines if the date stored in the dateCell belongs to the given years and months
      *
      * @param dateCell The cell containing the date
-     * @param months   The months to check
-     * @param year     The year to check
+     * @param monthsAndYears array containing pairs of month and years to check
      * @return true if the dates has the same month and year, false otherwise
      */
-    private boolean belongsDate(Cell dateCell, int[] months, int year) {
+    private boolean belongsDate(Cell dateCell, Pair<Integer, Integer>[] monthsAndYears) {
 
 
         String dateString;
@@ -201,15 +199,18 @@ public class ConcreteReader implements ExcelReader {
         String[] strings = dateString.split("/");
 
 
-        boolean equalMonth = false;
+        boolean equalMonth;
+        boolean equalYear;
+        boolean endEqual = false;
         int i = 0;
-        while (!equalMonth && i < months.length) {
-            equalMonth = Integer.parseInt(strings[1]) == months[i];
+        while (!endEqual && i < monthsAndYears.length) {
+            equalMonth = Integer.parseInt(strings[1]) == monthsAndYears[i].first;
+            equalYear = Integer.parseInt(strings[2]) == monthsAndYears[i].second;
+            endEqual = equalMonth && equalYear;
             i++;
         }
-        boolean equalYear = Integer.parseInt(strings[2]) == year;
 
-        return equalMonth && equalYear;
+        return endEqual;
     }
 
 

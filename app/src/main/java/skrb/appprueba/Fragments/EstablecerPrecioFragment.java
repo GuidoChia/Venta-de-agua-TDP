@@ -83,16 +83,16 @@ public class EstablecerPrecioFragment extends Fragment {
         SharedPreferences prefs = getContext().getSharedPreferences(PRICE_PREFS, 0);
 
         TextView txt = view.findViewById(R.id.precio_actual_20);
-        txt.setText("Precio 20:"+prefs.getFloat(PRICE_20,70));
+        txt.setText("Precio 20: " +prefs.getFloat(PRICE_20,70));
 
         txt = view.findViewById(R.id.precio_actual_12);
-        txt.setText("Precio 20:"+prefs.getFloat(PRICE_12,50));
+        txt.setText("Precio 12: "+prefs.getFloat(PRICE_12,50));
 
         txt = view.findViewById(R.id.precio_actual_bot);
-        txt.setText("Precio 20:"+prefs.getFloat(PRICE_BOT,120));
+        txt.setText("Precio botellitas: "+prefs.getFloat(PRICE_BOT,120));
 
         txt = view.findViewById(R.id.precio_actual_dest);
-        txt.setText("Precio 20:"+prefs.getFloat(PRICE_DEST,40));
+        txt.setText("Precio destilada: "+prefs.getFloat(PRICE_DEST,40));
 
     }
 }

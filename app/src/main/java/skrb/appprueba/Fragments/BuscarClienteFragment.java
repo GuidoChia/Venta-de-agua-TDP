@@ -107,7 +107,6 @@ public class BuscarClienteFragment extends Fragment {
 
     private static String[] initClientes() {
         List<String> strings = new LinkedList<>();
-
         File path = Environment.getExternalStorageDirectory();
         File directory = new File(path, "Ypora Clientes");
 

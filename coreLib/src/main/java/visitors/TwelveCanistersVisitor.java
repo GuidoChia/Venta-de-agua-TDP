@@ -2,7 +2,7 @@ package visitors;
 
 import customer.Customer;
 
-public class TwelveCanistersVisitor implements Visitor {
+public class TwelveCanistersVisitor implements VisitorDouble {
     private double res=0;
 
     @Override

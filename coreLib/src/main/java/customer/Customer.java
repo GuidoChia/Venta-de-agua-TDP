@@ -3,7 +3,7 @@ package customer;
 import java.util.Collection;
 import java.util.Date;
 
-import visitors.Visitor;
+import visitors.VisitorDouble;
 
 /**
  * Interface that represents a Customer
@@ -70,7 +70,7 @@ public interface Customer {
 
     /**
      * Accepts the given  visitor
-     * @param v Visitor
+     * @param v VisitorDouble
      */
-    void accept(Visitor v);
+    void accept(VisitorDouble v);
 }

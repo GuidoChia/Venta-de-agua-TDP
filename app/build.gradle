@@ -39,4 +39,6 @@ dependencies {
     implementation files('../coreLib/libs/poishadow-all.jar')
 
     implementation 'com.whiteelephant:monthandyearpicker:1.3.0'
+
+
 }

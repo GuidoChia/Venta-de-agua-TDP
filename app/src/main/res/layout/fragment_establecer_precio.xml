@@ -57,22 +57,26 @@
         <TextView
             android:id="@+id/precio_actual_12"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:textSize="20sp"/>
 
         <TextView
             android:id="@+id/precio_actual_20"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:textSize="20sp"/>
 
         <TextView
             android:id="@+id/precio_actual_bot"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:textSize="20sp"/>
 
         <TextView
             android:id="@+id/precio_actual_dest"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:textSize="20sp"/>
 
 
     </LinearLayout>

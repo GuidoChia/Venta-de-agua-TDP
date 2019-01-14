@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import infos.CustomerInfo;
-import visitors.Visitor;
+import visitors.VisitorDouble;
 
 /**
  * Implementation of the Customer interface
@@ -100,7 +100,7 @@ public class ConcreteCustomer implements Customer {
     }
 
     @Override
-    public void accept(Visitor v) {
+    public void accept(VisitorDouble v) {
         v.visit(this);
     }
 

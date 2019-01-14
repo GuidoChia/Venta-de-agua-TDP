@@ -6,7 +6,7 @@ import customer.Customer;
 import visitors.PaidVisitor;
 import visitors.TwelveCanistersVisitor;
 import visitors.TwentyCanistersVisitor;
-import visitors.Visitor;
+import visitors.VisitorDouble;
 
 public class ConcreteMonthManager implements MonthManager {
 
@@ -22,7 +22,7 @@ public class ConcreteMonthManager implements MonthManager {
     }
     @Override
     public double getPaid() {
-        Visitor v = new PaidVisitor();
+        VisitorDouble v = new PaidVisitor();
         visitAll(v);
 
         return v.getResult();
@@ -30,7 +30,7 @@ public class ConcreteMonthManager implements MonthManager {
 
     @Override
     public int getTwentyBought() {
-        Visitor v = new TwentyCanistersVisitor();
+        VisitorDouble v = new TwentyCanistersVisitor();
         visitAll(v);
 
         return (int) v.getResult();
@@ -38,7 +38,7 @@ public class ConcreteMonthManager implements MonthManager {
 
     @Override
     public int getTwelveBought() {
-        Visitor v = new TwelveCanistersVisitor();
+        VisitorDouble v = new TwelveCanistersVisitor();
         visitAll( v);
 
         return (int) v.getResult();
@@ -46,9 +46,9 @@ public class ConcreteMonthManager implements MonthManager {
 
     /**
      * Visits all the customers with the visitor v
-     * @param v Visitor
+     * @param v VisitorDouble
      */
-    private void visitAll(Visitor v) {
+    private void visitAll(VisitorDouble v) {
         for (Customer c : customers) {
             c.accept(v);
         }

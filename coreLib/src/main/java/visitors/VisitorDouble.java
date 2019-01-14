@@ -2,7 +2,7 @@ package visitors;
 
 import customer.Customer;
 
-public interface Visitor {
+public interface VisitorDouble {
     /**
      * Visits the given customer
      * @param c The customer to be visited

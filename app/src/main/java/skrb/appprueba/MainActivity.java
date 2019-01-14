@@ -17,7 +17,6 @@ import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
 
-import org.apache.poi.hssf.record.aggregates.FormulaRecordAggregate;
 
 import skrb.appprueba.Fragments.AboutFragment;
 import skrb.appprueba.Fragments.AgregarClienteFragment;
