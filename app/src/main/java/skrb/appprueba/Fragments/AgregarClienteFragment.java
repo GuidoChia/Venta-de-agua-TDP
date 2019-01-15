@@ -12,6 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -33,9 +35,12 @@ import writer.ConcreteWriter;
 import writer.ExcelWriter;
 
 import static skrb.appprueba.helpers.fileRW.findFileWrite;
+import static skrb.appprueba.helpers.fileRW.initClientes;
 
 
 public class AgregarClienteFragment extends Fragment implements DatePickerDialog.OnDateSetListener {
+
+    private final static String[] CLIENTES = initClientes();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -50,6 +55,13 @@ public class AgregarClienteFragment extends Fragment implements DatePickerDialog
         month = actualDate.get(Calendar.MONTH);
         year = actualDate.get(Calendar.YEAR);
         final DatePickerDialog dialogFecha = new DatePickerDialog(this.getContext(), AgregarClienteFragment.this, year, month, day);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
+                android.R.layout.simple_dropdown_item_1line, CLIENTES);
+        AutoCompleteTextView textView =
+                view.findViewById(R.id.NombreCliente);
+
+        textView.setAdapter(adapter);
 
         Button botonFecha = view.findViewById(R.id.BotonFecha);
         botonFecha.setText(day + "/" + (month + 1) + "/" + year);

@@ -34,6 +34,7 @@
     <string name="establecer_precio">Establecer precio</string>
     <string name="elija_mes">Elija mes y año</string>
     <string name="msg_agregado">Se añadio una nueva compra</string>
+    <string name="clientes_existentes">Clientes existentes</string>
 
     <string-array name="precios_array">
         <item>Precio de 20</item>

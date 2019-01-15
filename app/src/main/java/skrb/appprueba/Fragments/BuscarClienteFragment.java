@@ -28,6 +28,8 @@ import skrb.appprueba.MainActivity;
 import skrb.appprueba.R;
 import skrb.appprueba.helpers.fileRW;
 
+import static skrb.appprueba.helpers.fileRW.initClientes;
+
 
 public class BuscarClienteFragment extends Fragment {
     private final int FRAGMENT_RESULTADOS = 0;
@@ -103,27 +105,7 @@ public class BuscarClienteFragment extends Fragment {
         frag.show(getFragmentManager(), "error");
     }
 
-    private static String[] initClientes() {
-        List<String> strings = new LinkedList<>();
-        File path = Environment.getExternalStorageDirectory();
-        File directory = new File(path, "Ypora Clientes");
 
-        for (File f : directory.listFiles()) {
-            if (f.isDirectory()) {
-                for (File finalFile : f.listFiles()) {
-                    String fileName = finalFile.getName();
-
-                    if (fileName.endsWith(".xls")) {
-                        String[] splitted = fileName.split(Pattern.quote("."));
-                        strings.add(splitted[0]);
-                    }
-                }
-            }
-        }
-
-        return strings.toArray(new String[0]);
-
-    }
 
     private void setFragment(int position, Bundle bnd) {
         MainActivity act = (MainActivity) getActivity();

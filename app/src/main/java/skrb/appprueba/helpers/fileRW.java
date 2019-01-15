@@ -4,6 +4,9 @@ import android.os.Environment;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.regex.Pattern;
 
 
 /**
@@ -54,6 +57,27 @@ public interface fileRW {
         File res = new File(directory, name + ".xls");
 
         return res;
+    }
+
+    static String[] initClientes() {
+        List<String> strings = new LinkedList<>();
+        File path = Environment.getExternalStorageDirectory();
+        File directory = new File(path, "Ypora Clientes");
+
+        for (File f : directory.listFiles()) {
+            if (f.isDirectory()) {
+                for (File finalFile : f.listFiles()) {
+                    String fileName = finalFile.getName();
+                    if (fileName.endsWith(".xls")) {
+                        String[] split = fileName.split(Pattern.quote("."));
+                        strings.add(split[0]);
+                    }
+                }
+            }
+        }
+
+        return strings.toArray(new String[0]);
+
     }
 
 
