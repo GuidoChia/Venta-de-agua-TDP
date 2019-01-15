@@ -29,7 +29,6 @@ import infos.ConcretePriceInfo;
 import infos.PriceInfo;
 import skrb.appprueba.MainActivity;
 import skrb.appprueba.R;
-import skrb.appprueba.helpers.AutoCompleteHelper;
 import writer.ConcreteWriter;
 import writer.ExcelWriter;
 
@@ -37,7 +36,6 @@ import static skrb.appprueba.helpers.fileRW.findFileWrite;
 
 
 public class AgregarClienteFragment extends Fragment implements DatePickerDialog.OnDateSetListener {
-    private final static String[] CLIENTES = AutoCompleteHelper.initClientes();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

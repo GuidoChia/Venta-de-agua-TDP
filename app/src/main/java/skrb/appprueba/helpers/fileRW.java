@@ -5,7 +5,6 @@ import android.os.Environment;
 import java.io.File;
 import java.io.IOException;
 
-import static skrb.appprueba.helpers.AutoCompleteHelper.correctName;
 
 /**
  * Interface fileRW represents a helper to find a workbook and write it to storage.
@@ -23,8 +22,15 @@ public interface fileRW {
      */
     static File findFileWrite(String name) {
         File path = Environment.getExternalStorageDirectory();
-
-        String finalName = correctName(name);
+        String[] strings = name.split(" ");
+        String finalName = "";
+        for (int i = 0; i < strings.length; i++) {
+            strings[i] = Character.toUpperCase(strings[i].charAt(0)) + strings[i].substring(1);
+            if (i != strings.length - 1)
+                finalName += strings[i] + " ";
+            else
+                finalName += strings[i];
+        }
 
         File directory = new File(path, baseDir + finalName.charAt(0));
         directory.mkdirs();

@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,14 +26,13 @@ import reader.ConcreteReader;
 import reader.ExcelReader;
 import skrb.appprueba.MainActivity;
 import skrb.appprueba.R;
-import skrb.appprueba.helpers.AutoCompleteHelper;
 import skrb.appprueba.helpers.fileRW;
 
 
 public class BuscarClienteFragment extends Fragment {
     private final int FRAGMENT_RESULTADOS = 0;
 
-    private final static String[] CLIENTES = AutoCompleteHelper.initClientes();
+    private final static String[] CLIENTES = initClientes();
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_buscar_cliente, container, false);
@@ -105,7 +103,27 @@ public class BuscarClienteFragment extends Fragment {
         frag.show(getFragmentManager(), "error");
     }
 
+    private static String[] initClientes() {
+        List<String> strings = new LinkedList<>();
+        File path = Environment.getExternalStorageDirectory();
+        File directory = new File(path, "Ypora Clientes");
 
+        for (File f : directory.listFiles()) {
+            if (f.isDirectory()) {
+                for (File finalFile : f.listFiles()) {
+                    String fileName = finalFile.getName();
+
+                    if (fileName.endsWith(".xls")) {
+                        String[] splitted = fileName.split(Pattern.quote("."));
+                        strings.add(splitted[0]);
+                    }
+                }
+            }
+        }
+
+        return strings.toArray(new String[0]);
+
+    }
 
     private void setFragment(int position, Bundle bnd) {
         MainActivity act = (MainActivity) getActivity();
