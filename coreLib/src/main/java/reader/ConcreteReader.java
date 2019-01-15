@@ -135,9 +135,10 @@ public class ConcreteReader implements ExcelReader {
         }
 
         Sheet customerSheet = customerWorkbook.getSheetAt(0);
-        String name = customerSheet.getRow(0).getCell(0).getStringCellValue();
 
-        Customer res = new ConcreteCustomer(name);
+        String finalName = getName(f);
+
+        Customer res = new ConcreteCustomer(finalName);
 
         int currentRow = 3;
 
@@ -173,6 +174,18 @@ public class ConcreteReader implements ExcelReader {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        return res;
+    }
+
+    /**
+     * Checks if the name is written correctly, if not it corrects it.
+     * @param name The name to check
+     * @return The name correctly written
+     */
+    private String getName(File f){
+        String res = f.getName();
+        res = res.substring(0,res.length()-4);
 
         return res;
     }

@@ -2,27 +2,18 @@ package com.example.corelib.tests;
 
 
 import java.io.File;
-import java.io.IOException;
-import java.util.Calendar;
 import java.util.Collection;
-import java.util.Date;
 
 import customer.Customer;
-import exceptions.WorkbookException;
-import infos.BuyInfo;
-import infos.ConcreteBuyInfo;
-import infos.ConcretePriceInfo;
-import infos.OutputInfo;
-import infos.PriceInfo;
 import reader.ConcreteMonthManager;
 import reader.ConcreteReader;
 import reader.ExcelReader;
 import reader.MonthManager;
-import writer.ConcreteWriter;
-import writer.ExcelWriter;
+import utils.Pair;
 
 public class Tester {
     public static void main(String[] args) {
+        /*
         Calendar cal = Calendar.getInstance();
         Date today = cal.getTime();
         String baseDir = "/Ypora Clientes/";
@@ -60,19 +51,25 @@ public class Tester {
         System.out.println("debe de 12: " + out.getTwelveBalance());
         System.out.println("Date: " + out.getLastDate());
         System.out.println("Debe total: " + out.getCanistersBalance());
-        /*
+        */
         ExcelReader reader = ConcreteReader.getInstance();
-        int[] months = {9};
-        int year = 2016;
+
         File path = new File("");
 
-        Collection<Customer> customers = reader.readCostumers(months, year, path);
+        Pair<Integer,Integer>[] monthsAndYears= new Pair[]{new Pair<>(12, 2018)};
+        Collection<Customer> customers = reader.readCostumers(monthsAndYears, path);
 
         MonthManager manager = new ConcreteMonthManager(customers);
+
         System.out.println("Resultado manager paid: " + manager.getPaid());
         System.out.println("Resultado manager 12: " + manager.getTwelveBought());
         System.out.println("Resultado manager 20: " + manager.getTwentyBought());
-           */
+
+        Collection<Customer> customerCollection = manager.getRoute();
+
+        for (Customer c : customerCollection){
+            System.out.println("Name:" +c.getName());
+        }
     }
 }
 

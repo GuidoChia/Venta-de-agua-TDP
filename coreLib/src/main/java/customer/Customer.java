@@ -1,8 +1,9 @@
 package customer;
 
-import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
+import visitors.VisitorCollection;
 import visitors.VisitorDouble;
 
 /**
@@ -14,7 +15,7 @@ public interface Customer {
      * Gets the last dates the customer bought canisters.
      * @return Collection containing the last dates the customer bought canisters.
      */
-    Collection<Date> getLastDates();
+    List<Date> getLastDates();
 
     /**
      * Gets the balance of the customer
@@ -73,4 +74,10 @@ public interface Customer {
      * @param v VisitorDouble
      */
     void accept(VisitorDouble v);
+
+    /**
+     * Accepts the given  visitor
+     * @param v VisitorCollection
+     */
+    void accept(VisitorCollection v);
 }

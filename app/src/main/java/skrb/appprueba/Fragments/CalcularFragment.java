@@ -16,12 +16,9 @@ import com.whiteelephant.monthpicker.MonthPickerDialog;
 
 import java.io.File;
 import java.util.Calendar;
-import java.util.Collection;
 
-import customer.Customer;
 import reader.ConcreteMonthManager;
 import reader.ConcreteReader;
-import reader.ExcelReader;
 import reader.MonthManager;
 import skrb.appprueba.MainActivity;
 import skrb.appprueba.R;
@@ -29,7 +26,7 @@ import utils.Pair;
 
 public class CalcularFragment extends Fragment {
     private static final int FRAGMENT_RESULTADOS = 0;
-    Collection<Customer> customers = null;
+    MonthManager manager = null;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -81,25 +78,40 @@ public class CalcularFragment extends Fragment {
             }
         });
 
+        btn = view.findViewById(R.id.calcular_total_bidones);
+        btn.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                MonthManager manager = getMonthManager(view, path);
+
+                Bundle bnd = new Bundle();
+                int res = manager.getTwelveBought()+manager.getTwentyBought();
+                bnd.putString("result", res + "");
+
+                setFragment(FRAGMENT_RESULTADOS, bnd);
+            }
+        });
+
         return view;
     }
 
     @NonNull
     private MonthManager getMonthManager(View view, File path) {
 
-        if (customers == null) {
+        if (manager == null) {
             Button btnMes = view.findViewById(R.id.buttonMesAño);
             String[] strings = btnMes.getText().toString().split("/");
             int month = Integer.parseInt(strings[0]);
             int year = Integer.parseInt(strings[1]);
 
-            Pair<Integer,Integer> monthAndYear = new Pair<>(month,year);
+            Pair<Integer, Integer> monthAndYear = new Pair<>(month, year);
 
             Pair<Integer, Integer>[] monthsAndYears = new Pair[]{monthAndYear};
-            customers = ConcreteReader.getInstance().readCostumers(monthsAndYears, path);
+            manager = new ConcreteMonthManager(ConcreteReader.getInstance().readCostumers(monthsAndYears, path));
         }
 
-        return new ConcreteMonthManager(customers);
+        return manager;
     }
 
 
@@ -120,7 +132,7 @@ public class CalcularFragment extends Fragment {
                     @Override
                     public void onDateSet(int selectedMonth, int selectedYear) {
                         btn.setText((selectedMonth + 1) + "/" + selectedYear);
-                        customers = null;
+                        manager = null;
                     }
                 }, year, month);
 

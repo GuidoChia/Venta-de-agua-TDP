@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -30,6 +29,7 @@ import infos.ConcretePriceInfo;
 import infos.PriceInfo;
 import skrb.appprueba.MainActivity;
 import skrb.appprueba.R;
+import skrb.appprueba.helpers.AutoCompleteHelper;
 import writer.ConcreteWriter;
 import writer.ExcelWriter;
 
@@ -37,6 +37,8 @@ import static skrb.appprueba.helpers.fileRW.findFileWrite;
 
 
 public class AgregarClienteFragment extends Fragment implements DatePickerDialog.OnDateSetListener {
+    private final static String[] CLIENTES = AutoCompleteHelper.initClientes();
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_agregar_cliente, container, false);
@@ -67,7 +69,7 @@ public class AgregarClienteFragment extends Fragment implements DatePickerDialog
                 ExcelWriter writer = ConcreteWriter.getInstance();
 
                 InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(),0);
+                imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
 
                 TextInputLayout lay = view.findViewById(R.id.InputLayoutClient);
                 EditText[] editTexts = {
@@ -88,7 +90,6 @@ public class AgregarClienteFragment extends Fragment implements DatePickerDialog
                     frag.setArguments(bnd);
                     frag.show(getFragmentManager(), "error");
                 }
-
 
 
             }

@@ -1,5 +1,9 @@
 package reader;
 
+import java.util.Collection;
+
+import customer.Customer;
+
 public interface MonthManager {
 
     /**
@@ -19,4 +23,10 @@ public interface MonthManager {
      * @return Amount of twenty canisters bought
      */
     int getTwelveBought();
+
+    /**
+     * Creates a collection with the customers that probably need canisters
+     * @return Collection containing the customers
+     */
+    Collection<Customer> getRoute();
 }

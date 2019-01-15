@@ -2,12 +2,10 @@ package skrb.appprueba.Fragments;
 
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,12 +27,14 @@ import reader.ConcreteReader;
 import reader.ExcelReader;
 import skrb.appprueba.MainActivity;
 import skrb.appprueba.R;
+import skrb.appprueba.helpers.AutoCompleteHelper;
 import skrb.appprueba.helpers.fileRW;
+
 
 public class BuscarClienteFragment extends Fragment {
     private final int FRAGMENT_RESULTADOS = 0;
 
-    private final static String[] CLIENTES = initClientes();
+    private final static String[] CLIENTES = AutoCompleteHelper.initClientes();
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_buscar_cliente, container, false);
@@ -105,29 +105,7 @@ public class BuscarClienteFragment extends Fragment {
         frag.show(getFragmentManager(), "error");
     }
 
-    private static String[] initClientes() {
-        List<String> strings = new LinkedList<>();
-        File path = Environment.getExternalStorageDirectory();
-        File directory = new File(path, "Ypora Clientes");
 
-        for (File f : directory.listFiles()) {
-            if (f.isDirectory()) {
-                for (File finalFile : f.listFiles()) {
-                    String fileName = finalFile.getName();
-                    Log.d("endswith ",fileName.endsWith(".xls")+"");
-
-                    if (fileName.endsWith(".xls")) {
-                        String[] splitted = fileName.split(Pattern.quote("."));
-                        Log.d("Nombre fin: ", splitted[0]);
-                        strings.add(splitted[0]);
-                    }
-                }
-            }
-        }
-
-        return strings.toArray(new String[0]);
-
-    }
 
     private void setFragment(int position, Bundle bnd) {
         MainActivity act = (MainActivity) getActivity();

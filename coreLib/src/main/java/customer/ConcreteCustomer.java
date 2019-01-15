@@ -1,11 +1,11 @@
 package customer;
 
-import java.util.Collection;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
 import infos.CustomerInfo;
+import visitors.VisitorCollection;
 import visitors.VisitorDouble;
 
 /**
@@ -27,7 +27,7 @@ public class ConcreteCustomer implements Customer {
     }
 
     @Override
-    public Collection<Date> getLastDates() {
+    public List<Date> getLastDates() {
         return dates;
     }
 
@@ -101,6 +101,11 @@ public class ConcreteCustomer implements Customer {
 
     @Override
     public void accept(VisitorDouble v) {
+        v.visit(this);
+    }
+
+    @Override
+    public void accept(VisitorCollection v) {
         v.visit(this);
     }
 
