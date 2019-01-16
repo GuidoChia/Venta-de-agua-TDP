@@ -2,14 +2,20 @@ package com.example.corelib.tests;
 
 
 import java.io.File;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 
 import customer.Customer;
-import reader.ConcreteMonthManager;
+import reader.ConcreteCustomerManager;
 import reader.ConcreteReader;
 import reader.ExcelReader;
-import reader.MonthManager;
+import reader.CustomerManager;
 import utils.Pair;
+
+import static java.util.Calendar.DAY_OF_MONTH;
 
 public class Tester {
     public static void main(String[] args) {
@@ -56,10 +62,21 @@ public class Tester {
 
         File path = new File("");
 
-        Pair<Integer,Integer>[] monthsAndYears= new Pair[]{new Pair<>(12, 2018)};
-        Collection<Customer> customers = reader.readCostumers(monthsAndYears, path);
+        String dateString1 = "01/1/2019";
+        //String dateString2 = "01/12/2018";
 
-        MonthManager manager = new ConcreteMonthManager(customers);
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        Date[] months = null;
+        try {
+            months = new Date[]{format.parse(dateString1)};
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+
+        Collection<Customer> customers = reader.readCostumersMonth(months, path);
+
+        CustomerManager manager = new ConcreteCustomerManager(customers);
 
         System.out.println("Resultado manager paid: " + manager.getPaid());
         System.out.println("Resultado manager 12: " + manager.getTwelveBought());
@@ -67,8 +84,8 @@ public class Tester {
 
         Collection<Customer> customerCollection = manager.getRoute();
 
-        for (Customer c : customerCollection){
-            System.out.println("Name:" +c.getName());
+        for (Customer c : customerCollection) {
+            System.out.println("Name:" + c.getName());
         }
     }
 }

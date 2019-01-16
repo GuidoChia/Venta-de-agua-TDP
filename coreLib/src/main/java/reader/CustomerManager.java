@@ -4,7 +4,7 @@ import java.util.Collection;
 
 import customer.Customer;
 
-public interface MonthManager {
+public interface CustomerManager {
 
     /**
      * Gets the total paid money from the collection of customers

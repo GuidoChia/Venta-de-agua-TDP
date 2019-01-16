@@ -15,18 +15,22 @@ import android.widget.Button;
 import com.whiteelephant.monthpicker.MonthPickerDialog;
 
 import java.io.File;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
-import reader.ConcreteMonthManager;
+import reader.ConcreteCustomerManager;
 import reader.ConcreteReader;
-import reader.MonthManager;
+import reader.CustomerManager;
 import skrb.appprueba.MainActivity;
 import skrb.appprueba.R;
 import utils.Pair;
 
 public class CalcularFragment extends Fragment {
     private static final int FRAGMENT_RESULTADOS = 0;
-    MonthManager manager = null;
+    private CustomerManager manager = null;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -42,8 +46,7 @@ public class CalcularFragment extends Fragment {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                MonthManager manager = getMonthManager(view, path);
+                CustomerManager manager = getMonthManager(view, path);
 
                 Bundle bnd = new Bundle();
                 bnd.putString("result", manager.getPaid() + "");
@@ -56,7 +59,7 @@ public class CalcularFragment extends Fragment {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MonthManager manager = getMonthManager(view, path);
+                CustomerManager manager = getMonthManager(view, path);
 
                 Bundle bnd = new Bundle();
                 bnd.putString("result", manager.getTwelveBought() + "");
@@ -69,7 +72,8 @@ public class CalcularFragment extends Fragment {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MonthManager manager = getMonthManager(view, path);
+
+                CustomerManager manager = getMonthManager(view, path);
 
                 Bundle bnd = new Bundle();
                 bnd.putString("result", manager.getTwentyBought() + "");
@@ -79,14 +83,14 @@ public class CalcularFragment extends Fragment {
         });
 
         btn = view.findViewById(R.id.calcular_total_bidones);
-        btn.setOnClickListener(new View.OnClickListener(){
+        btn.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                MonthManager manager = getMonthManager(view, path);
+                CustomerManager manager = getMonthManager(view, path);
 
                 Bundle bnd = new Bundle();
-                int res = manager.getTwelveBought()+manager.getTwentyBought();
+                int res = manager.getTwelveBought() + manager.getTwentyBought();
                 bnd.putString("result", res + "");
 
                 setFragment(FRAGMENT_RESULTADOS, bnd);
@@ -97,18 +101,19 @@ public class CalcularFragment extends Fragment {
     }
 
     @NonNull
-    private MonthManager getMonthManager(View view, File path) {
-
+    private CustomerManager getMonthManager(View view, File path) {
         if (manager == null) {
             Button btnMes = view.findViewById(R.id.buttonMesAño);
-            String[] strings = btnMes.getText().toString().split("/");
-            int month = Integer.parseInt(strings[0]);
-            int year = Integer.parseInt(strings[1]);
+            String dateString = "1/" + btnMes.getText().toString();
+            DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+            Date[] date = null;
+            try {
+                date = new Date[]{format.parse(dateString)};
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
 
-            Pair<Integer, Integer> monthAndYear = new Pair<>(month, year);
-
-            Pair<Integer, Integer>[] monthsAndYears = new Pair[]{monthAndYear};
-            manager = new ConcreteMonthManager(ConcreteReader.getInstance().readCostumers(monthsAndYears, path));
+            manager = new ConcreteCustomerManager(ConcreteReader.getInstance().readCostumersMonth(date, path));
         }
 
         return manager;
@@ -164,6 +169,7 @@ public class CalcularFragment extends Fragment {
                 fragmentTransaction.replace(R.id.fragment_resultados_mes, frag);
                 fragmentTransaction.commit();
                 break;
+
         }
     }
 }

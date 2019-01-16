@@ -2,10 +2,12 @@ package reader;
 
 import java.io.File;
 import java.util.Collection;
+import java.util.Date;
 
 import customer.Customer;
 import exceptions.WorkbookException;
 import infos.OutputInfo;
+import strategies.DateStrategy;
 import utils.Pair;
 
 
@@ -36,10 +38,19 @@ public interface ExcelReader {
 
     /**
      * Reads all the costumers from the given directory, and creates Customer objects for them,
-     * with the info of the given months and year.
-     * @param monthsAndYears array containing pairs of month and years to check
+     * with the info of the given dates
+     * @param months Dates from the months that wants to be read. The day here will be ignored
      * @param directory Directory in which the customer's folder will be
      * @return Collection of Customer that bought anything in the given month and year
      */
-    Collection<Customer> readCostumers(Pair<Integer,Integer>[] monthsAndYears, File directory);
+    Collection<Customer> readCostumersMonth(Date[] months, File directory);
+
+    /**
+     * Reads all the costumers from the given directory, and creates Customer objects for them,
+     * with the info of the given dates
+     * @param days Dates that wants to be read.
+     * @param directory Directory in which the customer's folder will be in
+     * @return Collection of Customer that bought anything in the given month and year
+     */
+    Collection<Customer> readCostumersDays(Date[] days, File directory);
 }

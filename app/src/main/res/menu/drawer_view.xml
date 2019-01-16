@@ -10,7 +10,10 @@
             android:title="Buscar Cliente"/>
         <item
             android:id="@+id/Calcular"
-            android:title="Calcular cosas"/>
+            android:title="Calculos mensuales"/>
+        <item
+            android:id="@+id/Calcular"
+            android:title="Calculos del día"/>
         <item
             android:id="@+id/EstablecerPrecio"
             android:title="Precio"/>

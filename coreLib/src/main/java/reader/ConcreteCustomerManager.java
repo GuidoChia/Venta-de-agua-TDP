@@ -10,18 +10,18 @@ import visitors.TwentyCanistersVisitor;
 import visitors.VisitorCollection;
 import visitors.VisitorDouble;
 
-public class ConcreteMonthManager implements MonthManager {
+public class ConcreteCustomerManager implements CustomerManager {
 
     private Collection<Customer> customers;
     double cachedPaid, cachedTwelve, cachedTwenty;
 
     /**
-     * Creates a new ConcreteMonthManager with the given collection as the collection of
+     * Creates a new ConcreteCustomerManager with the given collection as the collection of
      * customers.
      *
      * @param customers Collection of customers
      */
-    public ConcreteMonthManager(Collection<Customer> customers) {
+    public ConcreteCustomerManager(Collection<Customer> customers) {
         this.customers = customers;
     }
 

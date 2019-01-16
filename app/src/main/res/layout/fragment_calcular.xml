@@ -53,9 +53,12 @@
         android:textAppearance="@style/ThemeOverlay.MaterialComponents.Light"
         android:textSize="20sp" />
 
+
     <ScrollView
         android:id="@+id/fragment_resultados_mes"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+
+        />
 
 </LinearLayout>

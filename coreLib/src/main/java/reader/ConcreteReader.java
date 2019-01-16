@@ -25,6 +25,9 @@ import customer.Customer;
 import exceptions.WorkbookException;
 import infos.ConcreteOutputInfo;
 import infos.OutputInfo;
+import strategies.DateStrategy;
+import strategies.DayStrategy;
+import strategies.YearMonthStrategy;
 import utils.Pair;
 
 
@@ -63,6 +66,20 @@ public class ConcreteReader implements ExcelReader {
         return res;
     }
 
+    @Override
+    public Collection<Customer> readCostumersMonth(Date[] months, File directory) {
+        DateStrategy strategy = new YearMonthStrategy(months);
+
+        return readCostumers(strategy, directory);
+    }
+
+    @Override
+    public Collection<Customer> readCostumersDays(Date[] days, File directory) {
+        DateStrategy strategy = new DayStrategy(days);
+
+        return readCostumers(strategy, directory);
+    }
+
     private Workbook getWorkbook(File customerFile) throws WorkbookException {
         Workbook customerWorkbook;
         if (!customerFile.exists()) {
@@ -79,15 +96,22 @@ public class ConcreteReader implements ExcelReader {
         return customerWorkbook;
     }
 
-    @Override
-    public Collection<Customer> readCostumers(Pair<Integer, Integer>[] monthsAndYears, File directory) {
+
+    /**
+     * Reads the customers following the given strategy
+     *
+     * @param strat     The strategy
+     * @param directory Directory in which the customer's folder will be in
+     * @return
+     */
+    private Collection<Customer> readCostumers(DateStrategy strat, File directory) {
         List<Customer> res = new LinkedList<>();
 
         File folder = new File(directory, "Ypora Clientes");
         File[] subFolders = folder.listFiles();
 
         for (File f : subFolders) {
-            readCostumersFromSubFolder(f, res, monthsAndYears);
+            readCostumersFromSubFolder(f, res, strat);
         }
 
         return res;
@@ -98,15 +122,15 @@ public class ConcreteReader implements ExcelReader {
      *
      * @param folder Folder that contains the excel files
      * @param list   Customer list
-     * @param monthsAndYears array containing pairs of month and years to check
+     * @param strat  Strategy to follow
      */
-    private void readCostumersFromSubFolder(File folder, List<Customer> list, Pair<Integer, Integer>[] monthsAndYears) {
+    private void readCostumersFromSubFolder(File folder, List<Customer> list, DateStrategy strat) {
         if (folder.isDirectory()) {
             File[] files = folder.listFiles();
 
             for (File f : files) {
                 if (f.getName().endsWith(".xls")) {
-                    Customer c = convertToCustomer(f, monthsAndYears);
+                    Customer c = convertToCustomer(f, strat);
                     if (!c.isEmpty()) {
                         list.add(c);
                     }
@@ -118,11 +142,11 @@ public class ConcreteReader implements ExcelReader {
     /**
      * Converts the given file to a Customer object
      *
-     * @param f      File of the customer
-     * @param monthsAndYears array containing pairs of month and years to check
+     * @param f     File of the customer
+     * @param strat Strategy to follow
      * @return Customer object containing the info of the given month of the customer
      */
-    private Customer convertToCustomer(File f, Pair<Integer, Integer>[] monthsAndYears) {
+    private Customer convertToCustomer(File f, DateStrategy strat) {
 
 
         Workbook customerWorkbook = null;
@@ -137,7 +161,6 @@ public class ConcreteReader implements ExcelReader {
         Sheet customerSheet = customerWorkbook.getSheetAt(0);
 
         String finalName = getName(f);
-
         Customer res = new ConcreteCustomer(finalName);
 
         int currentRow = 3;
@@ -156,7 +179,7 @@ public class ConcreteReader implements ExcelReader {
             Row row = customerSheet.getRow(currentRow);
             Cell dateCell = row.getCell(row.getFirstCellNum());
 
-            if (belongsDate(dateCell, monthsAndYears)) {
+            if (belongsDate(dateCell, strat)) {
                 addRowToCustomer(row, res);
             }
 
@@ -179,13 +202,13 @@ public class ConcreteReader implements ExcelReader {
     }
 
     /**
-     * Checks if the name is written correctly, if not it corrects it.
-     * @param name The name to check
-     * @return The name correctly written
+     * Gets the name from a file without its extensions
+     *
+     * @return The name
      */
-    private String getName(File f){
+    private String getName(File f) {
         String res = f.getName();
-        res = res.substring(0,res.length()-4);
+        res = res.substring(0, res.length() - 4);
 
         return res;
     }
@@ -194,36 +217,31 @@ public class ConcreteReader implements ExcelReader {
      * Determines if the date stored in the dateCell belongs to the given years and months
      *
      * @param dateCell The cell containing the date
-     * @param monthsAndYears array containing pairs of month and years to check
+     * @param strat    Strategy to follow
      * @return true if the dates has the same month and year, false otherwise
      */
-    private boolean belongsDate(Cell dateCell, Pair<Integer, Integer>[] monthsAndYears) {
+    private boolean belongsDate(Cell dateCell, DateStrategy strat) {
+        boolean res = false;
 
-
-        String dateString;
+        Date date = null;
         if (dateCell.getCellTypeEnum().equals(CellType.NUMERIC)) {
-            Date date = dateCell.getDateCellValue();
-            DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-            dateString = format.format(date);
+            date = dateCell.getDateCellValue();
+
         } else {
-            dateString = dateCell.getStringCellValue();
+             String dateString = dateCell.getStringCellValue();
+            DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+            try {
+                date = format.parse(dateString);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         }
 
-        String[] strings = dateString.split("/");
-
-
-        boolean equalMonth;
-        boolean equalYear;
-        boolean endEqual = false;
-        int i = 0;
-        while (!endEqual && i < monthsAndYears.length) {
-            equalMonth = Integer.parseInt(strings[1]) == monthsAndYears[i].first;
-            equalYear = Integer.parseInt(strings[2]) == monthsAndYears[i].second;
-            endEqual = equalMonth && equalYear;
-            i++;
+        if (date!=null){
+            res = strat.belongsDate(date);
         }
 
-        return endEqual;
+        return res;
     }
 
 
@@ -250,6 +268,12 @@ public class ConcreteReader implements ExcelReader {
             }
         }
 
+        if (date==null){
+            /*
+            Evita que si no se pudo parsear la fecha, no agregue una fecha nula.
+             */
+            return;
+        }
 
         int twentyAmount = (int) row.getCell(1).getNumericCellValue();
 
