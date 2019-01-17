@@ -1,5 +1,6 @@
 package skrb.appprueba.Fragments;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
@@ -9,6 +10,7 @@ import android.text.Editable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -56,6 +58,13 @@ public class BuscarClienteFragment extends Fragment {
                 AutoCompleteTextView txt = getActivity().findViewById(R.id.InputBuscar);
                 Editable nombreEditable = txt.getText();
                 String name = nombreEditable.toString();
+
+                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+
+                View focus = getActivity().getCurrentFocus();
+                if (focus != null) {
+                    imm.hideSoftInputFromWindow(focus.getWindowToken(), 0);
+                }
 
                 if (name.length() == 0) {
                     showError();

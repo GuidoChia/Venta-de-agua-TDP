@@ -7,8 +7,6 @@ import java.util.Date;
 import customer.Customer;
 import exceptions.WorkbookException;
 import infos.OutputInfo;
-import strategies.DateStrategy;
-import utils.Pair;
 
 
 /**

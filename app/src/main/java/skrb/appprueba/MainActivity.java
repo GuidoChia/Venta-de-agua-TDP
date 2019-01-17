@@ -1,13 +1,18 @@
 package skrb.appprueba;
 
 
+import android.Manifest;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -23,18 +28,19 @@ import skrb.appprueba.Fragments.BuscarClienteFragment;
 import skrb.appprueba.Fragments.CalcularFragment;
 import skrb.appprueba.Fragments.EstablecerPrecioFragment;
 
-public class MainActivity extends AppCompatActivity  {
+public class MainActivity extends AppCompatActivity {
 
-    private final int FRAGMENT_AGREGAR=0;
-    private final int FRAGMENT_BUSCAR=1;
-    private final int FRAGMENT_ABOUT=2;
-    private final int FRAGMENT_CALCULAR=3;
-    private final int FRAGMENT_PRECIO=4;
-    public static final String PRICE_PREFS="prices";
-    public static final String PRICE_20="price_20";
-    public static final String PRICE_12="price_12";
-    public static final String PRICE_BOT="price_botellitas";
-    public static final String PRICE_DEST="price_destilada";
+    private final int FRAGMENT_AGREGAR = 0;
+    private final int FRAGMENT_BUSCAR = 1;
+    private final int FRAGMENT_ABOUT = 2;
+    private final int FRAGMENT_CALCULAR = 3;
+    private final int FRAGMENT_PRECIO = 4;
+    public static final String PRICE_PREFS = "prices";
+    public static final String PRICE_20 = "price_20";
+    public static final String PRICE_12 = "price_12";
+    public static final String PRICE_BOT = "price_botellitas";
+    public static final String PRICE_DEST = "price_destilada";
+    private static final int PERMISSION_WRITE = 0;
 
     private DrawerLayout mDrawerLayout;
     private Toolbar tb;
@@ -55,14 +61,22 @@ public class MainActivity extends AppCompatActivity  {
 
         mDrawerLayout = findViewById(R.id.drawer_layout);
 
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
 
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    PERMISSION_WRITE);
 
-        NavigationView navView= findViewById(R.id.NavigationView);
+        }
+
+        NavigationView navView = findViewById(R.id.NavigationView);
         navView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                        switch (menuItem.getItemId()){
+                        switch (menuItem.getItemId()) {
                             case R.id.AgregarCliente:
                                 setFragment(FRAGMENT_AGREGAR);
                                 break;
@@ -89,31 +103,26 @@ public class MainActivity extends AppCompatActivity  {
 
         initializePrefs();
 
-        Window window = getWindow();
+        if (Build.VERSION.SDK_INT>Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.setStatusBarColor(getResources().getColor(R.color.colorPrimaryDarkTraslucent));
+        }
 
-        // clear FLAG_TRANSLUCENT_STATUS flag:
-        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-
-        // add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-
-        // finally change the color
-        window.setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
-
+        setFragment(FRAGMENT_AGREGAR);
 
     }
 
-    public void initializePrefs(){
-        SharedPreferences preferences = getSharedPreferences(PRICE_PREFS,0);
+    public void initializePrefs() {
+        SharedPreferences preferences = getSharedPreferences(PRICE_PREFS, 0);
 
-        if (preferences.getBoolean("first_time", true)){
+        if (preferences.getBoolean("first_time", true)) {
             SharedPreferences.Editor edit = preferences.edit();
-            edit.putFloat(PRICE_20,70);
-            edit.putFloat(PRICE_12,50);
-            edit.putFloat(PRICE_BOT,120);
-            edit.putFloat(PRICE_DEST,40);
+            edit.putFloat(PRICE_20, 70);
+            edit.putFloat(PRICE_12, 50);
+            edit.putFloat(PRICE_BOT, 120);
+            edit.putFloat(PRICE_DEST, 40);
             edit.putBoolean("first_time", false);
-            edit.commit();
+            edit.apply();
         }
     }
 
@@ -130,40 +139,40 @@ public class MainActivity extends AppCompatActivity  {
     public void setFragment(int position) {
         FragmentManager fragmentManager;
         FragmentTransaction fragmentTransaction;
-        Fragment frag= null;
-        switch (position){
+        Fragment frag = null;
+        switch (position) {
             case FRAGMENT_AGREGAR:
                 fragmentManager = getSupportFragmentManager();
                 fragmentTransaction = fragmentManager.beginTransaction();
-                frag= new AgregarClienteFragment();
+                frag = new AgregarClienteFragment();
                 fragmentTransaction.replace(R.id.fragment, frag);
                 fragmentTransaction.commit();
                 break;
             case FRAGMENT_BUSCAR:
                 fragmentManager = getSupportFragmentManager();
                 fragmentTransaction = fragmentManager.beginTransaction();
-                frag= new BuscarClienteFragment();
+                frag = new BuscarClienteFragment();
                 fragmentTransaction.replace(R.id.fragment, frag);
                 fragmentTransaction.commit();
                 break;
             case FRAGMENT_ABOUT:
                 fragmentManager = getSupportFragmentManager();
                 fragmentTransaction = fragmentManager.beginTransaction();
-                frag= new AboutFragment();
+                frag = new AboutFragment();
                 fragmentTransaction.replace(R.id.fragment, frag);
                 fragmentTransaction.commit();
                 break;
             case FRAGMENT_CALCULAR:
                 fragmentManager = getSupportFragmentManager();
                 fragmentTransaction = fragmentManager.beginTransaction();
-                frag= new CalcularFragment();
+                frag = new CalcularFragment();
                 fragmentTransaction.replace(R.id.fragment, frag);
                 fragmentTransaction.commit();
                 break;
             case FRAGMENT_PRECIO:
                 fragmentManager = getSupportFragmentManager();
                 fragmentTransaction = fragmentManager.beginTransaction();
-                frag= new EstablecerPrecioFragment();
+                frag = new EstablecerPrecioFragment();
                 fragmentTransaction.replace(R.id.fragment, frag);
                 fragmentTransaction.commit();
                 break;

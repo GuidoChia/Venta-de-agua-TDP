@@ -49,9 +49,9 @@ public interface Customer {
     /**
      * Adds the given amount of twelve and twenty canisters, and the money paid, and the given date.
      * @param date the date of the buy
-     * @param twelveAmount
-     * @param twentyAmount
-     * @param paid
+     * @param twelveAmount Amount of twelve canisters
+     * @param twentyAmount Amount of twenty canisters
+     * @param paid Amount of money paid
      */
     void addUpdate(Date date, int twelveAmount, int twentyAmount, double paid);
 
@@ -59,7 +59,7 @@ public interface Customer {
      * Checks if the customer is empty.
      * A Customer is empty if and only if the balances are 0, and there are not lastDates, and
      * the paid method returns 0;
-     * @return
+     * @return true if the customer is empty, false otherwise
      */
     boolean isEmpty();
 

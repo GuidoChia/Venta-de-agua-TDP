@@ -26,7 +26,6 @@ import reader.ConcreteReader;
 import reader.CustomerManager;
 import skrb.appprueba.MainActivity;
 import skrb.appprueba.R;
-import utils.Pair;
 
 public class CalcularFragment extends Fragment {
     private static final int FRAGMENT_RESULTADOS = 0;
@@ -144,7 +143,7 @@ public class CalcularFragment extends Fragment {
                 builder.setActivatedMonth(month)
                         .setMinYear(1990)
                         .setActivatedYear(year)
-                        .setMaxYear(2030)
+                        .setMaxYear(2050)
                         .setMinMonth(Calendar.JANUARY)
                         .setTitle(getString(R.string.elija_mes))
                         .setMonthRange(Calendar.JANUARY, Calendar.DECEMBER)

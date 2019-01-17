@@ -28,7 +28,7 @@ import infos.OutputInfo;
 import strategies.DateStrategy;
 import strategies.DayStrategy;
 import strategies.YearMonthStrategy;
-import utils.Pair;
+
 
 
 public class ConcreteReader implements ExcelReader {
@@ -102,7 +102,7 @@ public class ConcreteReader implements ExcelReader {
      *
      * @param strat     The strategy
      * @param directory Directory in which the customer's folder will be in
-     * @return
+     * @return Customer collectino containing the created Custoemrs following de strategy given
      */
     private Collection<Customer> readCostumers(DateStrategy strat, File directory) {
         List<Customer> res = new LinkedList<>();

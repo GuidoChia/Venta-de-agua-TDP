@@ -6,14 +6,6 @@
     android:padding="16dp"
     android:theme="@style/ThemeOverlay.AppCompat.Dark"
     android:orientation="vertical"
-    android:gravity="top">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Yporá"
-        android:textSize="40sp"
-        android:textColor="@color/colorPrimary"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body2"/>
-
+    android:gravity="top"
+    android:background="@drawable/logo">
 </LinearLayout>

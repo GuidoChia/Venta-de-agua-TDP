@@ -12,7 +12,7 @@
             android:id="@+id/Calcular"
             android:title="Calculos mensuales"/>
         <item
-            android:id="@+id/Calcular"
+            android:id="@+id/Calcular_dia"
             android:title="Calculos del día"/>
         <item
             android:id="@+id/EstablecerPrecio"

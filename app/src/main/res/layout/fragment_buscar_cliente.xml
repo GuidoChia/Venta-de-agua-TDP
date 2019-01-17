@@ -1,60 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="fill_vertical"
-            android:orientation="vertical"
-            android:dividerPadding="16dp"
-            android:padding="10dp">
+        android:layout_height="wrap_content"
+        android:layout_gravity="fill_vertical"
+        android:dividerPadding="16dp"
+        android:orientation="vertical"
+        android:padding="10dp">
 
-            <android.support.design.widget.TextInputLayout
+        <android.support.design.widget.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:hint="@string/cliente_a_buscar"
+            app:boxCornerRadiusBottomEnd="8dp"
+            app:boxCornerRadiusBottomStart="8dp"
+            app:boxCornerRadiusTopEnd="8dp"
+            app:boxCornerRadiusTopStart="8dp">
+
+            <android.support.v7.widget.AppCompatAutoCompleteTextView
+                android:id="@+id/InputBuscar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
-                android:layout_weight="0"
-                app:boxCornerRadiusBottomEnd="8dp"
-                app:boxCornerRadiusBottomStart="8dp"
-                app:boxCornerRadiusTopEnd="8dp"
-                app:boxCornerRadiusTopStart="8dp"
-                android:hint="@string/cliente_a_buscar">
+                android:completionThreshold="1"
+                android:textSize="20sp" />
 
-                <android.support.v7.widget.AppCompatAutoCompleteTextView
-                    android:id="@+id/InputBuscar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:completionThreshold="1"
-                    android:textSize="20sp"/>
+        </android.support.design.widget.TextInputLayout>
 
-            </android.support.design.widget.TextInputLayout>
+        <android.support.design.button.MaterialButton
+            android:id="@+id/BotonBuscarCliente"
+            style="@style/AppTheme.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:text="@string/buscar"
+            android:textAppearance="@style/ThemeOverlay.MaterialComponents.Light"
+            android:textSize="20sp"
 
-            <android.support.design.button.MaterialButton
-                android:id="@+id/BotonBuscarCliente"
-                android:layout_width="wrap_content"
-                android:layout_height="60dp"
-                style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
-                android:textAppearance="@style/ThemeOverlay.MaterialComponents.Light"
-                android:text="@string/buscar"
-                android:textSize="20sp"
-                android:layout_gravity="center"
-                android:layout_marginTop="20dp"
+            />
 
-                />
+        <LinearLayout
+            android:id="@+id/fragment_resultados"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></LinearLayout>
 
-            <ScrollView
-                android:id="@+id/fragment_resultados"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"></ScrollView>
+    </LinearLayout>
 
-        </LinearLayout>
+</ScrollView>
 
-    </ScrollView>
 
-</LinearLayout>

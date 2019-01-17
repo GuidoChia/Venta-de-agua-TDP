@@ -64,7 +64,7 @@ public class EstablecerPrecioFragment extends Fragment {
                     } else if (selection.equals(strings[3])) {
                         preferencesEditor.putFloat(PRICE_DEST, precio);
                     }
-                    preferencesEditor.commit();
+                    preferencesEditor.apply();
                     updatePrecios(view);
                 } else {
                     Bundle bnd = new Bundle();

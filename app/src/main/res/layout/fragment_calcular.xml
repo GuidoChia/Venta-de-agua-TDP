@@ -8,18 +8,18 @@
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/buttonMesAño"
-        style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
-        android:layout_width="wrap_content"
-        android:layout_height="60dp"
-        android:layout_gravity="center"
-        android:text="@string/confirmar_venta"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="120dp"
+        android:layout_height="50dp"
         android:textAppearance="@style/ThemeOverlay.MaterialComponents.Light"
-        android:textSize="20sp" />
+        android:textColor="@color/colorAccent"
+        android:textSize="20sp"/>
 
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/calcular_dinero_mensual"
         style="@style/AppTheme.Button"
+        android:backgroundTint="@color/colorAccent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/calcular_ingreso_bruto_mensual"

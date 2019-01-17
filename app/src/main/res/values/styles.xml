@@ -2,9 +2,9 @@
 
     <!-- Base application theme. -->
 
-    <style name="AppTheme.Button" parent="Widget.AppCompat.Button.Colored">
-        <item name="colorButtonNormal">@color/colorPrimary</item>
 
-    </style>
+    <style name="AppTheme.Button" parent="Widget.MaterialComponents.Button.UnelevatedButton"></style>
+
+
 
 </resources>

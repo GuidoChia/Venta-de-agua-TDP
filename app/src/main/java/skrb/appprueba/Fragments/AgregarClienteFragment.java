@@ -24,6 +24,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 import infos.BuyInfo;
 import infos.ConcreteBuyInfo;
@@ -79,7 +80,11 @@ public class AgregarClienteFragment extends Fragment implements DatePickerDialog
                 ExcelWriter writer = ConcreteWriter.getInstance();
 
                 InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
+
+                View focus = getActivity().getCurrentFocus();
+                if (focus != null) {
+                    imm.hideSoftInputFromWindow(focus.getWindowToken(), 0);
+                }
 
                 TextInputLayout lay = view.findViewById(R.id.InputLayoutClient);
                 EditText[] editTexts = {

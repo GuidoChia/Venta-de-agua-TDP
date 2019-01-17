@@ -26,15 +26,16 @@ public interface fileRW {
     static File findFileWrite(String name) {
         File path = Environment.getExternalStorageDirectory();
         String[] strings = name.split(" ");
-        String finalName = "";
+        StringBuilder builder = new StringBuilder();
         for (int i = 0; i < strings.length; i++) {
             strings[i] = Character.toUpperCase(strings[i].charAt(0)) + strings[i].substring(1);
             if (i != strings.length - 1)
-                finalName += strings[i] + " ";
+                builder.append( strings[i] + " ");
             else
-                finalName += strings[i];
+                builder.append(strings[i]);
         }
 
+        String finalName = builder.toString();
         File directory = new File(path, baseDir + finalName.charAt(0));
         directory.mkdirs();
 
@@ -63,6 +64,7 @@ public interface fileRW {
         List<String> strings = new LinkedList<>();
         File path = Environment.getExternalStorageDirectory();
         File directory = new File(path, "Ypora Clientes");
+        directory.mkdirs();
 
         for (File f : directory.listFiles()) {
             if (f.isDirectory()) {

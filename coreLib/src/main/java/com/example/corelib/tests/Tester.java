@@ -4,18 +4,14 @@ package com.example.corelib.tests;
 import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 
 import customer.Customer;
 import reader.ConcreteCustomerManager;
 import reader.ConcreteReader;
-import reader.ExcelReader;
 import reader.CustomerManager;
-import utils.Pair;
-
-import static java.util.Calendar.DAY_OF_MONTH;
+import reader.ExcelReader;
 
 public class Tester {
     public static void main(String[] args) {

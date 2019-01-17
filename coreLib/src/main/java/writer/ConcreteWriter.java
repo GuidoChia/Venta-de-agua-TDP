@@ -37,7 +37,6 @@ import infos.PriceInfo;
 public class ConcreteWriter implements ExcelWriter {
 
     private static ConcreteWriter INSTANCE;
-    private static final String baseDir = "/sdcard/Ypora Clientes/";
     private final int columnsAmount = 12;
     private Row row;
 
