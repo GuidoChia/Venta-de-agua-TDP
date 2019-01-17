@@ -3,7 +3,9 @@
     <!-- Base application theme. -->
 
 
-    <style name="AppTheme.Button" parent="Widget.MaterialComponents.Button.UnelevatedButton"></style>
+    <style name="AppTheme.Button" parent="Widget.MaterialComponents.Button.UnelevatedButton">
+        <item name="backgroundTint">@color/colorAccent</item>
+    </style>
 
 
 

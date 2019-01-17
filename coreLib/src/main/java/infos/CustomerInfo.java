@@ -10,10 +10,10 @@ public class CustomerInfo {
     private int twelve;
     private int twenty;
 
-    public CustomerInfo(int twelve, int twenty, double paid){
-        this.paid=paid;
-        this.twelve=twelve;
-        this.twenty=twenty;
+    public CustomerInfo(int twelve, int twenty, double paid) {
+        this.paid = paid;
+        this.twelve = twelve;
+        this.twenty = twenty;
     }
 
     public double paid(){

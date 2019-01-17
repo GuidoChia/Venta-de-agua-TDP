@@ -1,28 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group
-        android:checkableBehavior="single">
+        android:checkableBehavior="single"
+        android:menuCategory="container">
         <item
             android:id="@+id/AgregarCliente"
-            android:title="Agregar Cliente"/>
+            android:checkable="false"
+            android:icon="@drawable/account_plus_outline"
+            android:title="Agregar Cliente" />
         <item
             android:id="@+id/BuscarCliente"
-            android:title="Buscar Cliente"/>
+            android:checkable="false"
+            android:icon="@drawable/account_search_outline"
+            android:title="Buscar Cliente" />
         <item
             android:id="@+id/Calcular"
-            android:title="Calculos mensuales"/>
+            android:checkable="false"
+            android:icon="@drawable/calculator_variant"
+            android:title="Calculos mensuales" />
         <item
             android:id="@+id/Calcular_dia"
-            android:title="Calculos del día"/>
+            android:checkable="false"
+            android:title="Calculos del día" />
         <item
             android:id="@+id/EstablecerPrecio"
-            android:title="Precio"/>
+            android:checkable="false"
+            android:icon="@drawable/currency_usd"
+            android:title="Precio" />
     </group>
     <group
-        android:checkableBehavior="single">
+        android:checkableBehavior="single"
+        android:menuCategory="container">
         <item
             android:id="@+id/About"
-            android:title="About"/>
+            android:checkable="false"
+            android:icon="@drawable/information_outline"
+            android:title="About" />
     </group>
 
 </menu>

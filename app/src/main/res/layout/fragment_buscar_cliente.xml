@@ -20,15 +20,13 @@
             android:layout_height="wrap_content"
             android:layout_weight="0"
             android:hint="@string/cliente_a_buscar"
-            app:boxCornerRadiusBottomEnd="8dp"
-            app:boxCornerRadiusBottomStart="8dp"
             app:boxCornerRadiusTopEnd="8dp"
             app:boxCornerRadiusTopStart="8dp">
 
             <android.support.v7.widget.AppCompatAutoCompleteTextView
                 android:id="@+id/InputBuscar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="65dp"
                 android:completionThreshold="1"
                 android:textSize="20sp" />
 
@@ -49,8 +47,9 @@
 
         <LinearLayout
             android:id="@+id/fragment_resultados"
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"></LinearLayout>
+            android:layout_height="match_parent" />
 
     </LinearLayout>
 

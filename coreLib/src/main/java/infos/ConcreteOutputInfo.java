@@ -8,16 +8,16 @@ public class ConcreteOutputInfo implements OutputInfo {
     private int twentyBalance;
     private int twelveBalance;
 
-    public ConcreteOutputInfo(Date lastDate, double balance, int twentyBalance, int twelveBalance){
-        this.lastDate=lastDate;
-        this.balance=balance;
-        this.twelveBalance=twelveBalance;
-        this.twentyBalance=twentyBalance;
+    public ConcreteOutputInfo(Date lastDate, double balance, int twentyBalance, int twelveBalance) {
+        this.lastDate = (Date) lastDate.clone();
+        this.balance = balance;
+        this.twelveBalance = twelveBalance;
+        this.twentyBalance = twentyBalance;
     }
 
     @Override
     public Date getLastDate() {
-        return lastDate;
+        return (Date) lastDate.clone();
     }
 
     @Override
@@ -37,6 +37,6 @@ public class ConcreteOutputInfo implements OutputInfo {
 
     @Override
     public int getCanistersBalance() {
-        return twelveBalance+twentyBalance;
+        return twelveBalance + twentyBalance;
     }
 }

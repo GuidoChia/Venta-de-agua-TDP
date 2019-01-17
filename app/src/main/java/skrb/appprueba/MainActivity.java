@@ -2,9 +2,13 @@ package skrb.appprueba;
 
 
 import android.Manifest;
+import android.Manifest.permission;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -20,21 +24,31 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.Window;
-import android.view.WindowManager;
+
+import java.util.Objects;
 
 import skrb.appprueba.Fragments.AboutFragment;
 import skrb.appprueba.Fragments.AgregarClienteFragment;
 import skrb.appprueba.Fragments.BuscarClienteFragment;
 import skrb.appprueba.Fragments.CalcularFragment;
 import skrb.appprueba.Fragments.EstablecerPrecioFragment;
+import skrb.appprueba.R.color;
+import skrb.appprueba.R.drawable;
+import skrb.appprueba.R.id;
+import skrb.appprueba.R.layout;
+
+import static skrb.appprueba.Fragments.EstablecerPrecioFragment.DEF_VALUE_12;
+import static skrb.appprueba.Fragments.EstablecerPrecioFragment.DEF_VALUE_20;
+import static skrb.appprueba.Fragments.EstablecerPrecioFragment.DEF_VALUE_BOT;
+import static skrb.appprueba.Fragments.EstablecerPrecioFragment.DEF_VALUE_DEST;
 
 public class MainActivity extends AppCompatActivity {
 
-    private final int FRAGMENT_AGREGAR = 0;
-    private final int FRAGMENT_BUSCAR = 1;
-    private final int FRAGMENT_ABOUT = 2;
-    private final int FRAGMENT_CALCULAR = 3;
-    private final int FRAGMENT_PRECIO = 4;
+    private static final int FRAGMENT_AGREGAR = 0;
+    private static final int FRAGMENT_BUSCAR = 1;
+    private static final int FRAGMENT_ABOUT = 2;
+    private static final int FRAGMENT_CALCULAR = 3;
+    private static final int FRAGMENT_PRECIO = 4;
     public static final String PRICE_PREFS = "prices";
     public static final String PRICE_20 = "price_20";
     public static final String PRICE_12 = "price_12";
@@ -42,70 +56,66 @@ public class MainActivity extends AppCompatActivity {
     public static final String PRICE_DEST = "price_destilada";
     private static final int PERMISSION_WRITE = 0;
 
-    private DrawerLayout mDrawerLayout;
-    private Toolbar tb;
+    DrawerLayout mDrawerLayout;
     private ActionBar actBar;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(layout.activity_main);
 
-        tb = findViewById(R.id.toolbar);
+        Toolbar tb = findViewById(id.toolbar);
         setSupportActionBar(tb);
 
         actBar = getSupportActionBar();
-        actBar.setDisplayHomeAsUpEnabled(true);
-        actBar.setHomeAsUpIndicator(R.drawable.ic_menu);
+        Objects.requireNonNull(actBar).setDisplayHomeAsUpEnabled(true);
+        actBar.setHomeAsUpIndicator(drawable.ic_menu);
 
-        mDrawerLayout = findViewById(R.id.drawer_layout);
+        mDrawerLayout = findViewById(id.drawer_layout);
 
         if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
 
             ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    new String[]{permission.WRITE_EXTERNAL_STORAGE},
                     PERMISSION_WRITE);
 
         }
 
-        NavigationView navView = findViewById(R.id.NavigationView);
+        NavigationView navView = findViewById(id.NavigationView);
         navView.setNavigationItemSelectedListener(
-                new NavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                        switch (menuItem.getItemId()) {
-                            case R.id.AgregarCliente:
-                                setFragment(FRAGMENT_AGREGAR);
-                                break;
-                            case R.id.BuscarCliente:
-                                setFragment(FRAGMENT_BUSCAR);
-                                break;
-                            case R.id.About:
-                                setFragment(FRAGMENT_ABOUT);
-                                break;
-                            case R.id.Calcular:
-                                setFragment(FRAGMENT_CALCULAR);
-                                break;
-                            case R.id.EstablecerPrecio:
-                                setFragment(FRAGMENT_PRECIO);
-                                break;
-                        }
-
-                        mDrawerLayout.closeDrawers();
-
-                        return true;
+                menuItem -> {
+                    switch (menuItem.getItemId()) {
+                        case R.id.AgregarCliente:
+                            setFragment(FRAGMENT_AGREGAR);
+                            break;
+                        case R.id.BuscarCliente:
+                            setFragment(FRAGMENT_BUSCAR);
+                            break;
+                        case R.id.About:
+                            setFragment(FRAGMENT_ABOUT);
+                            break;
+                        case R.id.Calcular:
+                            setFragment(FRAGMENT_CALCULAR);
+                            break;
+                        case R.id.EstablecerPrecio:
+                            setFragment(FRAGMENT_PRECIO);
+                            break;
                     }
+
+                    mDrawerLayout.closeDrawers();
+
+                    return true;
                 }
         );
 
         initializePrefs();
 
-        if (Build.VERSION.SDK_INT>Build.VERSION_CODES.LOLLIPOP) {
+        if (VERSION.SDK_INT>VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
-            window.setStatusBarColor(getResources().getColor(R.color.colorPrimaryDarkTraslucent));
+            window.setStatusBarColor(getResources().getColor(color.colorPrimaryDarkTraslucent));
         }
 
         setFragment(FRAGMENT_AGREGAR);
@@ -116,11 +126,11 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences preferences = getSharedPreferences(PRICE_PREFS, 0);
 
         if (preferences.getBoolean("first_time", true)) {
-            SharedPreferences.Editor edit = preferences.edit();
-            edit.putFloat(PRICE_20, 70);
-            edit.putFloat(PRICE_12, 50);
-            edit.putFloat(PRICE_BOT, 120);
-            edit.putFloat(PRICE_DEST, 40);
+            Editor edit = preferences.edit();
+            edit.putFloat(PRICE_20, DEF_VALUE_20);
+            edit.putFloat(PRICE_12, DEF_VALUE_12);
+            edit.putFloat(PRICE_BOT, DEF_VALUE_BOT);
+            edit.putFloat(PRICE_DEST, DEF_VALUE_DEST);
             edit.putBoolean("first_time", false);
             edit.apply();
         }
@@ -139,41 +149,41 @@ public class MainActivity extends AppCompatActivity {
     public void setFragment(int position) {
         FragmentManager fragmentManager;
         FragmentTransaction fragmentTransaction;
-        Fragment frag = null;
+        Fragment frag;
         switch (position) {
             case FRAGMENT_AGREGAR:
                 fragmentManager = getSupportFragmentManager();
                 fragmentTransaction = fragmentManager.beginTransaction();
                 frag = new AgregarClienteFragment();
-                fragmentTransaction.replace(R.id.fragment, frag);
+                fragmentTransaction.replace(id.fragment, frag);
                 fragmentTransaction.commit();
                 break;
             case FRAGMENT_BUSCAR:
                 fragmentManager = getSupportFragmentManager();
                 fragmentTransaction = fragmentManager.beginTransaction();
                 frag = new BuscarClienteFragment();
-                fragmentTransaction.replace(R.id.fragment, frag);
+                fragmentTransaction.replace(id.fragment, frag);
                 fragmentTransaction.commit();
                 break;
             case FRAGMENT_ABOUT:
                 fragmentManager = getSupportFragmentManager();
                 fragmentTransaction = fragmentManager.beginTransaction();
                 frag = new AboutFragment();
-                fragmentTransaction.replace(R.id.fragment, frag);
+                fragmentTransaction.replace(id.fragment, frag);
                 fragmentTransaction.commit();
                 break;
             case FRAGMENT_CALCULAR:
                 fragmentManager = getSupportFragmentManager();
                 fragmentTransaction = fragmentManager.beginTransaction();
                 frag = new CalcularFragment();
-                fragmentTransaction.replace(R.id.fragment, frag);
+                fragmentTransaction.replace(id.fragment, frag);
                 fragmentTransaction.commit();
                 break;
             case FRAGMENT_PRECIO:
                 fragmentManager = getSupportFragmentManager();
                 fragmentTransaction = fragmentManager.beginTransaction();
                 frag = new EstablecerPrecioFragment();
-                fragmentTransaction.replace(R.id.fragment, frag);
+                fragmentTransaction.replace(id.fragment, frag);
                 fragmentTransaction.commit();
                 break;
         }

@@ -19,6 +19,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 import customer.ConcreteCustomer;
 import customer.Customer;
@@ -30,12 +31,11 @@ import strategies.DayStrategy;
 import strategies.YearMonthStrategy;
 
 
-
 public class ConcreteReader implements ExcelReader {
 
-    private static ConcreteReader INSTANCE;
+    private static ExcelReader INSTANCE;
 
-    public static ConcreteReader getInstance() {
+    public static ExcelReader getInstance() {
         if (INSTANCE == null) {
             INSTANCE = new ConcreteReader();
         }
@@ -110,7 +110,7 @@ public class ConcreteReader implements ExcelReader {
         File folder = new File(directory, "Ypora Clientes");
         File[] subFolders = folder.listFiles();
 
-        for (File f : subFolders) {
+        for (File f : Objects.requireNonNull(subFolders)) {
             readCostumersFromSubFolder(f, res, strat);
         }
 
@@ -128,10 +128,10 @@ public class ConcreteReader implements ExcelReader {
         if (folder.isDirectory()) {
             File[] files = folder.listFiles();
 
-            for (File f : files) {
+            for (File f : Objects.requireNonNull(files)) {
                 if (f.getName().endsWith(".xls")) {
                     Customer c = convertToCustomer(f, strat);
-                    if (!c.isEmpty()) {
+                    if (!Objects.requireNonNull(c).isEmpty()) {
                         list.add(c);
                     }
                 }
@@ -149,7 +149,7 @@ public class ConcreteReader implements ExcelReader {
     private Customer convertToCustomer(File f, DateStrategy strat) {
 
 
-        Workbook customerWorkbook = null;
+        Workbook customerWorkbook;
         try {
             customerWorkbook = getWorkbook(f);
         } catch (WorkbookException e) {
@@ -224,11 +224,11 @@ public class ConcreteReader implements ExcelReader {
         boolean res = false;
 
         Date date = null;
-        if (dateCell.getCellTypeEnum().equals(CellType.NUMERIC)) {
+        if (dateCell.getCellTypeEnum() == CellType.NUMERIC) {
             date = dateCell.getDateCellValue();
 
         } else {
-             String dateString = dateCell.getStringCellValue();
+            String dateString = dateCell.getStringCellValue();
             DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
             try {
                 date = format.parse(dateString);
@@ -237,7 +237,7 @@ public class ConcreteReader implements ExcelReader {
             }
         }
 
-        if (date!=null){
+        if (date != null) {
             res = strat.belongsDate(date);
         }
 
@@ -256,7 +256,7 @@ public class ConcreteReader implements ExcelReader {
         Cell dateCell = row.getCell(0);
         Date date = null;
 
-        if (dateCell.getCellTypeEnum().equals(CellType.NUMERIC)) {
+        if (dateCell.getCellTypeEnum() == CellType.NUMERIC) {
             date = dateCell.getDateCellValue();
         } else {
             dateString = dateCell.getStringCellValue();
@@ -268,7 +268,7 @@ public class ConcreteReader implements ExcelReader {
             }
         }
 
-        if (date==null){
+        if (date == null) {
             /*
             Evita que si no se pudo parsear la fecha, no agregue una fecha nula.
              */
@@ -293,7 +293,7 @@ public class ConcreteReader implements ExcelReader {
      * @return The row with the last sell.
      */
     private Row getLastRow(Sheet sheet) {
-        Row res = null;
+        Row res;
 
         int startRow = 3;
 
@@ -323,7 +323,8 @@ public class ConcreteReader implements ExcelReader {
      * @return true if the cell is empty, false otherwise.
      */
     private boolean isEmpty(Cell c) {
-        return (c == null || (c.getCellTypeEnum() == CellType.BLANK) || (c.getCellTypeEnum() == CellType.STRING && c.getStringCellValue().trim().isEmpty()));
+        return ((c == null) || (c.getCellTypeEnum() == CellType.BLANK) ||
+                ((c.getCellTypeEnum() == CellType.STRING) && c.getStringCellValue().trim().isEmpty()));
     }
 
     /**
@@ -335,7 +336,7 @@ public class ConcreteReader implements ExcelReader {
     private OutputInfo getInfo(Row row) {
         Cell cell = row.getCell(0);
         Date date = null;
-        if (cell.getCellTypeEnum().equals(CellType.NUMERIC))
+        if (cell.getCellTypeEnum() == CellType.NUMERIC)
             date = cell.getDateCellValue();
         else {
             String dateString = cell.getStringCellValue();

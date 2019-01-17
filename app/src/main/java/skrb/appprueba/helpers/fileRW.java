@@ -1,6 +1,7 @@
 package skrb.appprueba.helpers;
 
 import android.os.Environment;
+import android.util.Log;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,11 +27,11 @@ public interface fileRW {
     static File findFileWrite(String name) {
         File path = Environment.getExternalStorageDirectory();
         String[] strings = name.split(" ");
-        StringBuilder builder = new StringBuilder();
+        StringBuilder builder = new StringBuilder(25);
         for (int i = 0; i < strings.length; i++) {
             strings[i] = Character.toUpperCase(strings[i].charAt(0)) + strings[i].substring(1);
-            if (i != strings.length - 1)
-                builder.append( strings[i] + " ");
+            if (i != (strings.length - 1))
+                builder.append( strings[i] + ' ');
             else
                 builder.append(strings[i]);
         }
@@ -44,7 +45,7 @@ public interface fileRW {
         try {
             res.createNewFile();
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e("IO error ", e.getStackTrace().toString());
         }
 
 

@@ -30,11 +30,11 @@ public class ConcreteBuyInfo implements BuyInfo {
 
     public ConcreteBuyInfo(float paid, int twenty, int twelve, int twentyReturned, int twelveReturned, Date date, String name) {
         this.paid = paid;
-        this.twentyCanister = twenty;
-        this.twelveCanister = twelve;
+        twentyCanister = twenty;
+        twelveCanister = twelve;
         this.twentyReturned = twentyReturned;
         this.twelveReturned = twelveReturned;
-        this.date = date;
+        this.date = (Date) date.clone();
         this.name = name;
     }
 
@@ -67,7 +67,7 @@ public class ConcreteBuyInfo implements BuyInfo {
 
     @Override
     public Date getDate() {
-        return date;
+        return (Date) date.clone();
     }
 
     @Override

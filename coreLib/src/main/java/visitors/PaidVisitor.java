@@ -3,11 +3,11 @@ package visitors;
 import customer.Customer;
 
 public class PaidVisitor implements VisitorDouble {
-    private double res=0;
+    private double res;
 
     @Override
     public void visit(Customer c) {
-        res+=c.getMonthPaid();
+        res +=c.getMonthPaid();
     }
 
     @Override

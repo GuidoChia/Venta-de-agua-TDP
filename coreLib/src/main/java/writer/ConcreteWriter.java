@@ -36,11 +36,10 @@ import infos.PriceInfo;
  */
 public class ConcreteWriter implements ExcelWriter {
 
-    private static ConcreteWriter INSTANCE;
-    private final int columnsAmount = 12;
+    private static ExcelWriter INSTANCE;
     private Row row;
 
-    public static ConcreteWriter getInstance() {
+    public static ExcelWriter getInstance() {
         if (INSTANCE == null) {
             INSTANCE = new ConcreteWriter();
         }
@@ -71,6 +70,7 @@ public class ConcreteWriter implements ExcelWriter {
         int[] sizes = {2828, 835, 835, 1404, 1689, 1575, 5275, 2941,
                 5275, 2941, 5275, 2941, 3880, 2062};
 
+        int columnsAmount = 12;
         for (int i = 0; i < columnsAmount; i++) {
             customerSheet.setColumnWidth(i, sizes[i]);
         }
@@ -191,7 +191,7 @@ public class ConcreteWriter implements ExcelWriter {
      * @return true if the cell is empty, false otherwise.
      */
     private boolean isEmpty(Cell c) {
-        return (c == null || (c.getCellTypeEnum() == CellType.BLANK) || (c.getCellTypeEnum() == CellType.STRING && c.getStringCellValue().trim().isEmpty()));
+        return ((c == null) || (c.getCellTypeEnum() == CellType.BLANK) || ((c.getCellTypeEnum() == CellType.STRING) && c.getStringCellValue().trim().isEmpty()));
     }
 
     /**
@@ -205,8 +205,6 @@ public class ConcreteWriter implements ExcelWriter {
         int cellIndex = 0;
         String formula,
                 postFix;
-        formula = "";
-        postFix = "";
 
         CellStyle style = getDefaultStyle(lastRow.getSheet().getWorkbook());
         style.setAlignment(HorizontalAlignment.RIGHT);
@@ -249,8 +247,8 @@ public class ConcreteWriter implements ExcelWriter {
         Calculate the forth cell, the total price of the buy.
          */
 
-        formula = "B" + lastRowNum + "*" + prices.getTwentyPrice()
-                + "+C" + lastRowNum + "*" + prices.getTwelvePrice();
+        formula = "B" + lastRowNum + '*' + prices.getTwentyPrice()
+                + "+C" + lastRowNum + '*' + prices.getTwelvePrice();
         currentCell = lastRow.createCell(cellIndex);
         currentCell.setCellType(CellType.FORMULA);
         currentCell.setCellFormula(formula);
@@ -270,11 +268,7 @@ public class ConcreteWriter implements ExcelWriter {
         Calculate the sixth cell, the customer's balance.
          */
 
-        if (isFirstRow(lastRowNum)) {
-            postFix = "";
-        } else {
-            postFix = "+F" + (lastRowNum - 1);
-        }
+        postFix = isFirstRow(lastRowNum) ? "" : "+F" + (lastRowNum - 1);
 
 
         formula = "D" + lastRowNum + "-E" + lastRowNum + postFix;
@@ -305,11 +299,7 @@ public class ConcreteWriter implements ExcelWriter {
         /*
         Calculate the eighth cell, the balance of twenty canisters.
          */
-        if (isFirstRow(lastRowNum)) {
-            postFix = "";
-        } else {
-            postFix = "+H" + (lastRowNum - 1);
-        }
+        postFix = isFirstRow(lastRowNum) ? "" : "+H" + (lastRowNum - 1);
 
         formula = "B" + lastRowNum + "-G" + lastRowNum + postFix;
         currentCell = lastRow.createCell(cellIndex);
@@ -330,11 +320,7 @@ public class ConcreteWriter implements ExcelWriter {
         /*
         Calculate the tenth cell, the balance of twelve canisters.
          */
-        if (isFirstRow(lastRowNum)) {
-            postFix = "";
-        } else {
-            postFix = "+J" + (lastRowNum - 1);
-        }
+        postFix = isFirstRow(lastRowNum) ? "" : "+J" + (lastRowNum - 1);
 
         formula = "C" + lastRowNum + "-I" + lastRowNum + postFix;
         currentCell = lastRow.createCell(cellIndex);

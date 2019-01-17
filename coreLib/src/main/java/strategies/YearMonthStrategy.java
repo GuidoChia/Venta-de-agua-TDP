@@ -19,8 +19,8 @@ public class YearMonthStrategy implements DateStrategy {
     public YearMonthStrategy(Date[] criteriaDates) {
         calendarCriteria = new Calendar[criteriaDates.length];
         for (int i = 0; i < criteriaDates.length; i++) {
-            this.calendarCriteria[i] = Calendar.getInstance();
-            this.calendarCriteria[i].setTime(criteriaDates[i]);
+            calendarCriteria[i] = Calendar.getInstance();
+            calendarCriteria[i].setTime(criteriaDates[i]);
         }
     }
 
@@ -31,9 +31,9 @@ public class YearMonthStrategy implements DateStrategy {
 
         boolean finish = false;
 
-        for (int i = 0; i < calendarCriteria.length && !finish; i++) {
-            finish = calendarToCheck.get(MONTH) == calendarCriteria[i].get(MONTH) &&
-                    calendarToCheck.get(YEAR) == calendarCriteria[i].get(YEAR);
+        for (int i = 0; (i < calendarCriteria.length) && !finish; i++) {
+            finish = (calendarToCheck.get(MONTH) == calendarCriteria[i].get(MONTH)) &&
+                    (calendarToCheck.get(YEAR) == calendarCriteria[i].get(YEAR));
         }
         return finish;
     }
