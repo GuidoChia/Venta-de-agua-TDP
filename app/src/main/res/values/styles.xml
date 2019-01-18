@@ -4,20 +4,14 @@
     <style name="AppBaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:colorPrimary">@color/colorPrimary</item>
-        <item name="android:colorPrimaryDark">@color/colorPrimary</item>
+        <item name="android:colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="android:colorAccent">@color/colorAccent</item>
-        <item name="android:datePickerDialogTheme">@style/MyDatePickerDialogTheme</item>
     </style>
 
     <style name="AppTheme.Button" parent="Widget.MaterialComponents.Button.UnelevatedButton">
         <item name="backgroundTint">@color/colorAccent</item>
         <item name="android:textAppearance">@style/ThemeOverlay.MaterialComponents.Light</item>
         <item name="android:textSize">20sp</item>
-    </style>
-
-    <style name="MyDatePickerDialogTheme" parent="android:Theme.Material.Light.Dialog">
-        <item name="android:colorAccent">@color/colorAccent</item>
-
     </style>
 
 </resources>

@@ -24,7 +24,10 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Collection;
+import java.util.Iterator;
 
+import customer.Customer;
 import infos.BuyInfo;
 import infos.PriceInfo;
 
@@ -37,7 +40,6 @@ import infos.PriceInfo;
 public class ConcreteWriter implements ExcelWriter {
 
     private static ExcelWriter INSTANCE;
-    private Row row;
 
     public static ExcelWriter getInstance() {
         if (INSTANCE == null) {
@@ -64,8 +66,8 @@ public class ConcreteWriter implements ExcelWriter {
         initializeRow(lastRow, info, prices);
 
         /*
-        Autosize columns to fit content. Since autoSizeColumn doesn't work on android (missing
-        java.awt files) they will be manually defined from a test.
+        Autosize columns to fit content. Since autoSizeColumn method doesn't work on android
+        (missing java.awt files) they will be manually defined from a test.
          */
         int[] sizes = {2828, 835, 835, 1404, 1689, 1575, 5275, 2941,
                 5275, 2941, 5275, 2941, 3880, 2062};
@@ -82,6 +84,73 @@ public class ConcreteWriter implements ExcelWriter {
             customerWorkbook.close();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void WriteRoute(Collection<Customer> customers, File file) {
+        Workbook routeWorkbook = new HSSFWorkbook();
+        Sheet routeSheet = routeWorkbook.createSheet();
+        initRouteTitles(routeSheet);
+        writeRouteCustomers(routeSheet, customers);
+
+        try {
+            FileOutputStream out = new FileOutputStream(file);
+            routeWorkbook.write(out);
+            out.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void writeRouteCustomers(Sheet routeSheet, Collection<Customer> customers) {
+        int i = 1;
+
+        Iterator<Customer> customerIterator = customers.iterator();
+
+        Row currentRow;
+        while (customerIterator.hasNext()) {
+            currentRow = routeSheet.createRow(i);
+            initRouteRow(currentRow, customerIterator.next());
+            i++;
+        }
+    }
+
+    private void initRouteRow(Row currentRow, Customer customer) {
+        CellStyle style = getDefaultStyle(currentRow.getSheet().getWorkbook());
+
+        int cellIndex = 0;
+        Cell currentCell;
+        currentCell = currentRow.createCell(cellIndex);
+        currentCell.setCellType(CellType.STRING);
+        currentCell.setCellValue(customer.getName());
+        currentCell.setCellStyle(style);
+
+        for (cellIndex = 1; cellIndex < 4; cellIndex++) {
+            currentCell = currentRow.createCell(cellIndex);
+            currentCell.setCellStyle(style);
+        }
+
+        cellIndex = 4;
+        currentCell = currentRow.createCell(cellIndex);
+        currentCell.setCellStyle(style);
+        if (customer.getBalance() != 0) {
+            currentCell.setCellType(CellType.NUMERIC);
+            currentCell.setCellValue(customer.getBalance());
+        }
+    }
+
+    private void initRouteTitles(Sheet routeSheet) {
+        Row firstRow = routeSheet.createRow(0);
+        String[] titles = {"Nombre", "Bidones de 12", "Bidones de 20",
+                "Devueltos", "Observaciones"};
+        Cell currentCell;
+
+        for (int i = 0; i < titles.length; i++) {
+            currentCell = firstRow.createCell(i);
+            currentCell.setCellType(CellType.STRING);
+            currentCell.setCellValue(titles[i]);
+            currentCell.setCellStyle(getDefaultStyle(routeSheet.getWorkbook()));
         }
     }
 
@@ -191,7 +260,8 @@ public class ConcreteWriter implements ExcelWriter {
      * @return true if the cell is empty, false otherwise.
      */
     private boolean isEmpty(Cell c) {
-        return ((c == null) || (c.getCellTypeEnum() == CellType.BLANK) || ((c.getCellTypeEnum() == CellType.STRING) && c.getStringCellValue().trim().isEmpty()));
+        return ((c == null) || (c.getCellTypeEnum() == CellType.BLANK) ||
+                ((c.getCellTypeEnum() == CellType.STRING) && c.getStringCellValue().trim().isEmpty()));
     }
 
     /**
@@ -347,7 +417,6 @@ public class ConcreteWriter implements ExcelWriter {
      * @param row The row to initialize
      */
     private void initTitles(Row row) {
-        this.row = row;
 
         row.setHeightInPoints(40);
 

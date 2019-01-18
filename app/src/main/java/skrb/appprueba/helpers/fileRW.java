@@ -5,6 +5,10 @@ import android.util.Log;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -15,8 +19,9 @@ import java.util.regex.Pattern;
  *
  * @author Guido Chia
  */
-public interface fileRW {
-    String baseDir = "Ypora Clientes/";
+public abstract class fileRW {
+    private static String baseDir = "Ypora Clientes";
+    private static File path = Environment.getExternalStorageDirectory();
 
     /**
      * Finds the file of the Customer, and returns it. If it can't find it, it creates one.
@@ -24,20 +29,20 @@ public interface fileRW {
      * @param name Name of the customer
      * @return The excel file of the customer.
      */
-    static File findFileWrite(String name) {
-        File path = Environment.getExternalStorageDirectory();
+    public static File findFileWrite(String name) {
         String[] strings = name.split(" ");
         StringBuilder builder = new StringBuilder(25);
         for (int i = 0; i < strings.length; i++) {
             strings[i] = Character.toUpperCase(strings[i].charAt(0)) + strings[i].substring(1);
             if (i != (strings.length - 1))
-                builder.append( strings[i] + ' ');
+                builder.append(strings[i] + ' ');
             else
                 builder.append(strings[i]);
         }
 
         String finalName = builder.toString();
-        File directory = new File(path, baseDir + finalName.charAt(0));
+        File directoryParent = new File(path, baseDir);
+        File directory = new File(directoryParent, String.valueOf(finalName.charAt(0)));
         directory.mkdirs();
 
         File res = new File(directory, finalName + ".xls");
@@ -48,26 +53,24 @@ public interface fileRW {
             Log.e("IO error ", e.getStackTrace().toString());
         }
 
-
         return res;
     }
 
-    static File findFileRead(String name) {
-        File path = Environment.getExternalStorageDirectory();
-        File directory = new File(path, baseDir + name.charAt(0));
+    public static File findFileRead(String name) {
+        File directoryParent = new File(path, baseDir);
+        File directory = new File(directoryParent, String.valueOf(name.charAt(0)));
         directory.mkdirs();
         File res = new File(directory, name + ".xls");
 
-        if (!res.exists()){
-            res = new File (directory, name+".xlsx");
+        if (!res.exists()) {
+            res = new File(directory, name + ".xlsx");
         }
 
         return res;
     }
 
-    static String[] initClientes() {
+    public static String[] initClientes() {
         List<String> strings = new LinkedList<>();
-        File path = Environment.getExternalStorageDirectory();
         File directory = new File(path, "Ypora Clientes");
         directory.mkdirs();
 
@@ -75,7 +78,7 @@ public interface fileRW {
             if (f.isDirectory()) {
                 for (File finalFile : f.listFiles()) {
                     String fileName = finalFile.getName();
-                    if (fileName.endsWith(".xls")||fileName.endsWith(".xlsx")) {
+                    if (fileName.endsWith(".xls") || fileName.endsWith(".xlsx")) {
                         String[] split = fileName.split(Pattern.quote("."));
                         strings.add(split[0]);
                     }
@@ -85,6 +88,31 @@ public interface fileRW {
 
         return strings.toArray(new String[0]);
 
+    }
+
+    public static File createFileRoute() {
+        File folder = new File(path, "Ypora Recorridos");
+        folder.mkdirs();
+        Calendar cal = Calendar.getInstance();
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+        int month = cal.get(Calendar.MONTH) + 1;
+        int year = cal.get(Calendar.YEAR);
+        String date = day + "_" + month + "_" + year;
+        String fileName = "Recorrido_dia_"+ date + ".xls";
+        File file = new File(folder, fileName);
+
+
+        try {
+            file.createNewFile();
+        } catch (IOException e) {
+            Log.e("File not created", e.getStackTrace().toString());
+        }
+
+        return file;
+    }
+
+    public static File getPath() {
+        return path;
     }
 
 

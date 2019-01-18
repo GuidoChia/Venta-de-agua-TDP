@@ -24,6 +24,11 @@
             android:icon="@drawable/calendar_today"
             android:title="Calculos diarios" />
         <item
+            android:id="@+id/Calcular_recorrido"
+            android:checkable="false"
+            android:icon="@drawable/account_multiple_check"
+            android:title="Calculo de recorrido" />
+        <item
             android:id="@+id/EstablecerPrecio"
             android:checkable="false"
             android:icon="@drawable/currency_usd"

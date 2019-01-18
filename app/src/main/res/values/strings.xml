@@ -32,6 +32,7 @@
     <string name="establecer_precio">Establecer precio</string>
     <string name="elija_mes">Elija mes y año</string>
     <string name="msg_agregado">Se añadio una nueva compra</string>
+    <string name="msg_recorrido_creado">Se creo el recorrido de hoy</string>
     <string name="calcular_bidones_dia_12">Calcular total de bidones de 12 diarios</string>
     <string name="calcular_bidones_20_dia">Calcular total de bidones de 20 diarios</string>
     <string name="calcular_bidones_total_dia">Calcular total de bidones diarios</string>

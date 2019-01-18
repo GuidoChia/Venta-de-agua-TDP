@@ -35,6 +35,7 @@ import skrb.appprueba.Fragments.BuscarClienteFragment;
 import skrb.appprueba.Fragments.CalcularDiaFragment;
 import skrb.appprueba.Fragments.CalcularFragment;
 import skrb.appprueba.Fragments.EstablecerPrecioFragment;
+import skrb.appprueba.Fragments.RecorridoFragment;
 import skrb.appprueba.R.color;
 import skrb.appprueba.R.drawable;
 import skrb.appprueba.R.id;
@@ -53,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int FRAGMENT_CALCULAR = 3;
     private static final int FRAGMENT_PRECIO = 4;
     private static final int FRAGMENT_CALCULAR_DIA = 5;
+    private static final int FRAGMENT_CALCULAR_RECORRIDO = 6;
     public static final String PRICE_PREFS = "prices";
     public static final String PRICE_20 = "price_20";
     public static final String PRICE_12 = "price_12";
@@ -109,6 +111,9 @@ public class MainActivity extends AppCompatActivity {
                             break;
                         case id.Calcular_dia:
                             setFragment(FRAGMENT_CALCULAR_DIA);
+                            break;
+                        case id.Calcular_recorrido:
+                            setFragment(FRAGMENT_CALCULAR_RECORRIDO);
                             break;
                     }
 
@@ -194,6 +199,13 @@ public class MainActivity extends AppCompatActivity {
                 fragmentManager = getSupportFragmentManager();
                 fragmentTransaction = fragmentManager.beginTransaction();
                 frag = new CalcularDiaFragment();
+                fragmentTransaction.replace(id.fragment, frag);
+                fragmentTransaction.commit();
+                break;
+            case FRAGMENT_CALCULAR_RECORRIDO:
+                fragmentManager = getSupportFragmentManager();
+                fragmentTransaction = fragmentManager.beginTransaction();
+                frag = new RecorridoFragment();
                 fragmentTransaction.replace(id.fragment, frag);
                 fragmentTransaction.commit();
                 break;

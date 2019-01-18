@@ -28,6 +28,7 @@ import reader.ConcreteReader;
 import reader.CustomerManager;
 import skrb.appprueba.MainActivity;
 import skrb.appprueba.R;
+import skrb.appprueba.helpers.fileRW;
 
 public class CalcularDiaFragment extends Fragment implements DatePickerDialog.OnDateSetListener {
     private static final int FRAGMENT_RESULTADOS = 0;
@@ -44,7 +45,7 @@ public class CalcularDiaFragment extends Fragment implements DatePickerDialog.On
 
         initDayButton(view);
 
-        File path = Environment.getExternalStorageDirectory();
+        File path = fileRW.getPath();
 
         Button btn = view.findViewById(R.id.calcular_dinero_dia);
         btn.setOnClickListener(v -> {
@@ -95,7 +96,7 @@ public class CalcularDiaFragment extends Fragment implements DatePickerDialog.On
     CustomerManager getCustomerManager(View view, File path) {
         if (manager == null) {
             Button btnDia = view.findViewById(R.id.buttonDiaCalcular);
-            String dateString =  btnDia.getText().toString();
+            String dateString = btnDia.getText().toString();
             DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
             Date[] date = null;
             try {
@@ -121,7 +122,7 @@ public class CalcularDiaFragment extends Fragment implements DatePickerDialog.On
         Button botonFecha = view.findViewById(R.id.buttonDiaCalcular);
         botonFecha.setText(day + "/" + (month + 1) + '/' + year);
         botonFecha.setOnClickListener(v -> dialogFecha.show());
-        }
+    }
 
     public void setFragment(int position, Bundle bnd) {
         MainActivity act = (MainActivity) getActivity();
@@ -146,7 +147,7 @@ public class CalcularDiaFragment extends Fragment implements DatePickerDialog.On
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         MainActivity act = (MainActivity) getActivity();
         Button btn = Objects.requireNonNull(act).findViewById(R.id.buttonDiaCalcular);
-        btn.setText(dayOfMonth+ "/" + (month + 1) + '/' + year);
-        manager=null;
+        btn.setText(dayOfMonth + "/" + (month + 1) + '/' + year);
+        manager = null;
     }
 }

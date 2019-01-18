@@ -36,6 +36,8 @@
                 android:completionThreshold="1"
                 android:drawableStart="@drawable/account_plus_outline"
                 android:drawablePadding="8dp"
+                android:drawableTint="@color/colorAccent"
+                android:imeOptions="flagNoFullscreen|flagNoExtractUi"
                 android:paddingStart="12dp"
                 android:paddingTop="20dp"
                 android:paddingEnd="12dp"
@@ -59,6 +61,9 @@
                 android:id="@+id/BidonesLlevoDe20"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:drawableLeft="@drawable/dice_d20"
+                android:drawableTint="@color/colorAccent"
+                android:imeOptions="flagNoFullscreen|flagNoExtractUi"
                 android:inputType="number"
                 android:text="@string/_0"
                 android:textSize="20sp" />
@@ -78,9 +83,12 @@
                 android:id="@+id/BidonesLlevoDe12"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:drawableLeft="@drawable/dice_d12"
+                android:imeOptions="flagNoFullscreen|flagNoExtractUi"
                 android:inputType="number"
                 android:text="@string/_0"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:drawableTint="@color/colorAccent"/>
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -97,6 +105,9 @@
                 android:id="@+id/BidonesDevueltos20"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:drawableLeft="@drawable/dice_d20"
+                android:drawableTint="@android:color/holo_red_light"
+                android:imeOptions="flagNoFullscreen|flagNoExtractUi"
                 android:inputType="number"
                 android:text="@string/_0"
                 android:textSize="20sp" />
@@ -116,6 +127,9 @@
                 android:id="@+id/BidonesDevueltos12"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:drawableLeft="@drawable/dice_d12"
+                android:drawableTint="@android:color/holo_red_light"
+                android:imeOptions="flagNoFullscreen|flagNoExtractUi"
                 android:inputType="number"
                 android:text="@string/_0"
                 android:textSize="20sp" />
@@ -137,6 +151,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:drawableStart="@drawable/currency_usd"
+                android:drawableTint="@color/colorAccent"
+                android:imeOptions="flagNoFullscreen|flagNoExtractUi"
                 android:inputType="number"
                 android:text="@string/_0"
                 android:textSize="20sp" />

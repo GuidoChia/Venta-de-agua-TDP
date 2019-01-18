@@ -34,6 +34,7 @@ public class RouteVisitor implements VisitorCollection {
         int amount = lastBuys.size();
         Date lastDate = lastBuys.get(amount - 1);
 
+
         double averageDifference = getDateDiff(firstDate, lastDate, TimeUnit.MINUTES) / amount;
 
         currentDifference = getDateDiff(lastDate, Calendar.getInstance().getTime(), TimeUnit.MINUTES);
@@ -44,7 +45,7 @@ public class RouteVisitor implements VisitorCollection {
     }
 
     private long getDateDiff(Date date1, Date date2, TimeUnit timeUnit) {
-        long diffInMillies = date2.getTime() - date1.getTime();
+        long diffInMillies = Math.abs(date2.getTime() - date1.getTime());
         return timeUnit.convert(diffInMillies, TimeUnit.MILLISECONDS);
     }
 
