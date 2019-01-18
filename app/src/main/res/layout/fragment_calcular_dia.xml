@@ -2,58 +2,56 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:dividerPadding="16dp"
     android:paddingLeft="4dp"
+    android:dividerPadding="16dp"
     android:gravity="fill_vertical"
     android:orientation="vertical">
 
     <android.support.design.button.MaterialButton
-        android:id="@+id/buttonMesAño"
+        android:id="@+id/buttonDiaCalcular"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
+        android:layout_gravity="center"
         android:textAppearance="@style/ThemeOverlay.MaterialComponents.Light"
         android:textColor="@color/colorAccent"
-        android:layout_gravity="center"
-        android:textSize="20sp"/>
+        android:textSize="20sp" />
 
 
     <android.support.design.button.MaterialButton
-        android:id="@+id/calcular_dinero_mensual"
+        android:id="@+id/calcular_dinero_dia"
         style="@style/AppTheme.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:backgroundTint="@color/colorAccent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/calcular_ingreso_bruto_mensual"
-         />
+        android:text="@string/calcular_ingreso_dia" />
 
     <android.support.design.button.MaterialButton
-        android:id="@+id/calcular_total_bidones"
+        android:id="@+id/calcular_total_bidones_dia"
         style="@style/AppTheme.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/calcular_cantidad_total_de_bidones" />
+        android:text="@string/calcular_bidones_total_dia" />
 
     <android.support.design.button.MaterialButton
-        android:id="@+id/calcular_bidones_20"
+        android:id="@+id/calcular_bidones_20_dia"
         style="@style/AppTheme.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/calcular_cantidad_total_de_bidones_de_20" />
+        android:text="@string/calcular_bidones_20_dia" />
 
     <android.support.design.button.MaterialButton
-        android:id="@+id/calcular_bidones_12"
+        android:id="@+id/calcular_bidones_12_dia"
         style="@style/AppTheme.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/calcular_cantidad_total_de_bidones_de_12" />
+        android:text="@string/calcular_bidones_dia_12" />
 
 
-    <ScrollView
-        android:id="@+id/fragment_resultados_mes"
+    <LinearLayout
+        android:id="@+id/fragment_resultados_dia"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
         />
-
 </LinearLayout>

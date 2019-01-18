@@ -43,6 +43,9 @@ public class ConcreteReader implements ExcelReader {
     }
 
     private ConcreteReader() {
+        System.setProperty("org.apache.poi.javax.xml.stream.XMLInputFactory", "com.fasterxml.aalto.stax.InputFactoryImpl");
+        System.setProperty("org.apache.poi.javax.xml.stream.XMLOutputFactory", "com.fasterxml.aalto.stax.OutputFactoryImpl");
+        System.setProperty("org.apache.poi.javax.xml.stream.XMLEventFactory", "com.fasterxml.aalto.stax.EventFactoryImpl");
     }
 
     @Override
@@ -353,13 +356,22 @@ public class ConcreteReader implements ExcelReader {
         FormulaEvaluator evaluator = row.getSheet().getWorkbook().getCreationHelper().createFormulaEvaluator();
 
         CellValue value = evaluator.evaluate(row.getCell(5));
-        double balance = value.getNumberValue();
+        double balance = 0;
+        if (value != null) {
+            balance = value.getNumberValue();
+        }
 
         value = evaluator.evaluate(row.getCell(7));
-        int twentyBalance = (int) value.getNumberValue();
+        int twentyBalance = 0;
+        if (value != null) {
+            twentyBalance = (int) value.getNumberValue();
+        }
 
         value = evaluator.evaluate(row.getCell(9));
-        int twelveBalance = (int) value.getNumberValue();
+        int twelveBalance = 0;
+        if (value != null) {
+            twelveBalance = (int) value.getNumberValue();
+        }
 
         return new ConcreteOutputInfo(date, balance, twentyBalance, twelveBalance);
     }

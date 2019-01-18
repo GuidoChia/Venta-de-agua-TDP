@@ -66,6 +66,10 @@ public class AgregarClienteFragment extends Fragment implements OnDateSetListene
         year = actualDate.get(Calendar.YEAR);
         final DatePickerDialog dialogFecha = new DatePickerDialog(Objects.requireNonNull(getContext()), this, year, month, day);
 
+        Button botonFecha = view.findViewById(id.BotonFecha);
+        botonFecha.setText(day + "/" + (month + 1) + '/' + year);
+        botonFecha.setOnClickListener(v -> dialogFecha.show());
+
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(Objects.requireNonNull(getActivity()),
                 layout.simple_dropdown_item_1line, CLIENTES);
         AutoCompleteTextView textView =
@@ -73,9 +77,7 @@ public class AgregarClienteFragment extends Fragment implements OnDateSetListene
 
         textView.setAdapter(adapter);
 
-        Button botonFecha = view.findViewById(id.BotonFecha);
-        botonFecha.setText(day + "/" + (month + 1) + '/' + year);
-        botonFecha.setOnClickListener(v -> dialogFecha.show());
+
 
         Button botonConfirmar = view.findViewById(id.BotonConfirmar);
         botonConfirmar.setOnClickListener(new OnClickConfirmarListener(view));

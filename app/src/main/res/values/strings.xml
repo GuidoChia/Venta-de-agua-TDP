@@ -24,14 +24,20 @@
     <string name="OK">OK</string>
     <string name="_0">0</string>
     <string name="calcular_ingreso_bruto_mensual">Calcular ingreso bruto mensual</string>
-    <string name="calcular_cantidad_total_de_bidones">Calcular cantidad total de bidones</string>
-    <string name="calcular_cantidad_total_de_bidones_de_20">Calcular cantidad total de bidones de 20</string>
-    <string name="calcular_cantidad_total_de_bidones_de_12">Calcular cantidad total de bidones de 12</string>
+    <string name="calcular_cantidad_total_de_bidones">Calcular total mensual de bidones</string>
+    <string name="calcular_cantidad_total_de_bidones_de_20">Calcular total mensual de bidones de 20</string>
+    <string name="calcular_cantidad_total_de_bidones_de_12">Calcular total mensual de bidones de 12</string>
     <string name="resultado_mensual">Resultado mensual:  </string>
     <string name="precio">Precio</string>
     <string name="establecer_precio">Establecer precio</string>
     <string name="elija_mes">Elija mes y año</string>
     <string name="msg_agregado">Se añadio una nueva compra</string>
+    <string name="calcular_bidones_dia_12">Calcular total de bidones de 12 diarios</string>
+    <string name="calcular_bidones_20_dia">Calcular total de bidones de 20 diarios</string>
+    <string name="calcular_bidones_total_dia">Calcular total de bidones diarios</string>
+    <string name="calcular_ingreso_dia">Calcular ingreso bruto diario</string>
+    <string name="resultado">Resultado:   </string>
+
     <string-array name="precios_array">
         <item>Precio de 20</item>
         <item>Precio de 12</item>

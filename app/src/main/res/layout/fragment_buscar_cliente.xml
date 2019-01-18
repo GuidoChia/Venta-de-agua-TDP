@@ -20,6 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0"
             android:hint="@string/cliente_a_buscar"
+            android:imeOptions="flagNoExtractUi"
             app:boxCornerRadiusTopEnd="8dp"
             app:boxCornerRadiusTopStart="8dp">
 
@@ -28,6 +29,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="65dp"
                 android:completionThreshold="1"
+                android:drawableLeft="@drawable/account_search_outline"
+                android:drawablePadding="8dp"
+                android:paddingStart="12dp"
+                android:paddingTop="20dp"
+                android:paddingEnd="12dp"
+                android:paddingBottom="16dp"
                 android:textSize="20sp" />
 
         </android.support.design.widget.TextInputLayout>
@@ -40,16 +47,14 @@
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
             android:text="@string/buscar"
-            android:textAppearance="@style/ThemeOverlay.MaterialComponents.Light"
-            android:textSize="20sp"
 
             />
 
         <LinearLayout
             android:id="@+id/fragment_resultados"
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:orientation="vertical" />
 
     </LinearLayout>
 

@@ -4,10 +4,13 @@ package com.example.corelib.tests;
 import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 
 import customer.Customer;
+import exceptions.WorkbookException;
+import infos.OutputInfo;
 import reader.ConcreteCustomerManager;
 import reader.ConcreteReader;
 import reader.CustomerManager;
@@ -15,8 +18,8 @@ import reader.ExcelReader;
 
 public class Tester {
     public static void main(String[] args) {
-        /*
-        Calendar cal = Calendar.getInstance();
+
+       /* Calendar cal = Calendar.getInstance();
         Date today = cal.getTime();
         String baseDir = "/Ypora Clientes/";
         String name = "Perez Juan";
@@ -39,9 +42,40 @@ public class Tester {
         }
 
         writer.WriteBuy(info, prices, res);
-
+        */
         ExcelReader reader = ConcreteReader.getInstance();
         OutputInfo out = null;
+        int i = 0;
+        int noLeido= 0;
+        File path = new File("/Ypora Clientes/");
+        for (File directory : path.listFiles()) {
+            if (directory.isDirectory()) {
+                for (File file : directory.listFiles()) {
+                    try {
+                        out = reader.readInfo(file);
+                    } catch (WorkbookException e) {
+                        e.printStackTrace();
+                    }
+                    if (out != null) {
+                        System.out.print(file.getName() + " ");
+                        System.out.print("Saldo: " + out.getBalance() + " ");
+                        System.out.print("debe de 20: " + out.getTwentyBalance() + " ");
+                        System.out.print("debe de 12: " + out.getTwelveBalance() + " ");
+                        System.out.print("Date: " + out.getLastDate() + " ");
+                        System.out.println("Debe total: " + out.getCanistersBalance());
+                        i++;
+                    }
+                    else{
+                        noLeido++;
+                    }
+                }
+            }
+        }
+
+        System.out.println("Total leidos: "+i);
+        System.out.println("Total no leidos: "+noLeido);
+
+        /*
         try {
             out = reader.readInfo(res);
         } catch (WorkbookException e) {
@@ -54,6 +88,8 @@ public class Tester {
         System.out.println("Date: " + out.getLastDate());
         System.out.println("Debe total: " + out.getCanistersBalance());
         */
+
+        /*
         ExcelReader reader = ConcreteReader.getInstance();
 
         File path = new File("");
@@ -82,7 +118,7 @@ public class Tester {
 
         for (Customer c : customerCollection) {
             System.out.println("Name:" + c.getName());
-        }
+        }*/
     }
 }
 

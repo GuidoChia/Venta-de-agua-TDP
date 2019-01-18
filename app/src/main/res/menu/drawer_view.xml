@@ -16,12 +16,13 @@
         <item
             android:id="@+id/Calcular"
             android:checkable="false"
-            android:icon="@drawable/calculator_variant"
+            android:icon="@drawable/calendar_blank"
             android:title="Calculos mensuales" />
         <item
             android:id="@+id/Calcular_dia"
             android:checkable="false"
-            android:title="Calculos del día" />
+            android:icon="@drawable/calendar_today"
+            android:title="Calculos diarios" />
         <item
             android:id="@+id/EstablecerPrecio"
             android:checkable="false"

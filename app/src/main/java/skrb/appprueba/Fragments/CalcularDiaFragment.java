@@ -1,5 +1,6 @@
 package skrb.appprueba.Fragments;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
@@ -12,8 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-
-import com.whiteelephant.monthpicker.MonthPickerDialog;
+import android.widget.DatePicker;
 
 import java.io.File;
 import java.text.DateFormat;
@@ -28,10 +28,8 @@ import reader.ConcreteReader;
 import reader.CustomerManager;
 import skrb.appprueba.MainActivity;
 import skrb.appprueba.R;
-import skrb.appprueba.R.id;
-import skrb.appprueba.R.layout;
 
-public class CalcularFragment extends Fragment {
+public class CalcularDiaFragment extends Fragment implements DatePickerDialog.OnDateSetListener {
     private static final int FRAGMENT_RESULTADOS = 0;
     public static final int MIN_YEAR = 1990;
     public static final int MAX_YEAR = 2050;
@@ -40,17 +38,17 @@ public class CalcularFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(layout.fragment_calcular, container, false);
+        View view = inflater.inflate(R.layout.fragment_calcular_dia, container, false);
         final MainActivity act = (MainActivity) getActivity();
-        Objects.requireNonNull(act.getSupportActionBar()).setTitle("Calculos mensuales");
+        Objects.requireNonNull(act.getSupportActionBar()).setTitle("Calculos diarios");
 
-        initMonthButton(view);
+        initDayButton(view);
 
         File path = Environment.getExternalStorageDirectory();
 
-        Button btn = view.findViewById(id.calcular_dinero_mensual);
+        Button btn = view.findViewById(R.id.calcular_dinero_dia);
         btn.setOnClickListener(v -> {
-            CustomerManager manager = getMonthManager(view, path);
+            CustomerManager manager = getCustomerManager(view, path);
 
             Bundle bnd = new Bundle();
             bnd.putString("result", String.valueOf(manager.getPaid()));
@@ -58,9 +56,9 @@ public class CalcularFragment extends Fragment {
             setFragment(FRAGMENT_RESULTADOS, bnd);
         });
 
-        btn = view.findViewById(id.calcular_bidones_12);
+        btn = view.findViewById(R.id.calcular_bidones_12_dia);
         btn.setOnClickListener(v -> {
-            CustomerManager manager = getMonthManager(view, path);
+            CustomerManager manager = getCustomerManager(view, path);
 
             Bundle bnd = new Bundle();
             bnd.putString("result", String.valueOf(manager.getTwelveBought()));
@@ -68,10 +66,10 @@ public class CalcularFragment extends Fragment {
             setFragment(FRAGMENT_RESULTADOS, bnd);
         });
 
-        btn = view.findViewById(id.calcular_bidones_20);
+        btn = view.findViewById(R.id.calcular_bidones_20_dia);
         btn.setOnClickListener(v -> {
 
-            CustomerManager manager = getMonthManager(view, path);
+            CustomerManager manager = getCustomerManager(view, path);
 
             Bundle bnd = new Bundle();
             bnd.putString("result", String.valueOf(manager.getTwentyBought()));
@@ -79,9 +77,9 @@ public class CalcularFragment extends Fragment {
             setFragment(FRAGMENT_RESULTADOS, bnd);
         });
 
-        btn = view.findViewById(id.calcular_total_bidones);
+        btn = view.findViewById(R.id.calcular_total_bidones_dia);
         btn.setOnClickListener(v -> {
-            CustomerManager manager = getMonthManager(view, path);
+            CustomerManager manager = getCustomerManager(view, path);
 
             Bundle bnd = new Bundle();
             int res = manager.getTwelveBought() + manager.getTwentyBought();
@@ -94,10 +92,10 @@ public class CalcularFragment extends Fragment {
     }
 
     @NonNull
-    CustomerManager getMonthManager(View view, File path) {
+    CustomerManager getCustomerManager(View view, File path) {
         if (manager == null) {
-            Button btnMes = view.findViewById(id.buttonMesAño);
-            String dateString = "1/" + btnMes.getText().toString();
+            Button btnDia = view.findViewById(R.id.buttonDiaCalcular);
+            String dateString =  btnDia.getText().toString();
             DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
             Date[] date = null;
             try {
@@ -106,40 +104,24 @@ public class CalcularFragment extends Fragment {
                 Log.e("Parse error ", e.getStackTrace().toString());
             }
 
-            manager = new ConcreteCustomerManager(ConcreteReader.getInstance().readCostumersMonth(date, path));
+            manager = new ConcreteCustomerManager(ConcreteReader.getInstance().readCostumersDays(date, path));
         }
 
         return manager;
     }
 
 
-    private void initMonthButton(View view) {
-        int month, year;
+    private void initDayButton(View view) {
+        int day, month, year;
         Calendar actualDate = Calendar.getInstance();
+        day = actualDate.get(Calendar.DAY_OF_MONTH);
         month = actualDate.get(Calendar.MONTH);
         year = actualDate.get(Calendar.YEAR);
-
-        Button btn = view.findViewById(id.buttonMesAño);
-        btn.setText((month + 1) + "/" + year);
-
-        btn.setOnClickListener(v -> {
-            MonthPickerDialog.Builder builder;
-            builder = new MonthPickerDialog.Builder(getContext(), (selectedMonth, selectedYear) -> {
-                btn.setText((selectedMonth + 1) + "/" + selectedYear);
-                manager = null;
-            }, year, month);
-
-            builder.setActivatedMonth(month)
-                    .setMinYear(MIN_YEAR)
-                    .setActivatedYear(year)
-                    .setMaxYear(MAX_YEAR)
-                    .setMinMonth(Calendar.JANUARY)
-                    .setTitle(getString(R.string.elija_mes))
-                    .setMonthRange(Calendar.JANUARY, Calendar.DECEMBER)
-                    .build()
-                    .show();
-        });
-    }
+        final DatePickerDialog dialogFecha = new DatePickerDialog(Objects.requireNonNull(getContext()), this, year, month, day);
+        Button botonFecha = view.findViewById(R.id.buttonDiaCalcular);
+        botonFecha.setText(day + "/" + (month + 1) + '/' + year);
+        botonFecha.setOnClickListener(v -> dialogFecha.show());
+        }
 
     public void setFragment(int position, Bundle bnd) {
         MainActivity act = (MainActivity) getActivity();
@@ -153,10 +135,18 @@ public class CalcularFragment extends Fragment {
                 fragmentTransaction = fragmentManager.beginTransaction();
                 frag = new ResultadosCalculosFragment();
                 frag.setArguments(bnd);
-                fragmentTransaction.replace(id.fragment_resultados_mes, frag);
+                fragmentTransaction.replace(R.id.fragment_resultados_dia, frag);
                 fragmentTransaction.commit();
                 break;
 
         }
+    }
+
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        MainActivity act = (MainActivity) getActivity();
+        Button btn = Objects.requireNonNull(act).findViewById(R.id.buttonDiaCalcular);
+        btn.setText(dayOfMonth+ "/" + (month + 1) + '/' + year);
+        manager=null;
     }
 }

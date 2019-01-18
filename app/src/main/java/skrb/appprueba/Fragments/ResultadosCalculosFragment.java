@@ -16,7 +16,7 @@ import skrb.appprueba.R.id;
 import skrb.appprueba.R.layout;
 import skrb.appprueba.R.string;
 
-public class ResultadosMensualesFragment extends Fragment {
+public class ResultadosCalculosFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -25,7 +25,7 @@ public class ResultadosMensualesFragment extends Fragment {
         TextView txt = view.findViewById(id.text_resultados_mensuales);
         String msg = Objects.requireNonNull(getArguments()).getString("result");
 
-        txt.setText(view.getResources().getString(string.resultado_mensual) + msg);
+        txt.setText(view.getResources().getString(string.resultado) + msg);
 
         return view;
     }

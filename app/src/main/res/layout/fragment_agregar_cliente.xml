@@ -2,6 +2,7 @@
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id='@+id/fragment'
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -31,7 +32,14 @@
                 android:id="@+id/NombreCliente"
                 android:layout_width="match_parent"
                 android:layout_height="65dp"
+                android:capitalize="words"
                 android:completionThreshold="1"
+                android:drawableStart="@drawable/account_plus_outline"
+                android:drawablePadding="8dp"
+                android:paddingStart="12dp"
+                android:paddingTop="20dp"
+                android:paddingEnd="12dp"
+                android:paddingBottom="16dp"
                 android:textSize="20sp"
                 app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
@@ -128,6 +136,7 @@
                 android:id="@+id/DineroPagado"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:drawableStart="@drawable/currency_usd"
                 android:inputType="number"
                 android:text="@string/_0"
                 android:textSize="20sp" />
@@ -137,7 +146,7 @@
         <android.support.design.button.MaterialButton
             android:id='@+id/BotonFecha'
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="120dp"
+            android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:hint="@string/fecha"
             android:textAppearance="@style/ThemeOverlay.MaterialComponents.Light"
@@ -154,8 +163,8 @@
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
             android:text="@string/confirmar_venta"
-            android:textAppearance="@style/ThemeOverlay.MaterialComponents.Light"
-            android:textSize="20sp">
+
+            >
 
         </android.support.design.button.MaterialButton>
 

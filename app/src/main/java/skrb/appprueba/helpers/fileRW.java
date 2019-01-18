@@ -58,6 +58,10 @@ public interface fileRW {
         directory.mkdirs();
         File res = new File(directory, name + ".xls");
 
+        if (!res.exists()){
+            res = new File (directory, name+".xlsx");
+        }
+
         return res;
     }
 
@@ -71,7 +75,7 @@ public interface fileRW {
             if (f.isDirectory()) {
                 for (File finalFile : f.listFiles()) {
                     String fileName = finalFile.getName();
-                    if (fileName.endsWith(".xls")) {
+                    if (fileName.endsWith(".xls")||fileName.endsWith(".xlsx")) {
                         String[] split = fileName.split(Pattern.quote("."));
                         strings.add(split[0]);
                     }

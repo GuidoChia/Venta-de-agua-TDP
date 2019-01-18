@@ -6,6 +6,7 @@ import android.Manifest.permission;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
@@ -24,12 +25,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.Window;
+import android.view.WindowManager;
 
 import java.util.Objects;
 
 import skrb.appprueba.Fragments.AboutFragment;
 import skrb.appprueba.Fragments.AgregarClienteFragment;
 import skrb.appprueba.Fragments.BuscarClienteFragment;
+import skrb.appprueba.Fragments.CalcularDiaFragment;
 import skrb.appprueba.Fragments.CalcularFragment;
 import skrb.appprueba.Fragments.EstablecerPrecioFragment;
 import skrb.appprueba.R.color;
@@ -49,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int FRAGMENT_ABOUT = 2;
     private static final int FRAGMENT_CALCULAR = 3;
     private static final int FRAGMENT_PRECIO = 4;
+    private static final int FRAGMENT_CALCULAR_DIA = 5;
     public static final String PRICE_PREFS = "prices";
     public static final String PRICE_20 = "price_20";
     public static final String PRICE_12 = "price_12";
@@ -103,6 +107,9 @@ public class MainActivity extends AppCompatActivity {
                         case R.id.EstablecerPrecio:
                             setFragment(FRAGMENT_PRECIO);
                             break;
+                        case id.Calcular_dia:
+                            setFragment(FRAGMENT_CALCULAR_DIA);
+                            break;
                     }
 
                     mDrawerLayout.closeDrawers();
@@ -113,12 +120,9 @@ public class MainActivity extends AppCompatActivity {
 
         initializePrefs();
 
-        if (VERSION.SDK_INT>VERSION_CODES.LOLLIPOP) {
-            Window window = getWindow();
-            window.setStatusBarColor(getResources().getColor(color.colorPrimaryDarkTraslucent));
+        if (savedInstanceState == null) {
+            setFragment(FRAGMENT_AGREGAR);
         }
-
-        setFragment(FRAGMENT_AGREGAR);
 
     }
 
@@ -183,6 +187,13 @@ public class MainActivity extends AppCompatActivity {
                 fragmentManager = getSupportFragmentManager();
                 fragmentTransaction = fragmentManager.beginTransaction();
                 frag = new EstablecerPrecioFragment();
+                fragmentTransaction.replace(id.fragment, frag);
+                fragmentTransaction.commit();
+                break;
+            case FRAGMENT_CALCULAR_DIA:
+                fragmentManager = getSupportFragmentManager();
+                fragmentTransaction = fragmentManager.beginTransaction();
+                frag = new CalcularDiaFragment();
                 fragmentTransaction.replace(id.fragment, frag);
                 fragmentTransaction.commit();
                 break;
