@@ -1,6 +1,6 @@
 package com.example.corelib.tests;
 
-public class testerParameters {
+class testerParameters {
 
     public static void main (String [] args) {
         String name = "guido chia";

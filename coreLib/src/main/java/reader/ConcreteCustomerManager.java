@@ -13,7 +13,9 @@ import visitors.VisitorDouble;
 public class ConcreteCustomerManager implements CustomerManager {
 
     private Collection<Customer> customers;
-    double cachedPaid, cachedTwelve, cachedTwenty;
+    private double cachedPaid;
+    private double cachedTwelve;
+    private double cachedTwenty;
 
     /**
      * Creates a new ConcreteCustomerManager with the given collection as the collection of

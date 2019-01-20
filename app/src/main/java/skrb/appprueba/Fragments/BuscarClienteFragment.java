@@ -47,7 +47,7 @@ public class BuscarClienteFragment extends Fragment {
         final MainActivity act = (MainActivity) getActivity();
         Objects.requireNonNull(act.getSupportActionBar()).setTitle("Buscar Cliente");
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(Objects.requireNonNull(getActivity()),
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(Objects.requireNonNull(getActivity()),
                 layout.simple_dropdown_item_1line, CLIENTES);
         AutoCompleteTextView textView =
                 view.findViewById(id.InputBuscar);
@@ -72,12 +72,12 @@ public class BuscarClienteFragment extends Fragment {
             } else {
                 ExcelReader reader = ConcreteReader.getInstance();
                 File file = fileRW.findFileRead(name);
-                OutputInfo out = null;
+                OutputInfo out;
                 if (file.exists()) {
                     try {
                         out = reader.readInfo(file);
                     } catch (WorkbookException e) {
-                        Log.e("Workbook error ", e.getStackTrace().toString());
+                        Log.e("Workbook error ", e.getClass().toString(), e);
                         return;
                     }
                     Bundle bnd = new Bundle();
@@ -106,7 +106,7 @@ public class BuscarClienteFragment extends Fragment {
         return view;
     }
 
-    void showError() {
+    private void showError() {
         Bundle bnd = new Bundle();
         bnd.putInt("msg", string.errorBusqueda);
         DialogFragment frag = new ErrorFragment();
@@ -116,7 +116,7 @@ public class BuscarClienteFragment extends Fragment {
 
 
 
-    void setFragment(int position, Bundle bnd) {
+    private void setFragment(int position, Bundle bnd) {
         MainActivity act = (MainActivity) getActivity();
 
         FragmentManager fragmentManager;

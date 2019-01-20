@@ -48,7 +48,7 @@ import static skrb.appprueba.helpers.fileRW.findFileWrite;
 import static skrb.appprueba.helpers.fileRW.initClientes;
 
 
-public class AgregarClienteFragment extends Fragment implements OnDateSetListener {
+public class AgregarClienteFragment extends Fragment implements OnDateSetListener, DialogConfirmarFragment.DialogConfirmarListener {
 
     private static final String[] CLIENTES = initClientes();
 
@@ -70,13 +70,12 @@ public class AgregarClienteFragment extends Fragment implements OnDateSetListene
         botonFecha.setText(day + "/" + (month + 1) + '/' + year);
         botonFecha.setOnClickListener(v -> dialogFecha.show());
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(Objects.requireNonNull(getActivity()),
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(Objects.requireNonNull(getActivity()),
                 layout.simple_dropdown_item_1line, CLIENTES);
         AutoCompleteTextView textView =
                 view.findViewById(id.NombreCliente);
 
         textView.setAdapter(adapter);
-
 
 
         Button botonConfirmar = view.findViewById(id.BotonConfirmar);
@@ -85,7 +84,7 @@ public class AgregarClienteFragment extends Fragment implements OnDateSetListene
         return view;
     }
 
-    void writeToFile(ExcelWriter writer, EditText[] editTexts, View view) {
+    private void writeToFile(ExcelWriter writer, EditText[] editTexts, View view) {
 
 
         int i = 0;
@@ -120,7 +119,7 @@ public class AgregarClienteFragment extends Fragment implements OnDateSetListene
         try {
             date = format.parse(dateString);
         } catch (ParseException e) {
-            Log.e("Parse error ", e.getStackTrace().toString());
+            Log.e("Parse error ",e.getClass().toString(), e);
         }
 
         BuyInfo info = new ConcreteBuyInfo(dinero_pagado, bidones20, bidones12, bidones_devueltos_20,
@@ -150,17 +149,56 @@ public class AgregarClienteFragment extends Fragment implements OnDateSetListene
         btn.setText(day + "/" + (month + 1) + '/' + year);
     }
 
+    private boolean checkInputs(EditText[] inputs) {
+        for (EditText input : inputs) {
+            if (TextUtils.isEmpty(input.getText().toString())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public void onDialogPositiveClick(DialogFragment dialog) {
+
+        View view = AgregarClienteFragment.this.getView();
+
+        ExcelWriter writer = ConcreteWriter.getInstance();
+
+        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+
+        View focus = getActivity().getCurrentFocus();
+        if (focus != null) {
+            imm.hideSoftInputFromWindow(focus.getWindowToken(), 0);
+        }
+
+        EditText[] editTexts = getEditTexts(view);
+        writeToFile(writer, editTexts, view);
+
+    }
+
+    @NonNull
+    private EditText[] getEditTexts(View view) {
+        TextInputLayout lay = view.findViewById(id.InputLayoutClient);
+        return new EditText[]{
+                lay.getEditText(),
+                view.findViewById(id.BidonesLlevoDe20),
+                view.findViewById(id.BidonesLlevoDe12),
+                view.findViewById(id.BidonesDevueltos20),
+                view.findViewById(id.BidonesDevueltos12),
+                view.findViewById(id.DineroPagado)
+        };
+    }
 
     private class OnClickConfirmarListener implements View.OnClickListener {
         private final View view;
 
-        public OnClickConfirmarListener(View view) {
+        OnClickConfirmarListener(View view) {
             this.view = view;
         }
 
         @Override
         public void onClick(View v) {
-            ExcelWriter writer = ConcreteWriter.getInstance();
 
             InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
 
@@ -169,18 +207,11 @@ public class AgregarClienteFragment extends Fragment implements OnDateSetListene
                 imm.hideSoftInputFromWindow(focus.getWindowToken(), 0);
             }
 
-            TextInputLayout lay = view.findViewById(R.id.InputLayoutClient);
-            EditText[] editTexts = {
-                    lay.getEditText(),
-                    view.findViewById(R.id.BidonesLlevoDe20),
-                    view.findViewById(R.id.BidonesLlevoDe12),
-                    view.findViewById(R.id.BidonesDevueltos20),
-                    view.findViewById(R.id.BidonesDevueltos12),
-                    view.findViewById(R.id.DineroPagado)
-            };
+            EditText[] editTexts = getEditTexts(view);
 
             if (checkInputs(editTexts)) {
-                writeToFile(writer, editTexts, view);
+                DialogFragment frag = new DialogConfirmarFragment();
+                frag.show(getFragmentManager(),"confirmar");
             } else {
                 Bundle bnd = new Bundle();
                 bnd.putInt("msg", R.string.errorAgregar);
@@ -192,13 +223,8 @@ public class AgregarClienteFragment extends Fragment implements OnDateSetListene
 
         }
 
-        private boolean checkInputs(EditText[] inputs) {
-            for (EditText input : inputs) {
-                if (TextUtils.isEmpty(input.getText().toString())) {
-                    return false;
-                }
-            }
-            return true;
-        }
+
+
+
     }
 }

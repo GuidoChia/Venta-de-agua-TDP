@@ -34,9 +34,10 @@ import skrb.appprueba.helpers.fileRW;
 
 public class CalcularFragment extends Fragment {
     private static final int FRAGMENT_RESULTADOS = 0;
-    public static final int MIN_YEAR = 1990;
-    public static final int MAX_YEAR = 2050;
+    private static final int MIN_YEAR = 1990;
+    private static final int MAX_YEAR = 2050;
     @Nullable
+    private
     CustomerManager manager;
 
     @Override
@@ -95,7 +96,7 @@ public class CalcularFragment extends Fragment {
     }
 
     @NonNull
-    CustomerManager getMonthManager(View view, File path) {
+    private CustomerManager getMonthManager(View view, File path) {
         if (manager == null) {
             Button btnMes = view.findViewById(id.buttonMesAño);
             String dateString = "1/" + btnMes.getText().toString();
@@ -104,7 +105,7 @@ public class CalcularFragment extends Fragment {
             try {
                 date = new Date[]{format.parse(dateString)};
             } catch (ParseException e) {
-                Log.e("Parse error ", e.getStackTrace().toString());
+                Log.e("Parse error ", e.getClass().toString(), e);
             }
 
             manager = new ConcreteCustomerManager(ConcreteReader.getInstance().readCostumersMonth(date, path));
@@ -142,7 +143,7 @@ public class CalcularFragment extends Fragment {
         });
     }
 
-    public void setFragment(int position, Bundle bnd) {
+    private void setFragment(int position, Bundle bnd) {
         MainActivity act = (MainActivity) getActivity();
 
         FragmentManager fragmentManager;

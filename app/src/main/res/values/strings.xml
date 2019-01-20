@@ -22,6 +22,9 @@
     <string name="errorAgregar">Se produjo un error, debe completar todos los campos</string>
     <string name="errorEstablecer">Se produjo un error, debe establecer un precio</string>
     <string name="OK">OK</string>
+    <string name="CONFIRM">CONFIMAR</string>
+    <string name="CANCEL">CANCELAR</string>
+
     <string name="_0">0</string>
     <string name="calcular_ingreso_bruto_mensual">Calcular ingreso bruto mensual</string>
     <string name="calcular_cantidad_total_de_bidones">Calcular total mensual de bidones</string>
@@ -38,6 +41,7 @@
     <string name="calcular_bidones_total_dia">Calcular total de bidones diarios</string>
     <string name="calcular_ingreso_dia">Calcular ingreso bruto diario</string>
     <string name="resultado">Resultado:   </string>
+    <string name="confirmar_compra">¿Desea confirmar la compra?</string>
 
     <string-array name="precios_array">
         <item>Precio de 20</item>

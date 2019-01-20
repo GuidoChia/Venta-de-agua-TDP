@@ -39,6 +39,8 @@ import infos.PriceInfo;
  */
 public class ConcreteWriter implements ExcelWriter {
 
+    private CellStyle defaultStyle;
+
     private static ExcelWriter INSTANCE;
 
     public static ExcelWriter getInstance() {
@@ -94,6 +96,16 @@ public class ConcreteWriter implements ExcelWriter {
         initRouteTitles(routeSheet);
         writeRouteCustomers(routeSheet, customers);
 
+        /*
+        Autosize columns to fit content. Since autoSizeColumn method doesn't work on android
+        (missing java.awt files) they will be manually defined from a test.
+         */
+        int[] sizes = {7851, 1400, 1400, 2532, 6000};
+        int columnsAmount = 5;
+        for (int i = 0; i < columnsAmount; i++) {
+            routeSheet.setColumnWidth(i, sizes[i]);
+        }
+
         try {
             FileOutputStream out = new FileOutputStream(file);
             routeWorkbook.write(out);
@@ -114,26 +126,30 @@ public class ConcreteWriter implements ExcelWriter {
             initRouteRow(currentRow, customerIterator.next());
             i++;
         }
+
+
     }
 
     private void initRouteRow(Row currentRow, Customer customer) {
-        CellStyle style = getDefaultStyle(currentRow.getSheet().getWorkbook());
+        if (defaultStyle==null){
+            defaultStyle=getDefaultStyle(currentRow.getSheet().getWorkbook());
+        }
 
         int cellIndex = 0;
         Cell currentCell;
         currentCell = currentRow.createCell(cellIndex);
         currentCell.setCellType(CellType.STRING);
         currentCell.setCellValue(customer.getName());
-        currentCell.setCellStyle(style);
+        currentCell.setCellStyle(defaultStyle);
 
         for (cellIndex = 1; cellIndex < 4; cellIndex++) {
             currentCell = currentRow.createCell(cellIndex);
-            currentCell.setCellStyle(style);
+            currentCell.setCellStyle(defaultStyle);
         }
 
         cellIndex = 4;
         currentCell = currentRow.createCell(cellIndex);
-        currentCell.setCellStyle(style);
+        currentCell.setCellStyle(defaultStyle);
         if (customer.getBalance() != 0) {
             currentCell.setCellType(CellType.NUMERIC);
             currentCell.setCellValue(customer.getBalance());
@@ -142,15 +158,19 @@ public class ConcreteWriter implements ExcelWriter {
 
     private void initRouteTitles(Sheet routeSheet) {
         Row firstRow = routeSheet.createRow(0);
-        String[] titles = {"Nombre", "Bidones de 12", "Bidones de 20",
+        String[] titles = {"Nombre", "12", "20",
                 "Devueltos", "Observaciones"};
         Cell currentCell;
+
+        if (defaultStyle==null){
+            defaultStyle=getDefaultStyle(routeSheet.getWorkbook());
+        }
 
         for (int i = 0; i < titles.length; i++) {
             currentCell = firstRow.createCell(i);
             currentCell.setCellType(CellType.STRING);
             currentCell.setCellValue(titles[i]);
-            currentCell.setCellStyle(getDefaultStyle(routeSheet.getWorkbook()));
+            currentCell.setCellStyle(defaultStyle);
         }
     }
 
@@ -168,9 +188,7 @@ public class ConcreteWriter implements ExcelWriter {
                 FileInputStream in = new FileInputStream(file);
                 res = WorkbookFactory.create(in);
                 in.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (InvalidFormatException e) {
+            } catch (IOException | InvalidFormatException e) {
                 e.printStackTrace();
             }
         } else {
@@ -275,6 +293,7 @@ public class ConcreteWriter implements ExcelWriter {
         int cellIndex = 0;
         String formula,
                 postFix;
+
 
         CellStyle style = getDefaultStyle(lastRow.getSheet().getWorkbook());
         style.setAlignment(HorizontalAlignment.RIGHT);

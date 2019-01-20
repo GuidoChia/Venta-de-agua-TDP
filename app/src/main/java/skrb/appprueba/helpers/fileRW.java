@@ -35,7 +35,8 @@ public abstract class fileRW {
         for (int i = 0; i < strings.length; i++) {
             strings[i] = Character.toUpperCase(strings[i].charAt(0)) + strings[i].substring(1);
             if (i != (strings.length - 1))
-                builder.append(strings[i] + ' ');
+                builder.append(strings[i])
+                        .append(' ');
             else
                 builder.append(strings[i]);
         }
@@ -50,7 +51,7 @@ public abstract class fileRW {
         try {
             res.createNewFile();
         } catch (IOException e) {
-            Log.e("IO error ", e.getStackTrace().toString());
+            Log.e("IO error ", e.getClass().toString(), e);
         }
 
         return res;
@@ -98,14 +99,14 @@ public abstract class fileRW {
         int month = cal.get(Calendar.MONTH) + 1;
         int year = cal.get(Calendar.YEAR);
         String date = day + "_" + month + "_" + year;
-        String fileName = "Recorrido_dia_"+ date + ".xls";
+        String fileName = "Recorrido_dia_" + date + ".xls";
         File file = new File(folder, fileName);
 
 
         try {
             file.createNewFile();
         } catch (IOException e) {
-            Log.e("File not created", e.getStackTrace().toString());
+            Log.e("File not created", e.getClass().toString(), e);
         }
 
         return file;

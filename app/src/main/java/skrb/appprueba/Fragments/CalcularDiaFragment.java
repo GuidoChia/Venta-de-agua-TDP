@@ -32,9 +32,9 @@ import skrb.appprueba.helpers.fileRW;
 
 public class CalcularDiaFragment extends Fragment implements DatePickerDialog.OnDateSetListener {
     private static final int FRAGMENT_RESULTADOS = 0;
-    public static final int MIN_YEAR = 1990;
-    public static final int MAX_YEAR = 2050;
+
     @Nullable
+    private
     CustomerManager manager;
 
     @Override
@@ -93,7 +93,7 @@ public class CalcularDiaFragment extends Fragment implements DatePickerDialog.On
     }
 
     @NonNull
-    CustomerManager getCustomerManager(View view, File path) {
+    private CustomerManager getCustomerManager(View view, File path) {
         if (manager == null) {
             Button btnDia = view.findViewById(R.id.buttonDiaCalcular);
             String dateString = btnDia.getText().toString();
@@ -124,7 +124,7 @@ public class CalcularDiaFragment extends Fragment implements DatePickerDialog.On
         botonFecha.setOnClickListener(v -> dialogFecha.show());
     }
 
-    public void setFragment(int position, Bundle bnd) {
+    private void setFragment(int position, Bundle bnd) {
         MainActivity act = (MainActivity) getActivity();
 
         FragmentManager fragmentManager;

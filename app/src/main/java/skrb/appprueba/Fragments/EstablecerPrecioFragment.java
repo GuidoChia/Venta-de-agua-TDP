@@ -1,6 +1,7 @@
 package skrb.appprueba.Fragments;
 
 import android.R.layout;
+import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,6 +12,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -62,6 +64,13 @@ public class EstablecerPrecioFragment extends Fragment {
             EditText editText = lay.getEditText();
             String precioString = editText.getText().toString();
 
+            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+
+            View focus = getActivity().getCurrentFocus();
+            if (focus != null) {
+                imm.hideSoftInputFromWindow(focus.getWindowToken(), 0);
+            }
+
             if (!TextUtils.isEmpty(precioString)) {
                 SharedPreferences.Editor preferencesEditor = getContext().getSharedPreferences(PRICE_PREFS, 0).edit();
                 float precio = Float.parseFloat(precioString);
@@ -88,7 +97,7 @@ public class EstablecerPrecioFragment extends Fragment {
         return view;
     }
 
-    void updatePrecios(View view) {
+    private void updatePrecios(View view) {
         SharedPreferences prefs = Objects.requireNonNull(getContext()).getSharedPreferences(PRICE_PREFS, 0);
 
         TextView txt = view.findViewById(id.precio_actual_20);

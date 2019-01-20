@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.LinkedList;
@@ -90,9 +91,7 @@ public class ConcreteReader implements ExcelReader {
         } else {
             try {
                 customerWorkbook = WorkbookFactory.create(customerFile);
-            } catch (IOException e) {
-                throw new WorkbookException();
-            } catch (InvalidFormatException e) {
+            } catch (IOException | InvalidFormatException e) {
                 throw new WorkbookException();
             }
         }
@@ -112,6 +111,9 @@ public class ConcreteReader implements ExcelReader {
 
         File folder = new File(directory, "Ypora Clientes");
         File[] subFolders = folder.listFiles();
+        if (subFolders.length != 0) {
+            Arrays.sort(subFolders);
+        }
 
         for (File f : Objects.requireNonNull(subFolders)) {
             readCostumersFromSubFolder(f, res, strat);
@@ -130,9 +132,12 @@ public class ConcreteReader implements ExcelReader {
     private void readCostumersFromSubFolder(File folder, List<Customer> list, DateStrategy strat) {
         if (folder.isDirectory()) {
             File[] files = folder.listFiles();
+            if (files.length != 0) {
+                Arrays.sort(files);
+            }
 
             for (File f : Objects.requireNonNull(files)) {
-                if (f.getName().endsWith(".xls")) {
+                if (f.getName().endsWith(".xls") || f.getName().endsWith(".xlsx")) {
                     Customer c = convertToCustomer(f, strat);
                     if (!Objects.requireNonNull(c).isEmpty()) {
                         list.add(c);
@@ -194,6 +199,18 @@ public class ConcreteReader implements ExcelReader {
                 }
             } else finish = true;
         }
+
+        if (!res.isEmpty()) {
+            Row row = customerSheet.getRow(currentRow);
+            FormulaEvaluator evaluator = customerWorkbook.getCreationHelper().createFormulaEvaluator();
+            CellValue value = evaluator.evaluate(row.getCell(5));
+            double balance = 0;
+            if (value != null) {
+                balance = value.getNumberValue();
+                res.setBalance(balance);
+            }
+        }
+
 
         try {
             customerWorkbook.close();
@@ -271,22 +288,19 @@ public class ConcreteReader implements ExcelReader {
             }
         }
 
-        if (date == null) {
-            /*
-            Evita que si no se pudo parsear la fecha, no agregue una fecha nula.
-             */
-            return;
-        }
 
         int twentyAmount = (int) row.getCell(1).getNumericCellValue();
 
-
         int twelveAmount = (int) row.getCell(2).getNumericCellValue();
-
 
         double paid = row.getCell(4).getNumericCellValue();
 
-        c.addUpdate(date, twelveAmount, twentyAmount, paid);
+        /*
+        Only adds if the date was parseable
+         */
+        if (date != null) {
+            c.addUpdate(date, twelveAmount, twentyAmount, paid);
+        }
     }
 
     /**

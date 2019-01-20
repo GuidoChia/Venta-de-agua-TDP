@@ -15,7 +15,7 @@ import customer.Customer;
  */
 public class RouteVisitor implements VisitorCollection {
 
-    Collection<Customer> res;
+    private Collection<Customer> res;
 
     public RouteVisitor() {
         res = new LinkedList<>();
@@ -39,7 +39,7 @@ public class RouteVisitor implements VisitorCollection {
 
         currentDifference = getDateDiff(lastDate, Calendar.getInstance().getTime(), TimeUnit.MINUTES);
 
-        if (currentDifference >= averageDifference) {
+        if ((currentDifference >= averageDifference)&&averageDifference!=0) {
             res.add(c);
         }
     }

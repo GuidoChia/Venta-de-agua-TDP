@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String PRICE_DEST = "price_destilada";
     private static final int PERMISSION_WRITE = 0;
 
-    DrawerLayout mDrawerLayout;
+    private DrawerLayout mDrawerLayout;
     private ActionBar actBar;
 
 
@@ -131,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void initializePrefs() {
+    private void initializePrefs() {
         SharedPreferences preferences = getSharedPreferences(PRICE_PREFS, 0);
 
         if (preferences.getBoolean("first_time", true)) {
@@ -155,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void setFragment(int position) {
+    private void setFragment(int position) {
         FragmentManager fragmentManager;
         FragmentTransaction fragmentTransaction;
         Fragment frag;

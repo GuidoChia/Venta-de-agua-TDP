@@ -24,7 +24,7 @@ import reader.ExcelReader;
 import writer.ConcreteWriter;
 import writer.ExcelWriter;
 
-public class Tester {
+class Tester {
     public static void main(String[] args) {
         /*
         Calendar cal = Calendar.getInstance();
@@ -152,6 +152,11 @@ public class Tester {
         }
 
         ExcelWriter writer = ConcreteWriter.getInstance();
+
+        for (Customer customer: customerCollection){
+            System.out.print(customer.getName()+" ");
+            System.out.println(customer.getBalance());
+        }
 
         writer.WriteRoute(customerCollection, routeFile);
     }

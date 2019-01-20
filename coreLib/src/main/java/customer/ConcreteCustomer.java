@@ -70,7 +70,6 @@ public class ConcreteCustomer implements Customer {
     }
 
 
-
     @Override
     public void setBalance(double balance) {
         this.balance = balance;
@@ -78,7 +77,9 @@ public class ConcreteCustomer implements Customer {
 
     @Override
     public void addUpdate(Date date, int twelveAmount, int twentyAmount, double paid) {
-        dates.add(date);
+        if (date != null) {
+            dates.add(date);
+        }
         if (info == null) {
             info = new CustomerInfo(twelveAmount, twentyAmount, paid);
         } else {
