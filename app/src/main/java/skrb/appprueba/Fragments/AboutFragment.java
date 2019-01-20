@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import java.util.Objects;
 
 import skrb.appprueba.MainActivity;
-import skrb.appprueba.R;
 import skrb.appprueba.R.layout;
 
 public class AboutFragment extends Fragment {

@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import java.util.Objects;
 
-import skrb.appprueba.R;
 import skrb.appprueba.R.id;
 import skrb.appprueba.R.layout;
 import skrb.appprueba.R.string;

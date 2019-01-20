@@ -5,10 +5,7 @@ import android.util.Log;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -46,7 +43,11 @@ public abstract class fileRW {
         File directory = new File(directoryParent, String.valueOf(finalName.charAt(0)));
         directory.mkdirs();
 
-        File res = new File(directory, finalName + ".xls");
+        File res = new File(directory, finalName + ".xlsx");
+
+        if (!res.exists()) {
+            res = new File(directory, name + ".xls");
+        }
 
         try {
             res.createNewFile();

@@ -1,17 +1,11 @@
 package skrb.appprueba;
 
 
-import android.Manifest;
 import android.Manifest.permission;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
-import android.os.Build;
-import android.os.Build.VERSION;
-import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -24,8 +18,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.Window;
-import android.view.WindowManager;
 
 import java.util.Objects;
 
@@ -36,7 +28,6 @@ import skrb.appprueba.Fragments.CalcularDiaFragment;
 import skrb.appprueba.Fragments.CalcularFragment;
 import skrb.appprueba.Fragments.EstablecerPrecioFragment;
 import skrb.appprueba.Fragments.RecorridoFragment;
-import skrb.appprueba.R.color;
 import skrb.appprueba.R.drawable;
 import skrb.appprueba.R.id;
 import skrb.appprueba.R.layout;

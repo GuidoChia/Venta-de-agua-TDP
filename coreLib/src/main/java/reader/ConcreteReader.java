@@ -11,7 +11,9 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -90,7 +92,9 @@ public class ConcreteReader implements ExcelReader {
             throw new WorkbookException();
         } else {
             try {
-                customerWorkbook = WorkbookFactory.create(customerFile);
+                InputStream in = new FileInputStream(customerFile);
+                customerWorkbook = WorkbookFactory.create(in);
+                in.close();
             } catch (IOException | InvalidFormatException e) {
                 throw new WorkbookException();
             }

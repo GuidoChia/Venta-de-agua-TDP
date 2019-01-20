@@ -54,6 +54,9 @@ public class ConcreteWriter implements ExcelWriter {
      * Creates a new instance of ConcreteWriter
      */
     private ConcreteWriter() {
+        System.setProperty("org.apache.poi.javax.xml.stream.XMLInputFactory", "com.fasterxml.aalto.stax.InputFactoryImpl");
+        System.setProperty("org.apache.poi.javax.xml.stream.XMLOutputFactory", "com.fasterxml.aalto.stax.OutputFactoryImpl");
+        System.setProperty("org.apache.poi.javax.xml.stream.XMLEventFactory", "com.fasterxml.aalto.stax.EventFactoryImpl");
     }
 
     @Override
@@ -92,9 +95,11 @@ public class ConcreteWriter implements ExcelWriter {
     @Override
     public void WriteRoute(Collection<Customer> customers, File file) {
         Workbook routeWorkbook = new HSSFWorkbook();
+        defaultStyle=getDefaultStyle(routeWorkbook);
         Sheet routeSheet = routeWorkbook.createSheet();
         initRouteTitles(routeSheet);
         writeRouteCustomers(routeSheet, customers);
+
 
         /*
         Autosize columns to fit content. Since autoSizeColumn method doesn't work on android
@@ -131,9 +136,6 @@ public class ConcreteWriter implements ExcelWriter {
     }
 
     private void initRouteRow(Row currentRow, Customer customer) {
-        if (defaultStyle==null){
-            defaultStyle=getDefaultStyle(currentRow.getSheet().getWorkbook());
-        }
 
         int cellIndex = 0;
         Cell currentCell;
@@ -161,10 +163,6 @@ public class ConcreteWriter implements ExcelWriter {
         String[] titles = {"Nombre", "12", "20",
                 "Devueltos", "Observaciones"};
         Cell currentCell;
-
-        if (defaultStyle==null){
-            defaultStyle=getDefaultStyle(routeSheet.getWorkbook());
-        }
 
         for (int i = 0; i < titles.length; i++) {
             currentCell = firstRow.createCell(i);
