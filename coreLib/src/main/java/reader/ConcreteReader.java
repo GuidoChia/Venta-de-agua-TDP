@@ -195,6 +195,7 @@ public class ConcreteReader implements ExcelReader {
                 addRowToCustomer(row, res);
             }
 
+
             if (customerSheet.getRow(currentRow + 1) != null) {
                 if (isEmpty(customerSheet.getRow(currentRow + 1).getCell(0))) {
                     finish = true;
@@ -264,6 +265,7 @@ public class ConcreteReader implements ExcelReader {
         if (date != null) {
             res = strat.belongsDate(date);
         }
+
 
         return res;
     }
