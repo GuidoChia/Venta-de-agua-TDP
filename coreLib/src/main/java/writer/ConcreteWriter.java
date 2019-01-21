@@ -95,7 +95,7 @@ public class ConcreteWriter implements ExcelWriter {
     @Override
     public void WriteRoute(Collection<Customer> customers, File file) {
         Workbook routeWorkbook = new HSSFWorkbook();
-        defaultStyle=getDefaultStyle(routeWorkbook);
+        defaultStyle = getDefaultStyle(routeWorkbook);
         Sheet routeSheet = routeWorkbook.createSheet();
         initRouteTitles(routeSheet);
         writeRouteCustomers(routeSheet, customers);
@@ -251,7 +251,7 @@ public class ConcreteWriter implements ExcelWriter {
 
         while (!found) {
             Row row = sheet.getRow(startRow);
-            if ((row == null) || isEmpty(row.getCell(row.getFirstCellNum()))) {
+            if ((row == null) || isEmpty(row.getCell(0))) {
                 res = row;
                 found = true;
             } else {
@@ -292,6 +292,7 @@ public class ConcreteWriter implements ExcelWriter {
         String formula,
                 postFix;
 
+        Cell currentCell;
 
         CellStyle style = getDefaultStyle(lastRow.getSheet().getWorkbook());
         style.setAlignment(HorizontalAlignment.RIGHT);
@@ -304,7 +305,7 @@ public class ConcreteWriter implements ExcelWriter {
         /*
         Initialize the first cell, the date.
          */
-        Cell currentCell = lastRow.createCell(cellIndex);
+        currentCell = (lastRow.getCell(cellIndex) == null) ? lastRow.createCell(cellIndex) : lastRow.getCell(cellIndex);
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         String format = formatter.format(info.getDate());
         currentCell.setCellType(CellType.STRING);
@@ -315,7 +316,7 @@ public class ConcreteWriter implements ExcelWriter {
         /*
         Initialize the second cell, the amount of twenty canisters bought.
          */
-        currentCell = lastRow.createCell(cellIndex);
+        currentCell = (lastRow.getCell(cellIndex) == null) ? lastRow.createCell(cellIndex) : lastRow.getCell(cellIndex);
         currentCell.setCellType(CellType.NUMERIC);
         currentCell.setCellValue(info.getTwentyCanister());
         currentCell.setCellStyle(style);
@@ -324,7 +325,7 @@ public class ConcreteWriter implements ExcelWriter {
         /*
         Initialize the third cell, the amount of twelve canisters bought.
          */
-        currentCell = lastRow.createCell(cellIndex);
+        currentCell = (lastRow.getCell(cellIndex) == null) ? lastRow.createCell(cellIndex) : lastRow.getCell(cellIndex);
         currentCell.setCellType(CellType.NUMERIC);
         currentCell.setCellValue(info.getTwelveCanister());
         currentCell.setCellStyle(style);
@@ -336,8 +337,12 @@ public class ConcreteWriter implements ExcelWriter {
 
         formula = "B" + lastRowNum + '*' + prices.getTwentyPrice()
                 + "+C" + lastRowNum + '*' + prices.getTwelvePrice();
-        currentCell = lastRow.createCell(cellIndex);
-        currentCell.setCellType(CellType.FORMULA);
+
+        currentCell = (lastRow.getCell(cellIndex) == null) ? lastRow.createCell(cellIndex) : lastRow.getCell(cellIndex);
+        if (!currentCell.getCellTypeEnum().equals(CellType.FORMULA)) {
+            currentCell.setCellFormula(null);
+            currentCell.setCellType(CellType.FORMULA);
+        }
         currentCell.setCellFormula(formula);
         currentCell.setCellStyle(style);
         cellIndex++;
@@ -345,7 +350,7 @@ public class ConcreteWriter implements ExcelWriter {
         /*
         Initialize the fifth cell, the amount of money paid
          */
-        currentCell = lastRow.createCell(cellIndex);
+        currentCell = (lastRow.getCell(cellIndex) == null) ? lastRow.createCell(cellIndex) : lastRow.getCell(cellIndex);
         currentCell.setCellType(CellType.NUMERIC);
         currentCell.setCellValue(info.getPaid());
         currentCell.setCellStyle(style);
@@ -359,8 +364,11 @@ public class ConcreteWriter implements ExcelWriter {
 
 
         formula = "D" + lastRowNum + "-E" + lastRowNum + postFix;
-        currentCell = lastRow.createCell(cellIndex);
-        currentCell.setCellType(CellType.FORMULA);
+        currentCell = (lastRow.getCell(cellIndex) == null) ? lastRow.createCell(cellIndex) : lastRow.getCell(cellIndex);
+        if (currentCell.getCellTypeEnum() != CellType.FORMULA) {
+            currentCell.setCellFormula(null);
+            currentCell.setCellType(CellType.FORMULA);
+        }
         currentCell.setCellFormula(formula);
         currentCell.setCellStyle(style);
         SheetConditionalFormatting formatting = lastRow.getSheet().getSheetConditionalFormatting();
@@ -377,7 +385,7 @@ public class ConcreteWriter implements ExcelWriter {
         /*
         Initialize the seventh cell, the amount of returned twenty canisters.
          */
-        currentCell = lastRow.createCell(cellIndex);
+        currentCell = (lastRow.getCell(cellIndex) == null) ? lastRow.createCell(cellIndex) : lastRow.getCell(cellIndex);
         currentCell.setCellType(CellType.NUMERIC);
         currentCell.setCellValue(info.getTwentyReturnedCanister());
         currentCell.setCellStyle(style);
@@ -389,8 +397,11 @@ public class ConcreteWriter implements ExcelWriter {
         postFix = isFirstRow(lastRowNum) ? "" : "+H" + (lastRowNum - 1);
 
         formula = "B" + lastRowNum + "-G" + lastRowNum + postFix;
-        currentCell = lastRow.createCell(cellIndex);
-        currentCell.setCellType(CellType.FORMULA);
+        currentCell = (lastRow.getCell(cellIndex) == null) ? lastRow.createCell(cellIndex) : lastRow.getCell(cellIndex);
+        if (currentCell.getCellTypeEnum() != CellType.FORMULA) {
+            currentCell.setCellFormula(null);
+            currentCell.setCellType(CellType.FORMULA);
+        }
         currentCell.setCellFormula(formula);
         currentCell.setCellStyle(style);
         cellIndex++;
@@ -398,7 +409,7 @@ public class ConcreteWriter implements ExcelWriter {
         /*
         Initialize the  ninth cell, the amount of returned twelve canisters.
          */
-        currentCell = lastRow.createCell(cellIndex);
+        currentCell = (lastRow.getCell(cellIndex) == null) ? lastRow.createCell(cellIndex) : lastRow.getCell(cellIndex);
         currentCell.setCellType(CellType.NUMERIC);
         currentCell.setCellValue(info.getTwelveReturnedCanister());
         currentCell.setCellStyle(style);
@@ -410,8 +421,11 @@ public class ConcreteWriter implements ExcelWriter {
         postFix = isFirstRow(lastRowNum) ? "" : "+J" + (lastRowNum - 1);
 
         formula = "C" + lastRowNum + "-I" + lastRowNum + postFix;
-        currentCell = lastRow.createCell(cellIndex);
-        currentCell.setCellType(CellType.FORMULA);
+        currentCell = (lastRow.getCell(cellIndex) == null) ? lastRow.createCell(cellIndex) : lastRow.getCell(cellIndex);
+        if (currentCell.getCellTypeEnum() != CellType.FORMULA) {
+            currentCell.setCellFormula(null);
+            currentCell.setCellType(CellType.FORMULA);
+        }
         currentCell.setCellFormula(formula);
         currentCell.setCellStyle(style);
         cellIndex++;
@@ -421,8 +435,11 @@ public class ConcreteWriter implements ExcelWriter {
          */
 
         formula = "H" + lastRowNum + "+J" + lastRowNum;
-        currentCell = lastRow.createCell(cellIndex);
-        currentCell.setCellType(CellType.FORMULA);
+        currentCell = (lastRow.getCell(cellIndex) == null) ? lastRow.createCell(cellIndex) : lastRow.getCell(cellIndex);
+        if (currentCell.getCellTypeEnum() != CellType.FORMULA) {
+            currentCell.setCellFormula(null);
+            currentCell.setCellType(CellType.FORMULA);
+        }
         currentCell.setCellFormula(formula);
         currentCell.setCellStyle(style);
 

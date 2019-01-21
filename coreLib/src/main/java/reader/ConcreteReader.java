@@ -182,14 +182,13 @@ public class ConcreteReader implements ExcelReader {
         if (isEmpty(customerSheet.getRow(currentRow).getCell(0)))
             finish = true;
 
-
         /*
-        Checkeo por lineas si la fecha corresponde a los meses ingresados
-        Termino cuando encuentro una linea vacía.
+        Check line by line if the date corresponds with the given strategy.
+        Stop when an empty line is found.
          */
         while (!finish) {
             Row row = customerSheet.getRow(currentRow);
-            Cell dateCell = row.getCell(row.getFirstCellNum());
+            Cell dateCell = row.getCell(0);
 
             if (belongsDate(dateCell, strat)) {
                 addRowToCustomer(row, res);
@@ -324,7 +323,7 @@ public class ConcreteReader implements ExcelReader {
         while (!found) {
             Row row = sheet.getRow(startRow + 1);
 
-            if ((row == null) || isEmpty(row.getCell(row.getFirstCellNum()))) {
+            if ((row == null) || isEmpty(row.getCell(0))) {
                 found = true;
             } else {
                 res = row;
