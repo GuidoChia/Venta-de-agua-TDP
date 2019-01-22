@@ -75,7 +75,7 @@ class Tester {
         */
 
 
-        ExcelReader reader = ConcreteReader.getInstance();
+  /*      ExcelReader reader = ConcreteReader.getInstance();
         OutputInfo out = null;
         int i = 0;
         int noLeido= 0;
@@ -106,7 +106,7 @@ class Tester {
 
         System.out.println("Total leidos: "+i);
         System.out.println("Total no leidos: "+noLeido);
-
+*/
 
         /*
         try {
@@ -123,7 +123,7 @@ class Tester {
         */
 
 
-       /* ExcelReader reader = ConcreteReader.getInstance();
+       ExcelReader reader = ConcreteReader.getInstance();
 
         File path = new File("");
 
@@ -144,7 +144,7 @@ class Tester {
         File father = new File(path, "Ypora Recorridos");
         father.mkdirs();
 
-        File routeFile = new File(father, "RecorridoToday.xls");
+        File routeFile = new File(father, "RecorridoTodaySkere.xls");
         try {
             routeFile.createNewFile();
         } catch (IOException e) {
@@ -153,12 +153,7 @@ class Tester {
 
         ExcelWriter writer = ConcreteWriter.getInstance();
 
-        for (Customer customer : customerCollection) {
-            System.out.print(customer.getName() + " ");
-            System.out.println(customer.getBalance());
-        }
-
-        writer.WriteRoute(customerCollection, routeFile);*/
+        writer.WriteRoute(customerCollection, routeFile);
     }
 
     private static Date getMonthBefore(Date date) {

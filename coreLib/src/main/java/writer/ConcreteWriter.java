@@ -127,6 +127,7 @@ public class ConcreteWriter implements ExcelWriter {
         Row currentRow;
         while (customerIterator.hasNext()) {
             currentRow = routeSheet.createRow(i);
+            currentRow.setHeight((short)310);
             initRouteRow(currentRow, customerIterator.next());
             i++;
         }
