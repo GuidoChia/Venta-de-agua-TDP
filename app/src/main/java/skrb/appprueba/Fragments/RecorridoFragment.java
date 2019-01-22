@@ -29,6 +29,7 @@ import writer.ConcreteWriter;
 import writer.ExcelWriter;
 
 public class RecorridoFragment extends Fragment {
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_calcular_recorrido, container, false);
         final MainActivity act = (MainActivity) getActivity();
@@ -40,13 +41,13 @@ public class RecorridoFragment extends Fragment {
             public void onClick(View v) {
                 Date today = Calendar.getInstance().getTime();
                 Date lastMonth = getMonthBefore(today);
-                if (lastMonth == null){
+                if (lastMonth == null) {
                     return;
                 }
 
                 ExcelReader reader = ConcreteReader.getInstance();
-                Date[] months = new Date[]{lastMonth,today};
-                Collection<Customer> customers = reader.readCostumersMonth(months,fileRW.getPath());
+                Date[] months = new Date[]{lastMonth, today};
+                Collection<Customer> customers = reader.readCostumersMonth(months, fileRW.getPath());
                 Collection<Customer> routeCustomers = new ConcreteCustomerManager(customers).getRoute();
 
                 ExcelWriter writer = ConcreteWriter.getInstance();

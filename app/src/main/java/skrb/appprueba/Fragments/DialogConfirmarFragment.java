@@ -29,7 +29,6 @@ public class DialogConfirmarFragment extends DialogFragment {
     }
 
 
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -46,6 +45,6 @@ public class DialogConfirmarFragment extends DialogFragment {
     }
 
     public interface DialogConfirmarListener {
-        public void onDialogPositiveClick(DialogFragment dialog);
+        void onDialogPositiveClick(DialogFragment dialog);
     }
 }

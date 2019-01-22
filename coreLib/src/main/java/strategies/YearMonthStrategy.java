@@ -10,9 +10,9 @@ public class YearMonthStrategy implements DateStrategy {
     private Calendar[] calendarCriteria;
 
     /**
-     * Creates a new strategy with the given criteria date
+     * Creates a new strategy with the given criteria date.
      * It will be checked if the date passed in belongsDate has the same month and year
-     * than this one
+     * than this one.
      *
      * @param criteriaDates The criteria dates
      */

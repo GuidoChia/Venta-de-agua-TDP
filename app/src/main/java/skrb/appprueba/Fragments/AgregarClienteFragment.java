@@ -119,7 +119,7 @@ public class AgregarClienteFragment extends Fragment implements OnDateSetListene
         try {
             date = format.parse(dateString);
         } catch (ParseException e) {
-            Log.e("Parse error ",e.getClass().toString(), e);
+            Log.e("Parse error ", e.getClass().toString(), e);
         }
 
         BuyInfo info = new ConcreteBuyInfo(dinero_pagado, bidones20, bidones12, bidones_devueltos_20,
@@ -211,7 +211,7 @@ public class AgregarClienteFragment extends Fragment implements OnDateSetListene
 
             if (checkInputs(editTexts)) {
                 DialogFragment frag = new DialogConfirmarFragment();
-                frag.show(getFragmentManager(),"confirmar");
+                frag.show(getFragmentManager(), "confirmar");
             } else {
                 Bundle bnd = new Bundle();
                 bnd.putInt("msg", R.string.errorAgregar);
@@ -222,8 +222,6 @@ public class AgregarClienteFragment extends Fragment implements OnDateSetListene
 
 
         }
-
-
 
 
     }

@@ -32,7 +32,7 @@ public interface ExcelWriter {
      * Requires a BuyInfo object non-null and with non-nulls returns on its methods.
      *
      * @param info   BuyInfo object that contains the info of the buy.
-     * @param prices PriceInfo object that contais the prices.
+     * @param prices PriceInfo object that contains the prices.
      * @param file   The file to read and write.
      */
     void WriteBuy(BuyInfo info, PriceInfo prices, File file);
@@ -40,6 +40,7 @@ public interface ExcelWriter {
     /**
      * Writes a route in an excel file with the given customers.
      * The file and it's name must be provided by the client.
+     *
      * @param customers The customers to write.
      */
     void WriteRoute(Collection<Customer> customers, File file);

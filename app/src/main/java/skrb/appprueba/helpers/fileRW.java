@@ -12,12 +12,16 @@ import java.util.regex.Pattern;
 
 
 /**
- * Interface fileRW represents a helper to find a workbook and write it to storage.
+ * Abstract class fileRW represents a helper for the files objects.
  *
  * @author Guido Chia
  */
 public abstract class fileRW {
     private static String baseDir = "Ypora Clientes";
+
+    /*
+    This is like this so it can be changed to work on the SD card and not the external storage
+     */
     private static File path = Environment.getExternalStorageDirectory();
 
     /**
@@ -58,6 +62,12 @@ public abstract class fileRW {
         return res;
     }
 
+    /**
+     * Finds the file from the customer named 'name'
+     *
+     * @param name Name of the customer
+     * @return a File object representing the customer's file.
+     */
     public static File findFileRead(String name) {
         File directoryParent = new File(path, baseDir);
         File directory = new File(directoryParent, String.valueOf(name.charAt(0)));
@@ -71,10 +81,16 @@ public abstract class fileRW {
         return res;
     }
 
+    /**
+     * Gets all the names from the customer's folder.
+     *
+     * @return an array with the names of the customers.
+     */
     public static String[] initClientes() {
         List<String> strings = new LinkedList<>();
         File directory = new File(path, "Ypora Clientes");
         directory.mkdirs();
+
 
         for (File f : directory.listFiles()) {
             if (f.isDirectory()) {
@@ -92,6 +108,11 @@ public abstract class fileRW {
 
     }
 
+    /**
+     * Creates the file for the route
+     *
+     * @return a File object representing the file
+     */
     public static File createFileRoute() {
         File folder = new File(path, "Ypora Recorridos");
         folder.mkdirs();
@@ -113,6 +134,11 @@ public abstract class fileRW {
         return file;
     }
 
+    /**
+     * Gets the current path (External primary root or External secondary root)
+     *
+     * @return the current path
+     */
     public static File getPath() {
         return path;
     }

@@ -1,6 +1,8 @@
 package exceptions;
 
 public class WorkbookException extends Exception {
-    public WorkbookException(){
-    }
+    /**
+     * Creates an instance of WorkbookException
+     */
+    public WorkbookException() { }
 }

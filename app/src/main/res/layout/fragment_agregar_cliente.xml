@@ -87,7 +87,7 @@
                 android:inputType="number"
                 android:text="@string/_0"
                 android:textSize="20sp"
-                android:drawableTint="@color/colorAccent"/>
+                android:drawableTint="@color/colorAccent" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout

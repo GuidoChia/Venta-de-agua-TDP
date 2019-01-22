@@ -21,6 +21,10 @@ public class ConcreteCustomer implements Customer {
     private double balance;
     private String name;
 
+    /**
+     * Creates an instance of ConcreteCustomer with name 'name'
+     * @param name Name of the customer
+     */
     public ConcreteCustomer(String name) {
         dates = new LinkedList<>();
         this.name = name;

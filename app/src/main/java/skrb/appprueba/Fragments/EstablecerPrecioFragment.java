@@ -38,6 +38,7 @@ public class EstablecerPrecioFragment extends Fragment {
     public static final int DEF_VALUE_BOT = 120;
     public static final int DEF_VALUE_DEST = 40;
 
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_establecer_precio, container, false);
 

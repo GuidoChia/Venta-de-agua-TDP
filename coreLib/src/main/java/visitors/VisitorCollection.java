@@ -11,12 +11,14 @@ import customer.Customer;
 public interface VisitorCollection {
     /**
      * Visits the given customer
+     *
      * @param c Customer to visit
      */
     void visit(Customer c);
 
     /**
      * Gets the collection result
+     *
      * @return Collection with the customers that match the criteria
      */
     Collection<Customer> getCollection();

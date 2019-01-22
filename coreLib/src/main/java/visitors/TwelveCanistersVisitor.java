@@ -7,7 +7,7 @@ public class TwelveCanistersVisitor implements VisitorDouble {
 
     @Override
     public void visit(Customer c) {
-        res +=c.getTwelveBought();
+        res += c.getTwelveBought();
     }
 
     @Override

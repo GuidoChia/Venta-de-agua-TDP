@@ -11,12 +11,6 @@ import java.util.Collection;
 import java.util.Date;
 
 import customer.Customer;
-import exceptions.WorkbookException;
-import infos.BuyInfo;
-import infos.ConcreteBuyInfo;
-import infos.ConcretePriceInfo;
-import infos.OutputInfo;
-import infos.PriceInfo;
 import reader.ConcreteCustomerManager;
 import reader.ConcreteReader;
 import reader.CustomerManager;
@@ -123,7 +117,7 @@ class Tester {
         */
 
 
-       ExcelReader reader = ConcreteReader.getInstance();
+        ExcelReader reader = ConcreteReader.getInstance();
 
         File path = new File("");
 

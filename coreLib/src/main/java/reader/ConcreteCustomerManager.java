@@ -40,20 +40,20 @@ public class ConcreteCustomerManager implements CustomerManager {
 
     @Override
     public int getTwentyBought() {
-        if (cachedTwenty ==0) {
+        if (cachedTwenty == 0) {
             VisitorDouble v = new TwentyCanistersVisitor();
             visitAll(v);
-            cachedTwenty =v.getResult();
+            cachedTwenty = v.getResult();
         }
         return (int) cachedTwenty;
     }
 
     @Override
     public int getTwelveBought() {
-        if (cachedTwelve ==0) {
+        if (cachedTwelve == 0) {
             VisitorDouble v = new TwelveCanistersVisitor();
             visitAll(v);
-            cachedTwelve =v.getResult();
+            cachedTwelve = v.getResult();
         }
         return (int) cachedTwelve;
     }

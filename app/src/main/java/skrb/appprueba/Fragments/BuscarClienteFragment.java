@@ -41,6 +41,7 @@ public class BuscarClienteFragment extends Fragment {
 
     private static final String[] CLIENTES = initClientes();
 
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_buscar_cliente, container, false);
 
@@ -113,7 +114,6 @@ public class BuscarClienteFragment extends Fragment {
         frag.setArguments(bnd);
         frag.show(Objects.requireNonNull(getFragmentManager()), "error");
     }
-
 
 
     private void setFragment(int position, Bundle bnd) {

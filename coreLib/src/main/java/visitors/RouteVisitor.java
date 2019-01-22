@@ -17,6 +17,9 @@ public class RouteVisitor implements VisitorCollection {
 
     private Collection<Customer> res;
 
+    /**
+     * Creates an instance of RouteVisitor
+     */
     public RouteVisitor() {
         res = new LinkedList<>();
     }
@@ -24,7 +27,7 @@ public class RouteVisitor implements VisitorCollection {
     @Override
     public void visit(Customer c) {
         /*
-        The customer will be added if the diference between today and the last buy
+        The customer will be added if the difference between today and the last buy
         is greater or equal to the average days from day to day.
          */
         List<Date> lastBuys = c.getLastDates();
@@ -39,11 +42,18 @@ public class RouteVisitor implements VisitorCollection {
 
         currentDifference = getDateDiff(lastDate, Calendar.getInstance().getTime(), TimeUnit.MINUTES);
 
-        if ((currentDifference >= averageDifference)&&averageDifference!=0) {
+        if ((currentDifference >= averageDifference) && averageDifference != 0) {
             res.add(c);
         }
     }
 
+    /**
+     * Gets the date difference between two Dates, represented in the timeUnit passed.
+     * @param date1 First date
+     * @param date2 Second date
+     * @param timeUnit The time unit to be used
+     * @return The absolute difference between the two dates
+     */
     private long getDateDiff(Date date1, Date date2, TimeUnit timeUnit) {
         long diffInMillies = Math.abs(date2.getTime() - date1.getTime());
         return timeUnit.convert(diffInMillies, TimeUnit.MILLISECONDS);

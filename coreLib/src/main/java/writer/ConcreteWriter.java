@@ -43,6 +43,10 @@ public class ConcreteWriter implements ExcelWriter {
 
     private static ExcelWriter INSTANCE;
 
+    /**
+     * Gets the singleton instance of ExcelWriter
+     * @return instance of ExcelWriter
+     */
     public static ExcelWriter getInstance() {
         if (INSTANCE == null) {
             INSTANCE = new ConcreteWriter();
@@ -127,7 +131,7 @@ public class ConcreteWriter implements ExcelWriter {
         Row currentRow;
         while (customerIterator.hasNext()) {
             currentRow = routeSheet.createRow(i);
-            currentRow.setHeight((short)310);
+            currentRow.setHeight((short) 310);
             initRouteRow(currentRow, customerIterator.next());
             i++;
         }

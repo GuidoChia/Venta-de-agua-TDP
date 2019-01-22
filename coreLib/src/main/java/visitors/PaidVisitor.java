@@ -7,7 +7,7 @@ public class PaidVisitor implements VisitorDouble {
 
     @Override
     public void visit(Customer c) {
-        res +=c.getPaid();
+        res += c.getPaid();
     }
 
     @Override

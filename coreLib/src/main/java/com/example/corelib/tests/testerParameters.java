@@ -1,24 +1,15 @@
 package com.example.corelib.tests;
 
 import java.io.File;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 
 import customer.Customer;
-import infos.BuyInfo;
-import infos.ConcreteBuyInfo;
-import infos.ConcretePriceInfo;
-import infos.PriceInfo;
 import reader.ConcreteCustomerManager;
 import reader.ConcreteReader;
 import reader.CustomerManager;
 import reader.ExcelReader;
-import writer.ConcreteWriter;
-import writer.ExcelWriter;
 
 class testerParameters {
 

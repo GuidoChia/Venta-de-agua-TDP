@@ -38,6 +38,10 @@ public class ConcreteReader implements ExcelReader {
 
     private static ExcelReader INSTANCE;
 
+    /**
+     * Gets the singleton instance of the Writer
+     * @return the ExcelReader instance
+     */
     public static ExcelReader getInstance() {
         if (INSTANCE == null) {
             INSTANCE = new ConcreteReader();
@@ -45,6 +49,9 @@ public class ConcreteReader implements ExcelReader {
         return INSTANCE;
     }
 
+    /**
+     * Creates an instance of ConcreteReader
+     */
     private ConcreteReader() {
         System.setProperty("org.apache.poi.javax.xml.stream.XMLInputFactory", "com.fasterxml.aalto.stax.InputFactoryImpl");
         System.setProperty("org.apache.poi.javax.xml.stream.XMLOutputFactory", "com.fasterxml.aalto.stax.OutputFactoryImpl");

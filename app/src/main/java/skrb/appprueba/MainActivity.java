@@ -37,6 +37,9 @@ import static skrb.appprueba.Fragments.EstablecerPrecioFragment.DEF_VALUE_20;
 import static skrb.appprueba.Fragments.EstablecerPrecioFragment.DEF_VALUE_BOT;
 import static skrb.appprueba.Fragments.EstablecerPrecioFragment.DEF_VALUE_DEST;
 
+/**
+ * Main activity for the app. It handles the flow between the principal fragments.
+ */
 public class MainActivity extends AppCompatActivity {
 
     private static final int FRAGMENT_AGREGAR = 0;
