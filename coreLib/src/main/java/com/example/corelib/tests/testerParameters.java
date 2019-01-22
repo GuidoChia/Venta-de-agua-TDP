@@ -1,15 +1,11 @@
 package com.example.corelib.tests;
 
 import java.io.File;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 
 import customer.Customer;
-import exceptions.WorkbookException;
 import infos.OutputInfo;
 import reader.ConcreteReader;
 import reader.ExcelReader;
@@ -22,21 +18,20 @@ class testerParameters {
         int i = 0;
         int noLeido = 0;
         File path = new File("");
-        String dateString = "07/01/2018";
-        Date date = null;
-        try {
-            date = new SimpleDateFormat("dd/MM/yyyy").parse(dateString);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
 
-        Date[] days = new Date[]{date};
+
+        Date[] days = new Date[]{Calendar.getInstance().getTime()};
 
         Collection<Customer> customers = reader.readCostumersDays(days,path);
 
         for (Customer c: customers) {
-            System.out.println(c.getName());
+            System.out.print(c.getName()+' ');
+            System.out.print("Comprado 12 "+c.getTwelveBought()+" ");
+            System.out.print("Comprado 20 "+c.getTwentyBought()+" ");
+            System.out.println(c.getPaid());
         }
+
+
         /*for (File directory : path.listFiles()) {
             if (directory.isDirectory()) {
                 for (File file : directory.listFiles()) {

@@ -92,6 +92,7 @@ public class ConcreteReader implements ExcelReader {
             throw new WorkbookException();
         } else {
             try {
+                System.out.println(customerFile.getName());
                 InputStream in = new FileInputStream(customerFile);
                 customerWorkbook = WorkbookFactory.create(in);
                 in.close();

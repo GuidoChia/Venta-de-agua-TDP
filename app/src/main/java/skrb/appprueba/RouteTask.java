@@ -27,11 +27,10 @@ import writer.ExcelWriter;
 public class RouteTask extends AsyncTask<Void, Void, Void> {
     private WeakReference<View> viewReference;
 
-    public RouteTask(View view){
+    public RouteTask(View view) {
         super();
-        viewReference= new WeakReference<>(view);
+        viewReference = new WeakReference<>(view);
     }
-
 
 
     @Override
@@ -43,15 +42,17 @@ public class RouteTask extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected void onPostExecute(Void param) {
-        ProgressBar pb = viewReference.get().findViewById(R.id.progress_recorrido);
-        pb.setVisibility(View.INVISIBLE);
-        Snackbar snackbarAgregado = Snackbar.make(viewReference.get(), R.string.msg_recorrido_creado, Snackbar.LENGTH_LONG);
-        snackbarAgregado.show();
+        if (viewReference.get() != null) {
+            ProgressBar pb = viewReference.get().findViewById(R.id.progress_recorrido);
+            pb.setVisibility(View.INVISIBLE);
+            Snackbar snackbarAgregado = Snackbar.make(viewReference.get(), R.string.msg_recorrido_creado, Snackbar.LENGTH_LONG);
+            snackbarAgregado.show();
+        }
     }
 
     @Override
     public Void doInBackground(Void... paramams) {
-       Date today = Calendar.getInstance().getTime();
+        Date today = Calendar.getInstance().getTime();
         Date lastMonth = getMonthBefore(today);
         if (lastMonth == null) {
             return null;

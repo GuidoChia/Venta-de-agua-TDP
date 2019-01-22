@@ -31,7 +31,7 @@ class Tester {
         System.out.println(cal.get(Calendar.MONTH));
         */
 
-/*
+        /*
         Calendar cal = Calendar.getInstance();
         Date today = cal.getTime();
         String baseDir = "/Ypora Clientes/";
@@ -152,11 +152,6 @@ class Tester {
         }
 
         ExcelWriter writer = ConcreteWriter.getInstance();
-
-        for (Customer customer: customerCollection){
-            System.out.print(customer.getName()+" ");
-            System.out.println(customer.getBalance());
-        }
 
         writer.WriteRoute(customerCollection, routeFile);
     }
