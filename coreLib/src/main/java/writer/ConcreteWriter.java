@@ -95,18 +95,17 @@ public class ConcreteWriter implements ExcelWriter {
     @Override
     public void WriteRoute(Collection<Customer> customers, File file) {
         Workbook routeWorkbook = new HSSFWorkbook();
-        defaultStyle=getDefaultStyle(routeWorkbook);
+        defaultStyle = getDefaultStyle(routeWorkbook);
         Sheet routeSheet = routeWorkbook.createSheet();
         initRouteTitles(routeSheet);
         writeRouteCustomers(routeSheet, customers);
-
 
         /*
         Autosize columns to fit content. Since autoSizeColumn method doesn't work on android
         (missing java.awt files) they will be manually defined from a test.
          */
-        int[] sizes = {7851, 1400, 1400, 2532, 6000};
-        int columnsAmount = 5;
+        int[] sizes = {7851, 1400, 1400, 2532, 3532, 6000};
+        int columnsAmount = 6;
         for (int i = 0; i < columnsAmount; i++) {
             routeSheet.setColumnWidth(i, sizes[i]);
         }
@@ -144,12 +143,12 @@ public class ConcreteWriter implements ExcelWriter {
         currentCell.setCellValue(customer.getName());
         currentCell.setCellStyle(defaultStyle);
 
-        for (cellIndex = 1; cellIndex < 4; cellIndex++) {
+        for (cellIndex = 1; cellIndex < 5; cellIndex++) {
             currentCell = currentRow.createCell(cellIndex);
             currentCell.setCellStyle(defaultStyle);
         }
 
-        cellIndex = 4;
+        cellIndex = 5;
         currentCell = currentRow.createCell(cellIndex);
         currentCell.setCellStyle(defaultStyle);
         if (customer.getBalance() != 0) {
@@ -160,7 +159,7 @@ public class ConcreteWriter implements ExcelWriter {
 
     private void initRouteTitles(Sheet routeSheet) {
         Row firstRow = routeSheet.createRow(0);
-        String[] titles = {"Nombre", "12", "20",
+        String[] titles = {"Nombre", "20", "12", "Pago",
                 "Devueltos", "Observaciones"};
         Cell currentCell;
 

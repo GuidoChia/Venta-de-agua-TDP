@@ -37,7 +37,7 @@ public class ConcreteCustomer implements Customer {
     }
 
     @Override
-    public double getMonthPaid() {
+    public double getPaid() {
         double res = 0;
 
         if (info != null) {

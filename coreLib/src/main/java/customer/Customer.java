@@ -27,7 +27,7 @@ public interface Customer {
      * Gets the amount of money the customer paid
      * @return The amount of money the customer paid
      */
-    double getMonthPaid();
+    double getPaid();
 
     /**
      * Gets the amount of twenty canisters bought in the given
