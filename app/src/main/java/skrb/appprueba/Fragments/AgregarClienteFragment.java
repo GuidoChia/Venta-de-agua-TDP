@@ -1,16 +1,19 @@
 package skrb.appprueba.Fragments;
 
+import android.Manifest;
 import android.R.layout;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -50,7 +53,9 @@ import static skrb.appprueba.helpers.fileRW.initClientes;
 
 public class AgregarClienteFragment extends Fragment implements OnDateSetListener, DialogConfirmarFragment.DialogConfirmarListener {
 
-    private static final String[] CLIENTES = initClientes();
+    private String[] CLIENTES;
+
+
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -70,19 +75,28 @@ public class AgregarClienteFragment extends Fragment implements OnDateSetListene
         botonFecha.setText(day + "/" + (month + 1) + '/' + year);
         botonFecha.setOnClickListener(v -> dialogFecha.show());
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(Objects.requireNonNull(getActivity()),
-                layout.simple_dropdown_item_1line, CLIENTES);
-        AutoCompleteTextView textView =
-                view.findViewById(id.NombreCliente);
-
-        textView.setAdapter(adapter);
-
-
         Button botonConfirmar = view.findViewById(id.BotonConfirmar);
-        botonConfirmar.setOnClickListener(new OnClickConfirmarListener(view));
+        if (ContextCompat.checkSelfPermission(this.getContext(),
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            botonConfirmar.setEnabled(false);
+        } else {
+            if (CLIENTES==null){
+                CLIENTES=initClientes();
+            }
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(Objects.requireNonNull(getActivity()),
+                    layout.simple_dropdown_item_1line, CLIENTES);
+            AutoCompleteTextView textView = view.findViewById(id.NombreCliente);
+
+            textView.setAdapter(adapter);
+
+            botonConfirmar.setOnClickListener(new OnClickConfirmarListener(view));
+        }
 
         return view;
     }
+
+
 
     private void writeToFile(ExcelWriter writer, EditText[] editTexts, View view) {
 

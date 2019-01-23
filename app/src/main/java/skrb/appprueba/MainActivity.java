@@ -74,15 +74,7 @@ public class MainActivity extends AppCompatActivity {
 
         mDrawerLayout = findViewById(id.drawer_layout);
 
-        if (ContextCompat.checkSelfPermission(this,
-                permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
 
-            ActivityCompat.requestPermissions(this,
-                    new String[]{permission.WRITE_EXTERNAL_STORAGE},
-                    PERMISSION_WRITE);
-
-        }
 
         NavigationView navView = findViewById(id.NavigationView);
         navView.setNavigationItemSelectedListener(
@@ -150,6 +142,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setFragment(int position) {
+        if (ContextCompat.checkSelfPermission(this,
+                permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(this,
+                    new String[]{permission.WRITE_EXTERNAL_STORAGE},
+                    PERMISSION_WRITE);
+
+        }
         FragmentManager fragmentManager;
         FragmentTransaction fragmentTransaction;
         Fragment frag;

@@ -1,11 +1,14 @@
 package skrb.appprueba.Fragments;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,47 +52,57 @@ public class CalcularFragment extends Fragment {
 
         File path = fileRW.getPath();
 
-        Button btn = view.findViewById(id.calcular_dinero_mensual);
-        btn.setOnClickListener(v -> {
-            CustomerManager manager = getMonthManager(view, path);
+        Button btnDinero = view.findViewById(id.calcular_dinero_mensual);
+        Button btn12 = view.findViewById(id.calcular_bidones_12);
+        Button btn20 = view.findViewById(id.calcular_bidones_20);
+        Button btnTot = view.findViewById(id.calcular_total_bidones);
 
-            Bundle bnd = new Bundle();
-            bnd.putString("result", String.valueOf(manager.getPaid()));
+        if (ContextCompat.checkSelfPermission(this.getContext(),
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            btn12.setEnabled(false);
+            btn20.setEnabled(false);
+            btnDinero.setEnabled(false);
+            btnTot.setEnabled(false);
+        } else {
+            btnDinero.setOnClickListener(v -> {
+                CustomerManager manager = getMonthManager(view, path);
 
-            setFragment(FRAGMENT_RESULTADOS, bnd);
-        });
+                Bundle bnd = new Bundle();
+                bnd.putString("result", String.valueOf(manager.getPaid()));
 
-        btn = view.findViewById(id.calcular_bidones_12);
-        btn.setOnClickListener(v -> {
-            CustomerManager manager = getMonthManager(view, path);
+                setFragment(FRAGMENT_RESULTADOS, bnd);
+            });
 
-            Bundle bnd = new Bundle();
-            bnd.putString("result", String.valueOf(manager.getTwelveBought()));
+            btn12.setOnClickListener(v -> {
+                CustomerManager manager = getMonthManager(view, path);
 
-            setFragment(FRAGMENT_RESULTADOS, bnd);
-        });
+                Bundle bnd = new Bundle();
+                bnd.putString("result", String.valueOf(manager.getTwelveBought()));
 
-        btn = view.findViewById(id.calcular_bidones_20);
-        btn.setOnClickListener(v -> {
+                setFragment(FRAGMENT_RESULTADOS, bnd);
+            });
 
-            CustomerManager manager = getMonthManager(view, path);
+            btn20.setOnClickListener(v -> {
 
-            Bundle bnd = new Bundle();
-            bnd.putString("result", String.valueOf(manager.getTwentyBought()));
+                CustomerManager manager = getMonthManager(view, path);
 
-            setFragment(FRAGMENT_RESULTADOS, bnd);
-        });
+                Bundle bnd = new Bundle();
+                bnd.putString("result", String.valueOf(manager.getTwentyBought()));
 
-        btn = view.findViewById(id.calcular_total_bidones);
-        btn.setOnClickListener(v -> {
-            CustomerManager manager = getMonthManager(view, path);
+                setFragment(FRAGMENT_RESULTADOS, bnd);
+            });
 
-            Bundle bnd = new Bundle();
-            int res = manager.getTwelveBought() + manager.getTwentyBought();
-            bnd.putString("result", String.valueOf(res));
+            btnTot.setOnClickListener(v -> {
+                CustomerManager manager = getMonthManager(view, path);
 
-            setFragment(FRAGMENT_RESULTADOS, bnd);
-        });
+                Bundle bnd = new Bundle();
+                int res = manager.getTwelveBought() + manager.getTwentyBought();
+                bnd.putString("result", String.valueOf(res));
+
+                setFragment(FRAGMENT_RESULTADOS, bnd);
+            });
+        }
 
         return view;
     }

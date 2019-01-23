@@ -1,12 +1,15 @@
 package skrb.appprueba.Fragments;
 
+import android.Manifest;
 import android.app.DatePickerDialog;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,47 +49,57 @@ public class CalcularDiaFragment extends Fragment implements DatePickerDialog.On
 
         File path = fileRW.getPath();
 
-        Button btn = view.findViewById(R.id.calcular_dinero_dia);
-        btn.setOnClickListener(v -> {
-            CustomerManager manager = getCustomerManager(view, path);
+        Button btnDinero = view.findViewById(R.id.calcular_dinero_dia);
+        Button btnTot = view.findViewById(R.id.calcular_total_bidones_dia);
+        Button btn12 = view.findViewById(R.id.calcular_bidones_12_dia);
+        Button btn20 = view.findViewById(R.id.calcular_bidones_20_dia);
 
-            Bundle bnd = new Bundle();
-            bnd.putString("result", String.valueOf(manager.getPaid()));
+        if (ContextCompat.checkSelfPermission(this.getContext(),
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+                btn12.setEnabled(false);
+                btn20.setEnabled(false);
+                btnDinero.setEnabled(false);
+                btnTot.setEnabled(false);
+        } else {
+            btnDinero.setOnClickListener(v -> {
+                CustomerManager manager = getCustomerManager(view, path);
 
-            setFragment(FRAGMENT_RESULTADOS, bnd);
-        });
+                Bundle bnd = new Bundle();
+                bnd.putString("result", String.valueOf(manager.getPaid()));
 
-        btn = view.findViewById(R.id.calcular_bidones_12_dia);
-        btn.setOnClickListener(v -> {
-            CustomerManager manager = getCustomerManager(view, path);
+                setFragment(FRAGMENT_RESULTADOS, bnd);
+            });
 
-            Bundle bnd = new Bundle();
-            bnd.putString("result", String.valueOf(manager.getTwelveBought()));
+            btn12.setOnClickListener(v -> {
+                CustomerManager manager = getCustomerManager(view, path);
 
-            setFragment(FRAGMENT_RESULTADOS, bnd);
-        });
+                Bundle bnd = new Bundle();
+                bnd.putString("result", String.valueOf(manager.getTwelveBought()));
 
-        btn = view.findViewById(R.id.calcular_bidones_20_dia);
-        btn.setOnClickListener(v -> {
+                setFragment(FRAGMENT_RESULTADOS, bnd);
+            });
 
-            CustomerManager manager = getCustomerManager(view, path);
+            btn20.setOnClickListener(v -> {
 
-            Bundle bnd = new Bundle();
-            bnd.putString("result", String.valueOf(manager.getTwentyBought()));
+                CustomerManager manager = getCustomerManager(view, path);
 
-            setFragment(FRAGMENT_RESULTADOS, bnd);
-        });
+                Bundle bnd = new Bundle();
+                bnd.putString("result", String.valueOf(manager.getTwentyBought()));
 
-        btn = view.findViewById(R.id.calcular_total_bidones_dia);
-        btn.setOnClickListener(v -> {
-            CustomerManager manager = getCustomerManager(view, path);
+                setFragment(FRAGMENT_RESULTADOS, bnd);
+            });
 
-            Bundle bnd = new Bundle();
-            int res = manager.getTwelveBought() + manager.getTwentyBought();
-            bnd.putString("result", String.valueOf(res));
+            btnTot.setOnClickListener(v -> {
+                CustomerManager manager = getCustomerManager(view, path);
 
-            setFragment(FRAGMENT_RESULTADOS, bnd);
-        });
+                Bundle bnd = new Bundle();
+                int res = manager.getTwelveBought() + manager.getTwentyBought();
+                bnd.putString("result", String.valueOf(res));
+
+                setFragment(FRAGMENT_RESULTADOS, bnd);
+            });
+        }
 
         return view;
     }
