@@ -57,10 +57,10 @@ public class CalcularDiaFragment extends Fragment implements DatePickerDialog.On
         if (ContextCompat.checkSelfPermission(this.getContext(),
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
-                btn12.setEnabled(false);
-                btn20.setEnabled(false);
-                btnDinero.setEnabled(false);
-                btnTot.setEnabled(false);
+            btn12.setEnabled(false);
+            btn20.setEnabled(false);
+            btnDinero.setEnabled(false);
+            btnTot.setEnabled(false);
         } else {
             btnDinero.setOnClickListener(v -> {
                 CustomerManager manager = getCustomerManager(view, path);

@@ -56,7 +56,6 @@ public class AgregarClienteFragment extends Fragment implements OnDateSetListene
     private String[] CLIENTES;
 
 
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_agregar_cliente, container, false);
@@ -81,8 +80,8 @@ public class AgregarClienteFragment extends Fragment implements OnDateSetListene
                 != PackageManager.PERMISSION_GRANTED) {
             botonConfirmar.setEnabled(false);
         } else {
-            if (CLIENTES==null){
-                CLIENTES=initClientes();
+            if (CLIENTES == null) {
+                CLIENTES = initClientes();
             }
             ArrayAdapter<String> adapter = new ArrayAdapter<>(Objects.requireNonNull(getActivity()),
                     layout.simple_dropdown_item_1line, CLIENTES);
@@ -95,7 +94,6 @@ public class AgregarClienteFragment extends Fragment implements OnDateSetListene
 
         return view;
     }
-
 
 
     private void writeToFile(ExcelWriter writer, EditText[] editTexts, View view) {

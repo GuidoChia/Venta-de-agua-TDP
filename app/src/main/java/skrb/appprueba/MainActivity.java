@@ -75,7 +75,6 @@ public class MainActivity extends AppCompatActivity {
         mDrawerLayout = findViewById(id.drawer_layout);
 
 
-
         NavigationView navView = findViewById(id.NavigationView);
         navView.setNavigationItemSelectedListener(
                 menuItem -> {

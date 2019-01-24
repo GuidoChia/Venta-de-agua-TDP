@@ -57,8 +57,8 @@ public class BuscarClienteFragment extends Fragment {
                 != PackageManager.PERMISSION_GRANTED) {
             btn.setEnabled(false);
         } else {
-            if (CLIENTES==null){
-                CLIENTES=initClientes();
+            if (CLIENTES == null) {
+                CLIENTES = initClientes();
             }
             ArrayAdapter<String> adapter = new ArrayAdapter<>(Objects.requireNonNull(getActivity()),
                     layout.simple_dropdown_item_1line, CLIENTES);

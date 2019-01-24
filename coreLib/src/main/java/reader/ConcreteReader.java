@@ -121,7 +121,14 @@ public class ConcreteReader implements ExcelReader {
         List<Customer> res = new LinkedList<>();
 
         File folder = new File(directory, "Ypora Clientes");
+        folder.mkdirs();
+
         File[] subFolders = folder.listFiles();
+
+        if (subFolders==null){
+            return res;
+        }
+
         if (subFolders.length != 0) {
             Arrays.sort(subFolders);
         }

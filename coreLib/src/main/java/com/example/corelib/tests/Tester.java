@@ -11,6 +11,10 @@ import java.util.Collection;
 import java.util.Date;
 
 import customer.Customer;
+import infos.BuyInfo;
+import infos.ConcreteBuyInfo;
+import infos.ConcretePriceInfo;
+import infos.PriceInfo;
 import reader.ConcreteCustomerManager;
 import reader.ConcreteReader;
 import reader.CustomerManager;
@@ -25,13 +29,13 @@ class Tester {
         System.out.println(cal.get(Calendar.MONTH));
         */
 
-/*
+
         Calendar cal = Calendar.getInstance();
         Date today = cal.getTime();
         String baseDir = "/Ypora Clientes/";
         String name = "Abdala Agustina";
 
-        BuyInfo info = new ConcreteBuyInfo(200, 2, 0, 0, 0, today, name);
+        BuyInfo info = new ConcreteBuyInfo(140, 2, 0, 0, 0, today, name);
         PriceInfo prices = new ConcretePriceInfo(50, 70);
 
         ExcelWriter writer = ConcreteWriter.getInstance();
@@ -41,14 +45,14 @@ class Tester {
 
         File res = new File(directory, name + ".xls");
 
-        System.out.println(res.getAbsolutePath());
+      
         try {
             res.createNewFile();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        writer.WriteBuy(info, prices, res);*/
+        writer.WriteBuy(info, prices, res);
 
         /*
         ExcelReader reader = ConcreteReader.getInstance();
@@ -116,7 +120,7 @@ class Tester {
         System.out.println("Debe total: " + out.getCanistersBalance());
         */
 
-
+        /*
         ExcelReader reader = ConcreteReader.getInstance();
 
         File path = new File("");
@@ -147,7 +151,7 @@ class Tester {
 
         ExcelWriter writer = ConcreteWriter.getInstance();
 
-        writer.WriteRoute(customerCollection, routeFile);
+        writer.WriteRoute(customerCollection, routeFile);*/
     }
 
     private static Date getMonthBefore(Date date) {

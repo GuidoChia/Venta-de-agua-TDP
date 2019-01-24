@@ -40,11 +40,12 @@ import infos.PriceInfo;
 public class ConcreteWriter implements ExcelWriter {
 
     private CellStyle defaultStyle;
-
+    private RowInitializer rowInitializer;
     private static ExcelWriter INSTANCE;
 
     /**
      * Gets the singleton instance of ExcelWriter
+     *
      * @return instance of ExcelWriter
      */
     public static ExcelWriter getInstance() {
@@ -61,6 +62,7 @@ public class ConcreteWriter implements ExcelWriter {
         System.setProperty("org.apache.poi.javax.xml.stream.XMLInputFactory", "com.fasterxml.aalto.stax.InputFactoryImpl");
         System.setProperty("org.apache.poi.javax.xml.stream.XMLOutputFactory", "com.fasterxml.aalto.stax.OutputFactoryImpl");
         System.setProperty("org.apache.poi.javax.xml.stream.XMLEventFactory", "com.fasterxml.aalto.stax.EventFactoryImpl");
+        rowInitializer = new ConcreteRowInitializer();
     }
 
     @Override
@@ -72,7 +74,7 @@ public class ConcreteWriter implements ExcelWriter {
 
         Row lastRow = moveToEnd(customerSheet);
 
-        initializeRow(lastRow, info, prices);
+        initBuyRow(lastRow, info, prices);
 
         /*
         Autosize columns to fit content. Since autoSizeColumn method doesn't work on android
@@ -101,7 +103,9 @@ public class ConcreteWriter implements ExcelWriter {
         Workbook routeWorkbook = new HSSFWorkbook();
         defaultStyle = getDefaultStyle(routeWorkbook);
         Sheet routeSheet = routeWorkbook.createSheet();
-        initRouteTitles(routeSheet);
+
+        rowInitializer.initRouteTitles(routeSheet, defaultStyle);
+
         writeRouteCustomers(routeSheet, customers);
 
         /*
@@ -132,49 +136,13 @@ public class ConcreteWriter implements ExcelWriter {
         while (customerIterator.hasNext()) {
             currentRow = routeSheet.createRow(i);
             currentRow.setHeight((short) 310);
-            initRouteRow(currentRow, customerIterator.next());
+            rowInitializer.initRouteRow(currentRow, customerIterator.next(), defaultStyle);
             i++;
         }
 
 
     }
 
-    private void initRouteRow(Row currentRow, Customer customer) {
-
-        int cellIndex = 0;
-        Cell currentCell;
-        currentCell = currentRow.createCell(cellIndex);
-        currentCell.setCellType(CellType.STRING);
-        currentCell.setCellValue(customer.getName());
-        currentCell.setCellStyle(defaultStyle);
-
-        for (cellIndex = 1; cellIndex < 5; cellIndex++) {
-            currentCell = currentRow.createCell(cellIndex);
-            currentCell.setCellStyle(defaultStyle);
-        }
-
-        cellIndex = 5;
-        currentCell = currentRow.createCell(cellIndex);
-        currentCell.setCellStyle(defaultStyle);
-        if (customer.getBalance() != 0) {
-            currentCell.setCellType(CellType.NUMERIC);
-            currentCell.setCellValue(customer.getBalance());
-        }
-    }
-
-    private void initRouteTitles(Sheet routeSheet) {
-        Row firstRow = routeSheet.createRow(0);
-        String[] titles = {"Nombre", "20", "12", "Pago",
-                "Devueltos", "Observaciones"};
-        Cell currentCell;
-
-        for (int i = 0; i < titles.length; i++) {
-            currentCell = firstRow.createCell(i);
-            currentCell.setCellType(CellType.STRING);
-            currentCell.setCellValue(titles[i]);
-            currentCell.setCellStyle(defaultStyle);
-        }
-    }
 
     /**
      * Creates a new workbook for the name given.
@@ -225,7 +193,7 @@ public class ConcreteWriter implements ExcelWriter {
         Create the third row, with the titles.
          */
         row = sheet.createRow(2);
-        initTitles(row);
+        initBuyTitles(row);
 
 
     }
@@ -291,162 +259,10 @@ public class ConcreteWriter implements ExcelWriter {
      * @param info    The BuyInfo object
      * @param prices  The PriceInfo object.
      */
-    private void initializeRow(Row lastRow, BuyInfo info, PriceInfo prices) {
-        int cellIndex = 0;
-        String formula,
-                postFix;
-
-        Cell currentCell;
-
+    private void initBuyRow(Row lastRow, BuyInfo info, PriceInfo prices) {
         CellStyle style = getDefaultStyle(lastRow.getSheet().getWorkbook());
         style.setAlignment(HorizontalAlignment.RIGHT);
-
-        /*
-        This is the row num of the lastRow, but plus one to use it in formulas.
-         */
-        int lastRowNum = lastRow.getRowNum() + 1;
-
-        /*
-        Initialize the first cell, the date.
-         */
-        currentCell = (lastRow.getCell(cellIndex) == null) ? lastRow.createCell(cellIndex) : lastRow.getCell(cellIndex);
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-        String format = formatter.format(info.getDate());
-        currentCell.setCellType(CellType.STRING);
-        currentCell.setCellValue(format);
-        currentCell.setCellStyle(style);
-        cellIndex++;
-
-        /*
-        Initialize the second cell, the amount of twenty canisters bought.
-         */
-        currentCell = (lastRow.getCell(cellIndex) == null) ? lastRow.createCell(cellIndex) : lastRow.getCell(cellIndex);
-        currentCell.setCellType(CellType.NUMERIC);
-        currentCell.setCellValue(info.getTwentyCanister());
-        currentCell.setCellStyle(style);
-        cellIndex++;
-
-        /*
-        Initialize the third cell, the amount of twelve canisters bought.
-         */
-        currentCell = (lastRow.getCell(cellIndex) == null) ? lastRow.createCell(cellIndex) : lastRow.getCell(cellIndex);
-        currentCell.setCellType(CellType.NUMERIC);
-        currentCell.setCellValue(info.getTwelveCanister());
-        currentCell.setCellStyle(style);
-        cellIndex++;
-
-        /*
-        Calculate the forth cell, the total price of the buy.
-         */
-
-        formula = "B" + lastRowNum + '*' + prices.getTwentyPrice()
-                + "+C" + lastRowNum + '*' + prices.getTwelvePrice();
-
-        currentCell = (lastRow.getCell(cellIndex) == null) ? lastRow.createCell(cellIndex) : lastRow.getCell(cellIndex);
-        if (!currentCell.getCellTypeEnum().equals(CellType.FORMULA)) {
-            currentCell.setCellFormula(null);
-            currentCell.setCellType(CellType.FORMULA);
-        }
-        currentCell.setCellFormula(formula);
-        currentCell.setCellStyle(style);
-        cellIndex++;
-
-        /*
-        Initialize the fifth cell, the amount of money paid
-         */
-        currentCell = (lastRow.getCell(cellIndex) == null) ? lastRow.createCell(cellIndex) : lastRow.getCell(cellIndex);
-        currentCell.setCellType(CellType.NUMERIC);
-        currentCell.setCellValue(info.getPaid());
-        currentCell.setCellStyle(style);
-        cellIndex++;
-
-        /*
-        Calculate the sixth cell, the customer's balance.
-         */
-
-        postFix = isFirstRow(lastRowNum) ? "" : "+F" + (lastRowNum - 1);
-
-
-        formula = "D" + lastRowNum + "-E" + lastRowNum + postFix;
-        currentCell = (lastRow.getCell(cellIndex) == null) ? lastRow.createCell(cellIndex) : lastRow.getCell(cellIndex);
-        if (currentCell.getCellTypeEnum() != CellType.FORMULA) {
-            currentCell.setCellFormula(null);
-            currentCell.setCellType(CellType.FORMULA);
-        }
-        currentCell.setCellFormula(formula);
-        currentCell.setCellStyle(style);
-        SheetConditionalFormatting formatting = lastRow.getSheet().getSheetConditionalFormatting();
-        ConditionalFormattingRule rule = formatting.createConditionalFormattingRule(ComparisonOperator.GT, "0");
-        PatternFormatting pattern = rule.createPatternFormatting();
-        pattern.setFillBackgroundColor(IndexedColors.CORAL.index);
-        CellRangeAddress addresses[] = {new CellRangeAddress(currentCell.getRowIndex(),
-                currentCell.getRowIndex(),
-                currentCell.getColumnIndex(),
-                currentCell.getColumnIndex())};
-        formatting.addConditionalFormatting(addresses, rule);
-        cellIndex++;
-
-        /*
-        Initialize the seventh cell, the amount of returned twenty canisters.
-         */
-        currentCell = (lastRow.getCell(cellIndex) == null) ? lastRow.createCell(cellIndex) : lastRow.getCell(cellIndex);
-        currentCell.setCellType(CellType.NUMERIC);
-        currentCell.setCellValue(info.getTwentyReturnedCanister());
-        currentCell.setCellStyle(style);
-        cellIndex++;
-
-        /*
-        Calculate the eighth cell, the balance of twenty canisters.
-         */
-        postFix = isFirstRow(lastRowNum) ? "" : "+H" + (lastRowNum - 1);
-
-        formula = "B" + lastRowNum + "-G" + lastRowNum + postFix;
-        currentCell = (lastRow.getCell(cellIndex) == null) ? lastRow.createCell(cellIndex) : lastRow.getCell(cellIndex);
-        if (currentCell.getCellTypeEnum() != CellType.FORMULA) {
-            currentCell.setCellFormula(null);
-            currentCell.setCellType(CellType.FORMULA);
-        }
-        currentCell.setCellFormula(formula);
-        currentCell.setCellStyle(style);
-        cellIndex++;
-
-        /*
-        Initialize the  ninth cell, the amount of returned twelve canisters.
-         */
-        currentCell = (lastRow.getCell(cellIndex) == null) ? lastRow.createCell(cellIndex) : lastRow.getCell(cellIndex);
-        currentCell.setCellType(CellType.NUMERIC);
-        currentCell.setCellValue(info.getTwelveReturnedCanister());
-        currentCell.setCellStyle(style);
-        cellIndex++;
-
-        /*
-        Calculate the tenth cell, the balance of twelve canisters.
-         */
-        postFix = isFirstRow(lastRowNum) ? "" : "+J" + (lastRowNum - 1);
-
-        formula = "C" + lastRowNum + "-I" + lastRowNum + postFix;
-        currentCell = (lastRow.getCell(cellIndex) == null) ? lastRow.createCell(cellIndex) : lastRow.getCell(cellIndex);
-        if (currentCell.getCellTypeEnum() != CellType.FORMULA) {
-            currentCell.setCellFormula(null);
-            currentCell.setCellType(CellType.FORMULA);
-        }
-        currentCell.setCellFormula(formula);
-        currentCell.setCellStyle(style);
-        cellIndex++;
-
-        /*
-        Calculate the eleventh cell, the total balance of canisters.
-         */
-
-        formula = "H" + lastRowNum + "+J" + lastRowNum;
-        currentCell = (lastRow.getCell(cellIndex) == null) ? lastRow.createCell(cellIndex) : lastRow.getCell(cellIndex);
-        if (currentCell.getCellTypeEnum() != CellType.FORMULA) {
-            currentCell.setCellFormula(null);
-            currentCell.setCellType(CellType.FORMULA);
-        }
-        currentCell.setCellFormula(formula);
-        currentCell.setCellStyle(style);
-
+        rowInitializer.initBuyRow(lastRow, info, prices, style);
     }
 
     /**
@@ -454,34 +270,12 @@ public class ConcreteWriter implements ExcelWriter {
      *
      * @param row The row to initialize
      */
-    private void initTitles(Row row) {
-
-        row.setHeightInPoints(40);
-
+    private void initBuyTitles(Row row) {
         CellStyle style = getDefaultStyle(row.getSheet().getWorkbook());
         style.setAlignment(HorizontalAlignment.CENTER);
-
-        String[] titles = {"Fecha", "20", "12", "Total", "Pago", "Saldo",
-                "Envases devueltos 20", "Envases 20", "Envases devueltos 12",
-                "Envases 12", "Envases totales"};
-
-        for (int index = 0; index < titles.length; index++) {
-            Cell cell = row.createCell(index);
-            cell.setCellValue(titles[index]);
-            cell.setCellStyle(style);
-        }
-
+        rowInitializer.initBuyTitles(row, style);
     }
 
-    /**
-     * Checks if the given rowNum corresponds to the first row (row 4).
-     *
-     * @param rowNum Number of the row.
-     * @return true if the row is the first after the titles, false otherwise.
-     */
-    private boolean isFirstRow(int rowNum) {
-        return (rowNum <= 4);
-    }
 
     /**
      * Creates an outlined style with vertical aligment center
