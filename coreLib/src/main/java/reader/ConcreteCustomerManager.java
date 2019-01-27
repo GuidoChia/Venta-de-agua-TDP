@@ -1,6 +1,7 @@
 package reader;
 
 import java.util.Collection;
+import java.util.LinkedList;
 
 import customer.Customer;
 import visitors.PaidVisitor;
@@ -24,7 +25,11 @@ public class ConcreteCustomerManager implements CustomerManager {
      * @param customers Collection of customers
      */
     public ConcreteCustomerManager(Collection<Customer> customers) {
-        this.customers = customers;
+        if (customers != null) {
+            this.customers = customers;
+        } else {
+            customers=new LinkedList<>();
+        }
     }
 
     @Override
@@ -64,6 +69,17 @@ public class ConcreteCustomerManager implements CustomerManager {
         visitAll(v);
 
         return v.getCollection();
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        for (Customer c : customers) {
+            builder.append(c.toString());
+            builder.append(System.lineSeparator());
+        }
+
+        return builder.toString();
     }
 
     /**

@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 
 import com.whiteelephant.monthpicker.MonthPickerDialog;
 
@@ -56,6 +57,7 @@ public class CalcularFragment extends Fragment {
         Button btn12 = view.findViewById(id.calcular_bidones_12);
         Button btn20 = view.findViewById(id.calcular_bidones_20);
         Button btnTot = view.findViewById(id.calcular_total_bidones);
+        CheckBox checkBox = view.findViewById(id.checkbox_lista_mes);
 
         if (ContextCompat.checkSelfPermission(this.getContext(),
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -69,6 +71,13 @@ public class CalcularFragment extends Fragment {
                 CustomerManager manager = getMonthManager(view, path);
 
                 Bundle bnd = new Bundle();
+
+                if (checkBox.isChecked()) {
+                    bnd.putString("list", manager.toString());
+                } else {
+                    bnd.putString("list", "");
+                }
+
                 bnd.putString("result", String.valueOf(manager.getPaid()));
 
                 setFragment(FRAGMENT_RESULTADOS, bnd);
@@ -78,6 +87,13 @@ public class CalcularFragment extends Fragment {
                 CustomerManager manager = getMonthManager(view, path);
 
                 Bundle bnd = new Bundle();
+
+                if (checkBox.isChecked()) {
+                    bnd.putString("list", manager.toString());
+                } else {
+                    bnd.putString("list", "");
+                }
+
                 bnd.putString("result", String.valueOf(manager.getTwelveBought()));
 
                 setFragment(FRAGMENT_RESULTADOS, bnd);
@@ -88,6 +104,13 @@ public class CalcularFragment extends Fragment {
                 CustomerManager manager = getMonthManager(view, path);
 
                 Bundle bnd = new Bundle();
+
+
+                if (checkBox.isChecked()) {
+                    bnd.putString("list", manager.toString());
+                } else {
+                    bnd.putString("list", "");
+                }
                 bnd.putString("result", String.valueOf(manager.getTwentyBought()));
 
                 setFragment(FRAGMENT_RESULTADOS, bnd);
@@ -97,6 +120,13 @@ public class CalcularFragment extends Fragment {
                 CustomerManager manager = getMonthManager(view, path);
 
                 Bundle bnd = new Bundle();
+
+                if (checkBox.isChecked()) {
+                    bnd.putString("list", manager.toString());
+                } else {
+                    bnd.putString("list", "");
+                }
+
                 int res = manager.getTwelveBought() + manager.getTwentyBought();
                 bnd.putString("result", String.valueOf(res));
 

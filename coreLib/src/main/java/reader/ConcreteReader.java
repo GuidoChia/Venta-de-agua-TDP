@@ -115,7 +115,7 @@ public class ConcreteReader implements ExcelReader {
      *
      * @param strat     The strategy
      * @param directory Directory in which the customer's folder will be in
-     * @return Customer collectino containing the created Custoemrs following de strategy given
+     * @return Customer collection containing the created Customers following de strategy given
      */
     private Collection<Customer> readCostumers(DateStrategy strat, File directory) {
         List<Customer> res = new LinkedList<>();

@@ -104,7 +104,6 @@ public class ConcreteRowInitializer implements RowInitializer {
         /*
         Calculate the sixth cell, the customer's balance.
          */
-
         initSixthCellBuy(lastRow, style, cellIndex, lastRowNum);
         cellIndex++;
 
@@ -135,7 +134,6 @@ public class ConcreteRowInitializer implements RowInitializer {
         /*
         Calculate the eleventh cell, the total balance of canisters.
          */
-
         initEleventhCellBuy(lastRow, style, cellIndex, lastRowNum);
     }
 

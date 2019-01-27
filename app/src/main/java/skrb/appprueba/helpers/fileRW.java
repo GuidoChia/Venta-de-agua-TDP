@@ -5,6 +5,7 @@ import android.util.Log;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
@@ -104,8 +105,10 @@ public abstract class fileRW {
             }
         }
 
+        String[] res = strings.toArray(new String[0]);
+        Arrays.sort(res);
 
-        return strings.toArray(new String[0]);
+        return res;
 
     }
 

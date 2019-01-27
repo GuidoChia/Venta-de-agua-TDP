@@ -1,5 +1,6 @@
 package skrb.appprueba.Fragments;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -21,23 +22,25 @@ public class MostrarResultadosFragment extends Fragment {
 
         TextView txt = view.findViewById(id.textResultadoNombre);
         String msg = Objects.requireNonNull(getArguments()).getString("name");
-        txt.setText(getResources().getString(string.nombre) + msg);
+        txt.setTypeface(txt.getTypeface(),Typeface.BOLD);
+        txt.setText(msg);
+
 
         txt = view.findViewById(id.textResultadoSaldo);
         msg = Double.toString(getArguments().getDouble("balance"));
-        txt.setText(getResources().getString(string.saldo) + msg);
+        txt.setText(getResources().getString(string.saldo)+ " " + msg);
 
         txt = view.findViewById(id.textResultadoSaldoDe12);
         msg = Integer.toString(getArguments().getInt("twelveBalance"));
-        txt.setText(getResources().getString(string.saldoDe12) + msg);
+        txt.setText(getResources().getString(string.saldoDe12)+" " + msg);
 
         txt = view.findViewById(id.textResultadoSaldoDe20);
         msg = Integer.toString(getArguments().getInt("twentyBalance"));
-        txt.setText(getResources().getString(string.saldoDe20) + msg);
+        txt.setText(getResources().getString(string.saldoDe20)+" " + msg);
 
         txt = view.findViewById(id.textResultadoUltimaCompra);
         msg = getArguments().getString("date");
-        txt.setText(getResources().getString(string.ultimaFecha) + msg);
+        txt.setText(getResources().getString(string.ultimaFecha)+" " + msg);
 
         return view;
     }

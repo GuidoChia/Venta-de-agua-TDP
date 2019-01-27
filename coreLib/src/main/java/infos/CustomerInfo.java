@@ -46,4 +46,18 @@ public class CustomerInfo {
     public void addTwentyCanisters(int twenty) {
         this.twenty += twenty;
     }
+
+    @Override
+    public String toString(){
+        String first,
+                second,
+                third;
+
+        first = (twelve>0)? "Bidones de 12: "+twelve+". ": "";
+        second = (twenty>0)? "Bidones de 20: "+twenty+". ": "";
+        third = "Pago: "+((int)paid)+". ";
+
+        return first+second+third;
+
+    }
 }

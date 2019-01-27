@@ -23,6 +23,7 @@ public class ConcreteCustomer implements Customer {
 
     /**
      * Creates an instance of ConcreteCustomer with name 'name'
+     *
      * @param name Name of the customer
      */
     public ConcreteCustomer(String name) {
@@ -114,5 +115,9 @@ public class ConcreteCustomer implements Customer {
         v.visit(this);
     }
 
+    @Override
+    public String toString() {
+        return name + ": " + info.toString() + "Saldo: " + ((int) balance);
+    }
 
 }

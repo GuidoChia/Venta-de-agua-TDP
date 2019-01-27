@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 
 import java.io.File;
@@ -53,6 +54,7 @@ public class CalcularDiaFragment extends Fragment implements DatePickerDialog.On
         Button btnTot = view.findViewById(R.id.calcular_total_bidones_dia);
         Button btn12 = view.findViewById(R.id.calcular_bidones_12_dia);
         Button btn20 = view.findViewById(R.id.calcular_bidones_20_dia);
+        CheckBox checkBox = view.findViewById(R.id.checkbox_lista_dia);
 
         if (ContextCompat.checkSelfPermission(this.getContext(),
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -66,6 +68,13 @@ public class CalcularDiaFragment extends Fragment implements DatePickerDialog.On
                 CustomerManager manager = getCustomerManager(view, path);
 
                 Bundle bnd = new Bundle();
+
+                if (checkBox.isChecked()) {
+                    bnd.putString("list", manager.toString());
+                } else {
+                    bnd.putString("list", "");
+                }
+
                 bnd.putString("result", String.valueOf(manager.getPaid()));
 
                 setFragment(FRAGMENT_RESULTADOS, bnd);
@@ -75,6 +84,12 @@ public class CalcularDiaFragment extends Fragment implements DatePickerDialog.On
                 CustomerManager manager = getCustomerManager(view, path);
 
                 Bundle bnd = new Bundle();
+
+                if (checkBox.isChecked()) {
+                    bnd.putString("list", manager.toString());
+                } else {
+                    bnd.putString("list", "");
+                }
                 bnd.putString("result", String.valueOf(manager.getTwelveBought()));
 
                 setFragment(FRAGMENT_RESULTADOS, bnd);
@@ -85,6 +100,13 @@ public class CalcularDiaFragment extends Fragment implements DatePickerDialog.On
                 CustomerManager manager = getCustomerManager(view, path);
 
                 Bundle bnd = new Bundle();
+
+                if (checkBox.isChecked()) {
+                    bnd.putString("list", manager.toString());
+                } else {
+                    bnd.putString("list", "");
+                }
+
                 bnd.putString("result", String.valueOf(manager.getTwentyBought()));
 
                 setFragment(FRAGMENT_RESULTADOS, bnd);
@@ -94,6 +116,13 @@ public class CalcularDiaFragment extends Fragment implements DatePickerDialog.On
                 CustomerManager manager = getCustomerManager(view, path);
 
                 Bundle bnd = new Bundle();
+
+                if (checkBox.isChecked()) {
+                    bnd.putString("list", manager.toString());
+                } else {
+                    bnd.putString("list", "");
+                }
+
                 int res = manager.getTwelveBought() + manager.getTwentyBought();
                 bnd.putString("result", String.valueOf(res));
 

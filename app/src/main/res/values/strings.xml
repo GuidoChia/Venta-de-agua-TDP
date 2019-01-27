@@ -42,6 +42,7 @@
     <string name="calcular_ingreso_dia">Calcular ingreso bruto diario</string>
     <string name="resultado">Resultado:   </string>
     <string name="confirmar_compra">¿Desea confirmar la compra?</string>
+    <string name="mostrar_lista">Mostrar lista de clientes</string>
 
     <string-array name="precios_array">
         <item>Precio de 20</item>

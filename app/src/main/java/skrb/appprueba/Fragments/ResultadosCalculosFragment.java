@@ -21,10 +21,14 @@ public class ResultadosCalculosFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View view = inflater.inflate(layout.fragment_resultados_mensuales, container, false);
 
-        TextView txt = view.findViewById(id.text_resultados_mensuales);
-        String msg = Objects.requireNonNull(getArguments()).getString("result");
+        TextView res = view.findViewById(id.text_resultados_mensuales);
+        TextView list = view.findViewById(id.text_lista_resultados);
 
-        txt.setText(view.getResources().getString(string.resultado) + msg);
+        String msg = Objects.requireNonNull(getArguments()).getString("result");
+        res.setText(view.getResources().getString(string.resultado) + msg);
+
+        msg = Objects.requireNonNull(getArguments()).getString("list");
+        list.setText(msg);
 
         return view;
     }
