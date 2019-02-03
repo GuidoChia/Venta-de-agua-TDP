@@ -31,7 +31,7 @@ import reader.ConcreteReader;
 import reader.CustomerManager;
 import skrb.appprueba.MainActivity;
 import skrb.appprueba.R;
-import skrb.appprueba.helpers.fileRW;
+import skrb.appprueba.helpers.FileHelper;
 
 public class CalcularDiaFragment extends Fragment implements DatePickerDialog.OnDateSetListener {
     private static final int FRAGMENT_RESULTADOS = 0;
@@ -48,7 +48,7 @@ public class CalcularDiaFragment extends Fragment implements DatePickerDialog.On
 
         initDayButton(view);
 
-        File path = fileRW.getPath();
+        File path = FileHelper.getPath();
 
         Button btnDinero = view.findViewById(R.id.calcular_dinero_dia);
         Button btnTot = view.findViewById(R.id.calcular_total_bidones_dia);

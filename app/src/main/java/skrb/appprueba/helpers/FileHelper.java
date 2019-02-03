@@ -13,11 +13,11 @@ import java.util.regex.Pattern;
 
 
 /**
- * Abstract class fileRW represents a helper for the files objects.
+ * Abstract class FileHelper represents a helper for the files objects.
  *
  * @author Guido Chia
  */
-public abstract class fileRW {
+public abstract class FileHelper {
     private static String baseDir = "Ypora Clientes";
 
     /*
@@ -32,23 +32,12 @@ public abstract class fileRW {
      * @return The excel file of the customer.
      */
     public static File findFileWrite(String name) {
-        String[] strings = name.split(" ");
-        StringBuilder builder = new StringBuilder(25);
-        for (int i = 0; i < strings.length; i++) {
-            strings[i] = Character.toUpperCase(strings[i].charAt(0)) + strings[i].substring(1);
-            if (i != (strings.length - 1))
-                builder.append(strings[i])
-                        .append(' ');
-            else
-                builder.append(strings[i]);
-        }
 
-        String finalName = builder.toString();
         File directoryParent = new File(path, baseDir);
-        File directory = new File(directoryParent, String.valueOf(finalName.charAt(0)));
+        File directory = new File(directoryParent, String.valueOf(name.charAt(0)));
         directory.mkdirs();
 
-        File res = new File(directory, finalName + ".xlsx");
+        File res = new File(directory, name + ".xlsx");
 
         if (!res.exists()) {
             res = new File(directory, name + ".xls");

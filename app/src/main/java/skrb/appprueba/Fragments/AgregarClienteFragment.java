@@ -47,8 +47,8 @@ import writer.ExcelWriter;
 
 import static skrb.appprueba.Fragments.EstablecerPrecioFragment.DEF_VALUE_12;
 import static skrb.appprueba.Fragments.EstablecerPrecioFragment.DEF_VALUE_20;
-import static skrb.appprueba.helpers.fileRW.findFileWrite;
-import static skrb.appprueba.helpers.fileRW.initClientes;
+import static skrb.appprueba.helpers.FileHelper.findFileWrite;
+import static skrb.appprueba.helpers.FileHelper.initClientes;
 
 
 public class AgregarClienteFragment extends Fragment implements OnDateSetListener, DialogConfirmarFragment.DialogConfirmarListener {

@@ -34,9 +34,9 @@ import skrb.appprueba.MainActivity;
 import skrb.appprueba.R;
 import skrb.appprueba.R.id;
 import skrb.appprueba.R.string;
-import skrb.appprueba.helpers.fileRW;
+import skrb.appprueba.helpers.FileHelper;
 
-import static skrb.appprueba.helpers.fileRW.initClientes;
+import static skrb.appprueba.helpers.FileHelper.initClientes;
 
 
 public class BuscarClienteFragment extends Fragment {
@@ -82,7 +82,7 @@ public class BuscarClienteFragment extends Fragment {
                     showError();
                 } else {
                     ExcelReader reader = ConcreteReader.getInstance();
-                    File file = fileRW.findFileRead(name);
+                    File file = FileHelper.findFileRead(name);
                     OutputInfo out;
                     if (file.exists()) {
                         try {

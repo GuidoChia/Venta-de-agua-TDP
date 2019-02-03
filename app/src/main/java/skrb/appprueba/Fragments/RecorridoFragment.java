@@ -27,7 +27,7 @@ import reader.ConcreteReader;
 import reader.ExcelReader;
 import skrb.appprueba.MainActivity;
 import skrb.appprueba.R;
-import skrb.appprueba.helpers.fileRW;
+import skrb.appprueba.helpers.FileHelper;
 import writer.ConcreteWriter;
 import writer.ExcelWriter;
 
@@ -55,11 +55,11 @@ public class RecorridoFragment extends Fragment {
 
                     ExcelReader reader = ConcreteReader.getInstance();
                     Date[] months = new Date[]{lastMonth, today};
-                    Collection<Customer> customers = reader.readCostumersMonth(months, fileRW.getPath());
+                    Collection<Customer> customers = reader.readCostumersMonth(months, FileHelper.getPath());
                     Collection<Customer> routeCustomers = new ConcreteCustomerManager(customers).getRoute();
 
                     ExcelWriter writer = ConcreteWriter.getInstance();
-                    writer.WriteRoute(routeCustomers, fileRW.createFileRoute());
+                    writer.WriteRoute(routeCustomers, FileHelper.createFileRoute());
 
                     Snackbar snackbarAgregado = Snackbar.make(view, R.string.msg_recorrido_creado, Snackbar.LENGTH_LONG);
                     snackbarAgregado.show();

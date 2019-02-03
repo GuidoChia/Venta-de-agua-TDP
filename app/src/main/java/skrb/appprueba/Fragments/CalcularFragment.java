@@ -33,7 +33,7 @@ import skrb.appprueba.MainActivity;
 import skrb.appprueba.R;
 import skrb.appprueba.R.id;
 import skrb.appprueba.R.layout;
-import skrb.appprueba.helpers.fileRW;
+import skrb.appprueba.helpers.FileHelper;
 
 public class CalcularFragment extends Fragment {
     private static final int FRAGMENT_RESULTADOS = 0;
@@ -51,7 +51,7 @@ public class CalcularFragment extends Fragment {
 
         initMonthButton(view);
 
-        File path = fileRW.getPath();
+        File path = FileHelper.getPath();
 
         Button btnDinero = view.findViewById(id.calcular_dinero_mensual);
         Button btn12 = view.findViewById(id.calcular_bidones_12);
