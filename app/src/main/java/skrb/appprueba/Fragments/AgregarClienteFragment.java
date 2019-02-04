@@ -171,7 +171,7 @@ public class AgregarClienteFragment extends Fragment implements OnDateSetListene
     }
 
     @Override
-    public void onDialogPositiveClick(DialogFragment dialog) {
+    public void onDialogPositiveClick() {
 
         View view = AgregarClienteFragment.this.getView();
 

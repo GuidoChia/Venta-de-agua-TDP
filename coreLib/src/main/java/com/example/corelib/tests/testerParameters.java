@@ -23,9 +23,9 @@ class testerParameters {
         Date[] days = new Date[]{today};
         Collection<Customer> customers = reader.readCostumersDays(days, path);
 
-        for (Customer c: customers){
-            System.out.print(c.getName()+" ");
-            System.out.println("Pagado: "+ c.getPaid());
+        for (Customer c : customers) {
+            System.out.print(c.getName() + " ");
+            System.out.println("Pagado: " + c.getPaid());
         }
 
 

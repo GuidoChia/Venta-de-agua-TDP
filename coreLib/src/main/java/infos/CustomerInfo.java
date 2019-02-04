@@ -13,9 +13,10 @@ public class CustomerInfo {
 
     /**
      * Creates an instance of CustomerInfo
+     *
      * @param twelve Amount of twelve canisters
      * @param twenty Amount of twenty canisters
-     * @param paid Amount of money paid
+     * @param paid   Amount of money paid
      */
     public CustomerInfo(int twelve, int twenty, double paid) {
         this.paid = paid;
@@ -48,16 +49,16 @@ public class CustomerInfo {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         String first,
                 second,
                 third;
 
-        first = (twelve>0)? "Bidones de 12: "+twelve+". ": "";
-        second = (twenty>0)? "Bidones de 20: "+twenty+". ": "";
-        third = "Pago: "+((int)paid)+". ";
+        first = (twelve > 0) ? "Bidones de 12: " + twelve + ". " : "";
+        second = (twenty > 0) ? "Bidones de 20: " + twenty + ". " : "";
+        third = "Pago: " + ((int) paid) + ". ";
 
-        return first+second+third;
+        return first + second + third;
 
     }
 }

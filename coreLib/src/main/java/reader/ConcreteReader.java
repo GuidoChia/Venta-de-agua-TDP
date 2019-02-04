@@ -40,6 +40,7 @@ public class ConcreteReader implements ExcelReader {
 
     /**
      * Gets the singleton instance of the Writer
+     *
      * @return the ExcelReader instance
      */
     public static ExcelReader getInstance() {
@@ -125,7 +126,7 @@ public class ConcreteReader implements ExcelReader {
 
         File[] subFolders = folder.listFiles();
 
-        if (subFolders==null){
+        if (subFolders == null) {
             return res;
         }
 

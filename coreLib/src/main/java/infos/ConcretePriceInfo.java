@@ -7,6 +7,7 @@ public class ConcretePriceInfo implements PriceInfo {
 
     /**
      * Creates an instance of ConcretePriceInfo
+     *
      * @param twelvePrice Price of twelve canisters
      * @param twentyPrice Price of twenty canisters
      */

@@ -28,7 +28,7 @@ public class ConcreteCustomerManager implements CustomerManager {
         if (customers != null) {
             this.customers = customers;
         } else {
-            customers=new LinkedList<>();
+            this.customers = new LinkedList<>();
         }
     }
 

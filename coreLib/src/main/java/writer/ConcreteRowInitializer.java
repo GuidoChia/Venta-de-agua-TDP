@@ -60,10 +60,6 @@ public class ConcreteRowInitializer implements RowInitializer {
     @Override
     public void initBuyRow(Row lastRow, BuyInfo info, PriceInfo prices, CellStyle style) {
         int cellIndex = 0;
-        String formula,
-                postFix;
-
-        Cell currentCell;
 
         /*
         This is the row num of the lastRow, but plus one to use it in formulas.

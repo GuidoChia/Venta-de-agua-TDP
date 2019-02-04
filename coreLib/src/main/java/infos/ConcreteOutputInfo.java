@@ -10,8 +10,9 @@ public class ConcreteOutputInfo implements OutputInfo {
 
     /**
      * Creates a new instance of ConcreteOutputInfo
-     * @param lastDate The last buy of the customer
-     * @param balance The money balance of the customer
+     *
+     * @param lastDate      The last buy of the customer
+     * @param balance       The money balance of the customer
      * @param twentyBalance The twenty canisters balance of the customer
      * @param twelveBalance The twelve canisters balance of the customer
      */

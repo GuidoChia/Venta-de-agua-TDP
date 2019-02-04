@@ -4,6 +4,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -15,8 +16,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textIsSelectable="true"
-            android:textSize="30sp"
-            />
+            android:textSize="30sp" />
 
         <TextView
             android:id="@+id/text_lista_resultados"

@@ -4,5 +4,6 @@ public class WorkbookException extends Exception {
     /**
      * Creates an instance of WorkbookException
      */
-    public WorkbookException() { }
+    public WorkbookException() {
+    }
 }

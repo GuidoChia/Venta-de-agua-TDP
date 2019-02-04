@@ -51,7 +51,7 @@
         android:id="@+id/checkbox_lista_mes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/mostrar_lista"/>
+        android:text="@string/mostrar_lista" />
 
     <ScrollView
         android:id="@+id/fragment_resultados_mes"

@@ -21,7 +21,7 @@ public class DialogConfirmarFragment extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         builder.setMessage(getString(R.string.confirmar_compra))
-                .setPositiveButton(R.string.CONFIRM, (dialog, id1) -> mListener.onDialogPositiveClick(DialogConfirmarFragment.this))
+                .setPositiveButton(R.string.CONFIRM, (dialog, id1) -> mListener.onDialogPositiveClick())
                 .setNegativeButton(R.string.CANCEL, (dialog, which) -> DialogConfirmarFragment.this.getDialog().cancel());
 
         // Create the AlertDialog object and return it
@@ -45,6 +45,6 @@ public class DialogConfirmarFragment extends DialogFragment {
     }
 
     public interface DialogConfirmarListener {
-        void onDialogPositiveClick(DialogFragment dialog);
+        void onDialogPositiveClick();
     }
 }
