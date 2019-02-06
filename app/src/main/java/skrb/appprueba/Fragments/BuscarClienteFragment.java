@@ -12,6 +12,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.text.Editable;
+import android.transition.Fade;
+import android.transition.Visibility;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -138,6 +140,9 @@ public class BuscarClienteFragment extends Fragment {
                 fragmentManager = Objects.requireNonNull(act).getSupportFragmentManager();
                 fragmentTransaction = fragmentManager.beginTransaction();
                 frag = new MostrarResultadosFragment();
+                Visibility transition = new Fade();
+                frag.setExitTransition(transition);
+                frag.setEnterTransition(transition);
                 frag.setArguments(bnd);
                 fragmentTransaction.replace(id.fragment_resultados, frag);
                 fragmentTransaction.commit();

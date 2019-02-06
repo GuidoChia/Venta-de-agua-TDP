@@ -7,6 +7,9 @@ import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.transition.Fade;
+import android.support.transition.Slide;
+import android.support.transition.Visibility;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -17,6 +20,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.MenuItem;
 
 import java.util.Objects;
@@ -55,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String PRICE_BOT = "price_botellitas";
     public static final String PRICE_DEST = "price_destilada";
     private static final int PERMISSION_WRITE = 0;
+    private static final int ANIMATION_DEFAULT_TIME= 300;
 
     private DrawerLayout mDrawerLayout;
     private ActionBar actBar;
@@ -150,59 +155,42 @@ public class MainActivity extends AppCompatActivity {
                     PERMISSION_WRITE);
 
         }
-        FragmentManager fragmentManager;
-        FragmentTransaction fragmentTransaction;
-        Fragment frag;
         switch (position) {
             case FRAGMENT_AGREGAR:
-                fragmentManager = getSupportFragmentManager();
-                fragmentTransaction = fragmentManager.beginTransaction();
-                frag = new AgregarClienteFragment();
-                fragmentTransaction.replace(id.fragment, frag);
-                fragmentTransaction.commit();
+                changeFragment(new AgregarClienteFragment());
                 break;
             case FRAGMENT_BUSCAR:
-                fragmentManager = getSupportFragmentManager();
-                fragmentTransaction = fragmentManager.beginTransaction();
-                frag = new BuscarClienteFragment();
-                fragmentTransaction.replace(id.fragment, frag);
-                fragmentTransaction.commit();
+                changeFragment(new BuscarClienteFragment());
                 break;
             case FRAGMENT_ABOUT:
-                fragmentManager = getSupportFragmentManager();
-                fragmentTransaction = fragmentManager.beginTransaction();
-                frag = new AboutFragment();
-                fragmentTransaction.replace(id.fragment, frag);
-                fragmentTransaction.commit();
+                changeFragment(new AboutFragment());
                 break;
             case FRAGMENT_CALCULAR:
-                fragmentManager = getSupportFragmentManager();
-                fragmentTransaction = fragmentManager.beginTransaction();
-                frag = new CalcularFragment();
-                fragmentTransaction.replace(id.fragment, frag);
-                fragmentTransaction.commit();
+                changeFragment(new CalcularFragment());
                 break;
             case FRAGMENT_PRECIO:
-                fragmentManager = getSupportFragmentManager();
-                fragmentTransaction = fragmentManager.beginTransaction();
-                frag = new EstablecerPrecioFragment();
-                fragmentTransaction.replace(id.fragment, frag);
-                fragmentTransaction.commit();
+                changeFragment(new EstablecerPrecioFragment());
                 break;
             case FRAGMENT_CALCULAR_DIA:
-                fragmentManager = getSupportFragmentManager();
-                fragmentTransaction = fragmentManager.beginTransaction();
-                frag = new CalcularDiaFragment();
-                fragmentTransaction.replace(id.fragment, frag);
-                fragmentTransaction.commit();
+                changeFragment(new CalcularDiaFragment());
                 break;
             case FRAGMENT_CALCULAR_RECORRIDO:
-                fragmentManager = getSupportFragmentManager();
-                fragmentTransaction = fragmentManager.beginTransaction();
-                frag = new RecorridoFragment();
-                fragmentTransaction.replace(id.fragment, frag);
-                fragmentTransaction.commit();
+                changeFragment(new RecorridoFragment());
                 break;
         }
+    }
+
+    private void changeFragment(Fragment frag) {
+        FragmentManager fragmentManager;
+        FragmentTransaction fragmentTransaction;
+
+        Visibility transition = new Slide(Gravity.END);
+
+        fragmentManager = getSupportFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
+        frag.setEnterTransition(transition);
+        frag.setExitTransition(transition);
+        fragmentTransaction.replace(id.fragment, frag);
+        fragmentTransaction.commit();
     }
 }
