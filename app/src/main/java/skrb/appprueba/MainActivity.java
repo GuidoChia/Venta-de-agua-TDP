@@ -7,7 +7,6 @@ import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.transition.Fade;
 import android.support.transition.Slide;
 import android.support.transition.Visibility;
 import android.support.v4.app.ActivityCompat;

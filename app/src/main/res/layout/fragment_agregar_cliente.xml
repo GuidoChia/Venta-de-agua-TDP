@@ -177,9 +177,7 @@
             android:layout_height="60dp"
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
-            android:text="@string/confirmar_venta"
-
-            >
+            android:text="@string/confirmar_venta">
 
         </android.support.design.button.MaterialButton>
 
