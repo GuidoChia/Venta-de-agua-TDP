@@ -1,4 +1,4 @@
-# Venta-de-agua-TDP
+# Venta de agua TDP
 Repo a usar para el proyecto final de TDP de **Guido Chia**.
 
 El proyecto consiste en una aplicacion para administrar la venta de agua de una empresa.
