@@ -30,6 +30,7 @@ import static skrb.appprueba.MainActivity.PRICE_12;
 import static skrb.appprueba.MainActivity.PRICE_20;
 import static skrb.appprueba.MainActivity.PRICE_BOT;
 import static skrb.appprueba.MainActivity.PRICE_DEST;
+import static skrb.appprueba.MainActivity.PRICE_DISP_MESA;
 import static skrb.appprueba.MainActivity.PRICE_PREFS;
 
 public class EstablecerPrecioFragment extends Fragment {
@@ -37,6 +38,7 @@ public class EstablecerPrecioFragment extends Fragment {
     public static final int DEF_VALUE_12 = 50;
     public static final int DEF_VALUE_BOT = 120;
     public static final int DEF_VALUE_DEST = 40;
+    public static final int DEF_VALUE_DISP_MESA = 180;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -83,6 +85,8 @@ public class EstablecerPrecioFragment extends Fragment {
                     preferencesEditor.putFloat(PRICE_BOT, precio);
                 } else if (selection.equals(strings[3])) {
                     preferencesEditor.putFloat(PRICE_DEST, precio);
+                } else if (selection.equals(strings[4])){
+                    preferencesEditor.putFloat(PRICE_DISP_MESA, precio);
                 }
                 preferencesEditor.apply();
                 updatePrecios(view);
@@ -113,6 +117,9 @@ public class EstablecerPrecioFragment extends Fragment {
 
         txt = view.findViewById(id.precio_actual_dest);
         txt.setText("Precio destilada: " + prefs.getFloat(PRICE_DEST, DEF_VALUE_DEST));
+
+        txt = view.findViewById(id.precio_actual_dispenser_mesa);
+        txt.setText("Precio dispenser de mesa: " + prefs.getFloat(PRICE_DISP_MESA, DEF_VALUE_DISP_MESA));
 
     }
 }

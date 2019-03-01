@@ -49,6 +49,7 @@ public class RecorridoFragment extends Fragment {
                 public void onClick(View v) {
                     Date today = Calendar.getInstance().getTime();
                     Date lastMonth = getMonthBefore(today);
+
                     if (lastMonth == null) {
                         return;
                     }
