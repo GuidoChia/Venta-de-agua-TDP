@@ -40,11 +40,21 @@ public interface ExcelReader {
      * Reads all the costumers from the given directory, and creates Customer objects for them,
      * with the info of the given dates.
      *
+     * @param years      Dates from the years that wants to be read. Day and month will be ignored
+     * @param directory Directory in which the customer's folder will be in
+     * @return Collection of Customer that bought anything in the given month and year
+     */
+    Collection<Customer> readCustomersYear(Date[] years, File directory);
+
+    /**
+     * Reads all the costumers from the given directory, and creates Customer objects for them,
+     * with the info of the given dates.
+     *
      * @param months    Dates from the months that wants to be read. The day here will be ignored
      * @param directory Directory in which the customer's folder will be
      * @return Collection of Customer that bought anything in the given month and year
      */
-    Collection<Customer> readCostumersMonth(Date[] months, File directory);
+    Collection<Customer> readCustomersMonth(Date[] months, File directory);
 
     /**
      * Reads all the costumers from the given directory, and creates Customer objects for them,
@@ -54,5 +64,5 @@ public interface ExcelReader {
      * @param directory Directory in which the customer's folder will be in
      * @return Collection of Customer that bought anything in the given month and year
      */
-    Collection<Customer> readCostumersDays(Date[] days, File directory);
+    Collection<Customer> readCustomersDays(Date[] days, File directory);
 }

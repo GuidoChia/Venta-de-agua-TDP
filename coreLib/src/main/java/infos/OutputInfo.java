@@ -32,9 +32,23 @@ public interface OutputInfo {
     /**
      * Twelve canisters balance getter
      *
-     * @return The balance of twenty canisters
+     * @return The balance of twelve canisters
      */
     int getTwelveBalance();
+
+    /**
+     * Twenty canisters balance getter
+     *
+     * @return The amount of twenty canisters bought
+     */
+    int getTwentyBought();
+
+    /**
+     * Twelve canisters balance getter
+     *
+     * @return The amount of twelve canisters bought
+     */
+    int getTwelveBought();
 
     /**
      * Total canisters balance getter

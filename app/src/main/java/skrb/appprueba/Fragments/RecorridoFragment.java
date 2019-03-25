@@ -56,7 +56,7 @@ public class RecorridoFragment extends Fragment {
 
                     ExcelReader reader = ConcreteReader.getInstance();
                     Date[] months = new Date[]{lastMonth, today};
-                    Collection<Customer> customers = reader.readCostumersMonth(months, FileHelper.getPath());
+                    Collection<Customer> customers = reader.readCustomersMonth(months, FileHelper.getPath());
                     Collection<Customer> routeCustomers = new ConcreteCustomerManager(customers).getRoute();
 
                     ExcelWriter writer = ConcreteWriter.getInstance();

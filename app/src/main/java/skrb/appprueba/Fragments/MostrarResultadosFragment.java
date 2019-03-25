@@ -42,6 +42,14 @@ public class MostrarResultadosFragment extends Fragment {
         msg = getArguments().getString("date");
         txt.setText(getResources().getString(string.ultimaFecha) + " " + msg);
 
+        txt = view.findViewById(id.textResultadoCompradosDe12);
+        msg = Integer.toString(getArguments().getInt("twelveBought"));
+        txt.setText(getResources().getString(string.comprados_de_12) + " " + msg);
+
+        txt = view.findViewById(id.textResultadoCompradosDe20);
+        msg = Integer.toString(getArguments().getInt("twentyBought"));
+        txt.setText(getResources().getString(string.comprados_de_20) + " " + msg);
+
         return view;
     }
 

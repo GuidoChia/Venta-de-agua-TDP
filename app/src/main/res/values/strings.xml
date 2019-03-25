@@ -34,6 +34,7 @@
     <string name="precio">Precio</string>
     <string name="establecer_precio">Establecer precio</string>
     <string name="elija_mes">Elija mes y año</string>
+    <string name="elija_anio">Elija año</string>
     <string name="msg_agregado">Se añadio una nueva compra</string>
     <string name="msg_recorrido_creado">Se creo el recorrido de hoy</string>
     <string name="calcular_bidones_dia_12">Calcular total de bidones de 12 diarios</string>
@@ -43,6 +44,12 @@
     <string name="resultado">Resultado:   </string>
     <string name="confirmar_compra">¿Desea confirmar la compra?</string>
     <string name="mostrar_lista">Mostrar lista de clientes</string>
+    <string name="bruto_anual">Calcular ingreso bruto anual</string>
+    <string name="total_bidones_anual">Calcular total anual de bidones</string>
+    <string name="bidones_total_20_anual">Calcular total anual de bidones de 20</string>
+    <string name="bidones_total_12_anual">Calcular total anual de bidones de 12</string>
+    <string name="comprados_de_20">Comprados de 20:</string>
+    <string name="comprados_de_12">Comprados de 12:</string>
 
     <string-array name="precios_array">
         <item>Precio de 20</item>

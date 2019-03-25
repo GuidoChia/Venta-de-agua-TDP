@@ -32,6 +32,7 @@ import infos.OutputInfo;
 import strategies.DateStrategy;
 import strategies.DayStrategy;
 import strategies.YearMonthStrategy;
+import strategies.YearStrategy;
 
 
 public class ConcreteReader implements ExcelReader {
@@ -81,14 +82,21 @@ public class ConcreteReader implements ExcelReader {
     }
 
     @Override
-    public Collection<Customer> readCostumersMonth(Date[] months, File directory) {
+    public Collection<Customer> readCustomersYear(Date[] years, File directory){
+        DateStrategy strategy = new YearStrategy(years);
+
+        return readCostumers(strategy, directory);
+    }
+
+    @Override
+    public Collection<Customer> readCustomersMonth(Date[] months, File directory) {
         DateStrategy strategy = new YearMonthStrategy(months);
 
         return readCostumers(strategy, directory);
     }
 
     @Override
-    public Collection<Customer> readCostumersDays(Date[] days, File directory) {
+    public Collection<Customer> readCustomersDays(Date[] days, File directory) {
         DateStrategy strategy = new DayStrategy(days);
 
         return readCostumers(strategy, directory);
@@ -405,6 +413,10 @@ public class ConcreteReader implements ExcelReader {
             twelveBalance = (int) value.getNumberValue();
         }
 
-        return new ConcreteOutputInfo(date, balance, twentyBalance, twelveBalance);
+        int twentyBought = (int) row.getCell(1).getNumericCellValue();
+
+        int twelveBought = (int) row.getCell(2).getNumericCellValue();
+
+        return new ConcreteOutputInfo(date, balance, twentyBalance, twelveBalance, twentyBought, twelveBought);
     }
 }

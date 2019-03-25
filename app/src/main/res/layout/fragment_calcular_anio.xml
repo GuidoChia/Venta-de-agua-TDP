@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:dividerPadding="16dp"
+    android:paddingLeft="4dp"
+    android:gravity="fill_vertical"
+    android:orientation="vertical">
+
+    <android.support.design.button.MaterialButton
+        android:id="@+id/buttonAnio"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:textAppearance="@style/ThemeOverlay.MaterialComponents.Light"
+        android:textColor="@color/colorAccent"
+        android:layout_gravity="center"
+        android:textSize="20sp" />
+
+
+    <android.support.design.button.MaterialButton
+        android:id="@+id/calcular_dinero_anual"
+        style="@style/AppTheme.Button"
+        android:backgroundTint="@color/colorAccent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/bruto_anual" />
+
+    <android.support.design.button.MaterialButton
+        android:id="@+id/calcular_total_bidones_anual"
+        style="@style/AppTheme.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/total_bidones_anual" />
+
+    <android.support.design.button.MaterialButton
+        android:id="@+id/calcular_bidones_20_anual"
+        style="@style/AppTheme.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/bidones_total_20_anual" />
+
+    <android.support.design.button.MaterialButton
+        android:id="@+id/calcular_bidones_12_anual"
+        style="@style/AppTheme.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/bidones_total_12_anual" />
+
+    <CheckBox
+        android:id="@+id/checkbox_lista_anio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/mostrar_lista" />
+
+    <ScrollView
+        android:id="@+id/fragment_resultados_anio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        />
+
+</LinearLayout>

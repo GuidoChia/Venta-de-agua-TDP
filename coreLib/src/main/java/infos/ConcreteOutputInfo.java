@@ -7,6 +7,8 @@ public class ConcreteOutputInfo implements OutputInfo {
     private double balance;
     private int twentyBalance;
     private int twelveBalance;
+    private int twentyBought;
+    private int twelveBought;
 
     /**
      * Creates a new instance of ConcreteOutputInfo
@@ -15,12 +17,16 @@ public class ConcreteOutputInfo implements OutputInfo {
      * @param balance       The money balance of the customer
      * @param twentyBalance The twenty canisters balance of the customer
      * @param twelveBalance The twelve canisters balance of the customer
+     * @param twentyBought  The amount of twenty canisters bought
+     * @param twelveBought  The amount of twelve canisters bought
      */
-    public ConcreteOutputInfo(Date lastDate, double balance, int twentyBalance, int twelveBalance) {
+    public ConcreteOutputInfo(Date lastDate, double balance, int twentyBalance, int twelveBalance, int twentyBought, int twelveBought) {
         this.lastDate = (Date) lastDate.clone();
         this.balance = balance;
         this.twelveBalance = twelveBalance;
         this.twentyBalance = twentyBalance;
+        this.twelveBought = twelveBought;
+        this.twentyBought = twentyBought;
     }
 
     @Override
@@ -41,6 +47,16 @@ public class ConcreteOutputInfo implements OutputInfo {
     @Override
     public int getTwelveBalance() {
         return twelveBalance;
+    }
+
+    @Override
+    public int getTwentyBought() {
+        return twentyBought;
+    }
+
+    @Override
+    public int getTwelveBought() {
+        return twelveBought;
     }
 
     @Override

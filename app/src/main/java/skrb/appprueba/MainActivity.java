@@ -27,6 +27,7 @@ import java.util.Objects;
 import skrb.appprueba.Fragments.AboutFragment;
 import skrb.appprueba.Fragments.AgregarClienteFragment;
 import skrb.appprueba.Fragments.BuscarClienteFragment;
+import skrb.appprueba.Fragments.CalcularAnioFragment;
 import skrb.appprueba.Fragments.CalcularDiaFragment;
 import skrb.appprueba.Fragments.CalcularFragment;
 import skrb.appprueba.Fragments.EstablecerPrecioFragment;
@@ -53,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int FRAGMENT_PRECIO = 4;
     private static final int FRAGMENT_CALCULAR_DIA = 5;
     private static final int FRAGMENT_CALCULAR_RECORRIDO = 6;
+    private static final int FRAGMENT_CALCULAR_AÑO = 7;
     public static final String PRICE_PREFS = "prices";
     public static final String PRICE_20 = "price_20";
     public static final String PRICE_12 = "price_12";
@@ -106,6 +108,8 @@ public class MainActivity extends AppCompatActivity {
                         case id.Calcular_recorrido:
                             setFragment(FRAGMENT_CALCULAR_RECORRIDO);
                             break;
+                        case id.Calcular_anio:
+                            setFragment(FRAGMENT_CALCULAR_AÑO);
                     }
 
                     mDrawerLayout.closeDrawers();
@@ -178,6 +182,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case FRAGMENT_CALCULAR_RECORRIDO:
                 changeFragment(new RecorridoFragment());
+                break;
+            case FRAGMENT_CALCULAR_AÑO:
+                changeFragment(new CalcularAnioFragment());
                 break;
         }
     }

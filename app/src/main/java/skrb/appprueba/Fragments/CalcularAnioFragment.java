@@ -31,11 +31,9 @@ import reader.ConcreteReader;
 import reader.CustomerManager;
 import skrb.appprueba.MainActivity;
 import skrb.appprueba.R;
-import skrb.appprueba.R.id;
-import skrb.appprueba.R.layout;
 import skrb.appprueba.helpers.FileHelper;
 
-public class CalcularFragment extends Fragment {
+public class CalcularAnioFragment extends Fragment {
     private static final int FRAGMENT_RESULTADOS = 0;
     private static final int MIN_YEAR = 1990;
     private static final int MAX_YEAR = 2050;
@@ -45,19 +43,19 @@ public class CalcularFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(layout.fragment_calcular, container, false);
+        View view = inflater.inflate(R.layout.fragment_calcular_anio, container, false);
         final MainActivity act = (MainActivity) getActivity();
-        Objects.requireNonNull(act.getSupportActionBar()).setTitle("Calculos mensuales");
+        Objects.requireNonNull(act.getSupportActionBar()).setTitle("Calculos anuales");
 
-        initMonthButton(view);
+        initYearButton(view);
 
         File path = FileHelper.getPath();
 
-        Button btnDinero = view.findViewById(id.calcular_dinero_mensual);
-        Button btn12 = view.findViewById(id.calcular_bidones_12);
-        Button btn20 = view.findViewById(id.calcular_bidones_20);
-        Button btnTot = view.findViewById(id.calcular_total_bidones);
-        CheckBox checkBox = view.findViewById(id.checkbox_lista_mes);
+        Button btnDinero = view.findViewById(R.id.calcular_dinero_anual);
+        Button btn12 = view.findViewById(R.id.calcular_bidones_12_anual);
+        Button btn20 = view.findViewById(R.id.calcular_bidones_20_anual);
+        Button btnTot = view.findViewById(R.id.calcular_total_bidones_anual);
+        CheckBox checkBox = view.findViewById(R.id.checkbox_lista_anio);
 
         if (ContextCompat.checkSelfPermission(this.getContext(),
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -68,7 +66,7 @@ public class CalcularFragment extends Fragment {
             btnTot.setEnabled(false);
         } else {
             btnDinero.setOnClickListener(v -> {
-                CustomerManager manager = getMonthManager(view, path);
+                CustomerManager manager = getYearManager(view, path);
 
                 Bundle bnd = new Bundle();
 
@@ -84,7 +82,7 @@ public class CalcularFragment extends Fragment {
             });
 
             btn12.setOnClickListener(v -> {
-                CustomerManager manager = getMonthManager(view, path);
+                CustomerManager manager = getYearManager(view, path);
 
                 Bundle bnd = new Bundle();
 
@@ -101,7 +99,7 @@ public class CalcularFragment extends Fragment {
 
             btn20.setOnClickListener(v -> {
 
-                CustomerManager manager = getMonthManager(view, path);
+                CustomerManager manager = getYearManager(view, path);
 
                 Bundle bnd = new Bundle();
 
@@ -117,7 +115,7 @@ public class CalcularFragment extends Fragment {
             });
 
             btnTot.setOnClickListener(v -> {
-                CustomerManager manager = getMonthManager(view, path);
+                CustomerManager manager = getYearManager(view, path);
 
                 Bundle bnd = new Bundle();
 
@@ -138,10 +136,10 @@ public class CalcularFragment extends Fragment {
     }
 
     @NonNull
-    private CustomerManager getMonthManager(View view, File path) {
+    private CustomerManager getYearManager(View view, File path) {
         if (manager == null) {
-            Button btnMes = view.findViewById(id.buttonMesAño);
-            String dateString = "1/" + btnMes.getText().toString();
+            Button btnAnio = view.findViewById(R.id.buttonAnio);
+            String dateString = "1/01/" + btnAnio.getText().toString();
             DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
             Date[] date = null;
             try {
@@ -150,36 +148,31 @@ public class CalcularFragment extends Fragment {
                 Log.e("Parse error ", e.getClass().toString(), e);
             }
 
-            manager = new ConcreteCustomerManager(ConcreteReader.getInstance().readCustomersMonth(date, path));
+            manager = new ConcreteCustomerManager(ConcreteReader.getInstance().readCustomersYear(date, path));
         }
 
         return manager;
     }
 
 
-    private void initMonthButton(View view) {
-        int month, year;
+    private void initYearButton(View view) {
+        int year;
         Calendar actualDate = Calendar.getInstance();
-        month = actualDate.get(Calendar.MONTH);
         year = actualDate.get(Calendar.YEAR);
 
-        Button btn = view.findViewById(id.buttonMesAño);
-        btn.setText((month + 1) + "/" + year);
+        Button btn = view.findViewById(R.id.buttonAnio);
+        btn.setText(Integer.toString(year));
 
         btn.setOnClickListener(v -> {
             MonthPickerDialog.Builder builder;
             builder = new MonthPickerDialog.Builder(getContext(), (selectedMonth, selectedYear) -> {
-                btn.setText((selectedMonth + 1) + "/" + selectedYear);
+                btn.setText(Integer.toString(selectedYear));
                 manager = null;
-            }, year, month);
+            }, year, 0);
 
-            builder.setActivatedMonth(month)
-                    .setMinYear(MIN_YEAR)
-                    .setActivatedYear(year)
-                    .setMaxYear(MAX_YEAR)
-                    .setMinMonth(Calendar.JANUARY)
-                    .setTitle(getString(R.string.elija_mes))
-                    .setMonthRange(Calendar.JANUARY, Calendar.DECEMBER)
+            builder.showYearOnly()
+                    .setYearRange(MIN_YEAR,MAX_YEAR)
+                    .setTitle(getString(R.string.elija_anio))
                     .build()
                     .show();
         });
@@ -197,7 +190,7 @@ public class CalcularFragment extends Fragment {
                 fragmentTransaction = fragmentManager.beginTransaction();
                 frag = new ResultadosCalculosFragment();
                 frag.setArguments(bnd);
-                fragmentTransaction.replace(id.fragment_resultados_mes, frag);
+                fragmentTransaction.replace(R.id.fragment_resultados_anio, frag);
                 fragmentTransaction.commit();
                 break;
 

@@ -110,6 +110,10 @@ public class BuscarClienteFragment extends Fragment {
 
                         bnd.putInt("canistersBalance", out.getCanistersBalance());
 
+                        bnd.putInt("twelveBought", out.getTwelveBought());
+
+                        bnd.putInt("twentyBought", out.getTwentyBought());
+
                         setFragment(FRAGMENT_RESULTADOS, bnd);
                     } else {
                         showError();

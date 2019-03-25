@@ -14,15 +14,20 @@
             android:icon="@drawable/account_search_outline"
             android:title="Buscar Cliente" />
         <item
+            android:id="@+id/Calcular_dia"
+            android:checkable="false"
+            android:icon="@drawable/calendar_today"
+            android:title="Calculos diarios" />
+        <item
             android:id="@+id/Calcular"
             android:checkable="false"
             android:icon="@drawable/calendar_blank"
             android:title="Calculos mensuales" />
         <item
-            android:id="@+id/Calcular_dia"
+            android:id="@+id/Calcular_anio"
             android:checkable="false"
-            android:icon="@drawable/calendar_today"
-            android:title="Calculos diarios" />
+            android:icon="@drawable/ic_baseline_date_range_24px"
+            android:title="Calculos anuales" />
         <item
             android:id="@+id/Calcular_recorrido"
             android:checkable="false"

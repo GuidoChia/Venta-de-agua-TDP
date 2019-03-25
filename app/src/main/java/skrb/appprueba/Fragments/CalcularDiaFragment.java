@@ -146,7 +146,7 @@ public class CalcularDiaFragment extends Fragment implements DatePickerDialog.On
                 Log.e("Parse error ", e.getStackTrace().toString());
             }
 
-            manager = new ConcreteCustomerManager(ConcreteReader.getInstance().readCostumersDays(date, path));
+            manager = new ConcreteCustomerManager(ConcreteReader.getInstance().readCustomersDays(date, path));
         }
 
         return manager;
