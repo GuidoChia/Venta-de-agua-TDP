@@ -42,11 +42,12 @@ import skrb.appprueba.MainActivity;
 import skrb.appprueba.R;
 import skrb.appprueba.R.id;
 import skrb.appprueba.R.string;
+import skrb.appprueba.helpers.Constants;
 import writer.ConcreteWriter;
 import writer.ExcelWriter;
 
-import static skrb.appprueba.Fragments.EstablecerPrecioFragment.DEF_VALUE_12;
-import static skrb.appprueba.Fragments.EstablecerPrecioFragment.DEF_VALUE_20;
+import static skrb.appprueba.helpers.Constants.DEF_VALUE_12;
+import static skrb.appprueba.helpers.Constants.DEF_VALUE_20;
 import static skrb.appprueba.helpers.FileHelper.findFileWrite;
 import static skrb.appprueba.helpers.FileHelper.initClientes;
 
@@ -141,9 +142,9 @@ public class AgregarClienteFragment extends Fragment implements OnDateSetListene
         double twelvePrice,
                 twentyPrice;
 
-        SharedPreferences preferences = Objects.requireNonNull(getContext()).getSharedPreferences(MainActivity.PRICE_PREFS, 0);
-        twelvePrice = preferences.getFloat(MainActivity.PRICE_12, DEF_VALUE_12);
-        twentyPrice = preferences.getFloat(MainActivity.PRICE_20, DEF_VALUE_20);
+        SharedPreferences preferences = Objects.requireNonNull(getContext()).getSharedPreferences(Constants.PRICE_PREFS, 0);
+        twelvePrice = preferences.getFloat(Constants.PRICE_12, DEF_VALUE_12);
+        twentyPrice = preferences.getFloat(Constants.PRICE_20, DEF_VALUE_20);
 
         PriceInfo prices = new ConcretePriceInfo(twelvePrice, twentyPrice);
 

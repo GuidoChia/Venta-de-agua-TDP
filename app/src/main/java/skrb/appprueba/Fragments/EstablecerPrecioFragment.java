@@ -25,20 +25,29 @@ import skrb.appprueba.MainActivity;
 import skrb.appprueba.R;
 import skrb.appprueba.R.array;
 import skrb.appprueba.R.id;
+import skrb.appprueba.helpers.Constants;
 
-import static skrb.appprueba.MainActivity.PRICE_12;
-import static skrb.appprueba.MainActivity.PRICE_20;
-import static skrb.appprueba.MainActivity.PRICE_BOT;
-import static skrb.appprueba.MainActivity.PRICE_DEST;
-import static skrb.appprueba.MainActivity.PRICE_DISP_MESA;
-import static skrb.appprueba.MainActivity.PRICE_PREFS;
+import static skrb.appprueba.helpers.Constants.DEF_VALUE_DEST_1;
+import static skrb.appprueba.helpers.Constants.DEF_VALUE_DEST_2;
+import static skrb.appprueba.helpers.Constants.DEF_VALUE_DEST_5;
+import static skrb.appprueba.helpers.Constants.DEF_VALUE_MIEL_1_COMERCIO;
+import static skrb.appprueba.helpers.Constants.DEF_VALUE_MIEL_1_NORMAL;
+import static skrb.appprueba.helpers.Constants.DEF_VALUE_MIEL_MEDIO_COMERCIO;
+import static skrb.appprueba.helpers.Constants.DEF_VALUE_MIEL_MEDIO_NORMAL;
+import static skrb.appprueba.helpers.Constants.PRICE_12;
+import static skrb.appprueba.helpers.Constants.PRICE_20;
+import static skrb.appprueba.helpers.Constants.PRICE_BOT;
+import static skrb.appprueba.helpers.Constants.PRICE_DEST_1;
+import static skrb.appprueba.helpers.Constants.PRICE_DEST_2;
+import static skrb.appprueba.helpers.Constants.PRICE_DEST_5;
+import static skrb.appprueba.helpers.Constants.PRICE_DISP_MESA;
+import static skrb.appprueba.helpers.Constants.PRICE_MIEL_1_COMERCIO;
+import static skrb.appprueba.helpers.Constants.PRICE_MIEL_1_NORMAL;
+import static skrb.appprueba.helpers.Constants.PRICE_MIEL_MEDIO_COMERCIO;
+import static skrb.appprueba.helpers.Constants.PRICE_MIEL_MEDIO_NORMAL;
+import static skrb.appprueba.helpers.Constants.PRICE_PREFS;
 
 public class EstablecerPrecioFragment extends Fragment {
-    public static final int DEF_VALUE_20 = 70;
-    public static final int DEF_VALUE_12 = 50;
-    public static final int DEF_VALUE_BOT = 120;
-    public static final int DEF_VALUE_DEST = 40;
-    public static final int DEF_VALUE_DISP_MESA = 180;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -84,9 +93,21 @@ public class EstablecerPrecioFragment extends Fragment {
                 } else if (selection.equals(strings[2])) {
                     preferencesEditor.putFloat(PRICE_BOT, precio);
                 } else if (selection.equals(strings[3])) {
-                    preferencesEditor.putFloat(PRICE_DEST, precio);
-                } else if (selection.equals(strings[4])){
+                    preferencesEditor.putFloat(PRICE_DEST_5, precio);
+                } else if (selection.equals(strings[4])) {
+                    preferencesEditor.putFloat(PRICE_DEST_2, precio);
+                } else if (selection.equals(strings[5])) {
+                    preferencesEditor.putFloat(PRICE_DEST_1, precio);
+                } else if (selection.equals(strings[6])) {
                     preferencesEditor.putFloat(PRICE_DISP_MESA, precio);
+                } else if (selection.equals(strings[7])) {
+                    preferencesEditor.putFloat(PRICE_MIEL_1_NORMAL, precio);
+                } else if (selection.equals(strings[8])) {
+                    preferencesEditor.putFloat(PRICE_MIEL_1_COMERCIO, precio);
+                } else if (selection.equals(strings[9])) {
+                    preferencesEditor.putFloat(PRICE_MIEL_MEDIO_NORMAL, precio);
+                } else if (selection.equals(strings[10])) {
+                    preferencesEditor.putFloat(PRICE_MIEL_MEDIO_COMERCIO, precio);
                 }
                 preferencesEditor.apply();
                 updatePrecios(view);
@@ -105,21 +126,40 @@ public class EstablecerPrecioFragment extends Fragment {
     private void updatePrecios(View view) {
         SharedPreferences prefs = Objects.requireNonNull(getContext()).getSharedPreferences(PRICE_PREFS, 0);
 
-        TextView txt = view.findViewById(id.precio_actual_20);
-        txt.setText("Precio 20: " + prefs.getFloat(PRICE_20, DEF_VALUE_20));
+        String[] titles = getResources().getStringArray(R.array.precios_array);
 
+        TextView txt = view.findViewById(id.precio_actual_20);
+        txt.setText(titles[0]+": " + prefs.getFloat(PRICE_20, Constants.DEF_VALUE_20));
 
         txt = view.findViewById(id.precio_actual_12);
-        txt.setText("Precio 12: " + prefs.getFloat(PRICE_12, DEF_VALUE_12));
+        txt.setText(titles[1]+": " + prefs.getFloat(PRICE_12, Constants.DEF_VALUE_12));
 
         txt = view.findViewById(id.precio_actual_bot);
-        txt.setText("Precio botellitas: " + prefs.getFloat(PRICE_BOT, DEF_VALUE_BOT));
+        txt.setText(titles[2]+": " + prefs.getFloat(PRICE_BOT, Constants.DEF_VALUE_BOT));
 
-        txt = view.findViewById(id.precio_actual_dest);
-        txt.setText("Precio destilada: " + prefs.getFloat(PRICE_DEST, DEF_VALUE_DEST));
+        txt = view.findViewById(id.precio_actual_dest_5);
+        txt.setText(titles[3]+": " + prefs.getFloat(PRICE_DEST_5, DEF_VALUE_DEST_5));
+
+        txt = view.findViewById(id.precio_actual_dest_2);
+        txt.setText(titles[4]+": " + prefs.getFloat(PRICE_DEST_2, DEF_VALUE_DEST_2));
+
+        txt = view.findViewById(id.precio_actual_dest_1);
+        txt.setText(titles[5]+": " + prefs.getFloat(PRICE_DEST_1, DEF_VALUE_DEST_1));
 
         txt = view.findViewById(id.precio_actual_dispenser_mesa);
-        txt.setText("Precio dispenser de mesa: " + prefs.getFloat(PRICE_DISP_MESA, DEF_VALUE_DISP_MESA));
+        txt.setText(titles[6]+": " + prefs.getFloat(PRICE_DISP_MESA, Constants.DEF_VALUE_DISP_MESA));
+
+        txt = view.findViewById(id.precio_actual_miel_1_normal);
+        txt.setText(titles[7]+": " + prefs.getFloat(PRICE_MIEL_1_NORMAL, DEF_VALUE_MIEL_1_NORMAL));
+
+        txt = view.findViewById(id.precio_actual_miel_1_comercio);
+        txt.setText(titles[8]+": " + prefs.getFloat(PRICE_MIEL_1_COMERCIO, DEF_VALUE_MIEL_1_COMERCIO));
+
+        txt = view.findViewById(id.precio_actual_miel_medio_normal);
+        txt.setText(titles[9]+": " + prefs.getFloat(PRICE_MIEL_MEDIO_NORMAL, DEF_VALUE_MIEL_MEDIO_NORMAL));
+
+        txt = view.findViewById(id.precio_actual_miel_medio_comercio);
+        txt.setText(titles[10]+": " + prefs.getFloat(PRICE_MIEL_MEDIO_COMERCIO, DEF_VALUE_MIEL_MEDIO_COMERCIO));
 
     }
 }

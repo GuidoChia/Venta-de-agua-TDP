@@ -55,7 +55,13 @@
         <item>Precio de 20</item>
         <item>Precio de 12</item>
         <item>Precio de botellitas</item>
-        <item>Precio de agua destilada</item>
+        <item>Precio de agua destilada 5 litros</item>
+        <item>Precio de agua destilada 2 litros</item>
+        <item>Precio de agua destilada 1 litro</item>
         <item>Precio de dispenser de mesa</item>
+        <item>Precio de miel 1 kg</item>
+        <item>Precio de miel 1 kg comercio</item>
+        <item>Precio de miel 1/2 kg</item>
+        <item>Precio de miel 1/2 kg comercio</item>
     </string-array>
 </resources>

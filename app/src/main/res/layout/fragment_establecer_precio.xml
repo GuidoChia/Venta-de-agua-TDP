@@ -75,7 +75,21 @@
             android:textIsSelectable="true" />
 
         <TextView
-            android:id="@+id/precio_actual_dest"
+            android:id="@+id/precio_actual_dest_5"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="20sp"
+            android:textIsSelectable="true" />
+
+        <TextView
+            android:id="@+id/precio_actual_dest_2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="20sp"
+            android:textIsSelectable="true" />
+
+        <TextView
+            android:id="@+id/precio_actual_dest_1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:textSize="20sp"
@@ -83,6 +97,34 @@
 
         <TextView
             android:id="@+id/precio_actual_dispenser_mesa"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="20sp"
+            android:textIsSelectable="true" />
+
+        <TextView
+            android:id="@+id/precio_actual_miel_1_normal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="20sp"
+            android:textIsSelectable="true" />
+
+        <TextView
+            android:id="@+id/precio_actual_miel_1_comercio"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="20sp"
+            android:textIsSelectable="true" />
+
+        <TextView
+            android:id="@+id/precio_actual_miel_medio_normal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="20sp"
+            android:textIsSelectable="true" />
+
+        <TextView
+            android:id="@+id/precio_actual_miel_medio_comercio"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:textSize="20sp"

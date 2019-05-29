@@ -35,12 +35,13 @@ import skrb.appprueba.Fragments.RecorridoFragment;
 import skrb.appprueba.R.drawable;
 import skrb.appprueba.R.id;
 import skrb.appprueba.R.layout;
+import skrb.appprueba.helpers.Constants;
 
-import static skrb.appprueba.Fragments.EstablecerPrecioFragment.DEF_VALUE_12;
-import static skrb.appprueba.Fragments.EstablecerPrecioFragment.DEF_VALUE_20;
-import static skrb.appprueba.Fragments.EstablecerPrecioFragment.DEF_VALUE_BOT;
-import static skrb.appprueba.Fragments.EstablecerPrecioFragment.DEF_VALUE_DEST;
-import static skrb.appprueba.Fragments.EstablecerPrecioFragment.DEF_VALUE_DISP_MESA;
+import static skrb.appprueba.helpers.Constants.DEF_VALUE_12;
+import static skrb.appprueba.helpers.Constants.DEF_VALUE_20;
+import static skrb.appprueba.helpers.Constants.DEF_VALUE_BOT;
+import static skrb.appprueba.helpers.Constants.DEF_VALUE_DEST_5;
+import static skrb.appprueba.helpers.Constants.DEF_VALUE_DISP_MESA;
 
 /**
  * Main activity for the app. It handles the flow between the principal fragments.
@@ -55,12 +56,6 @@ public class MainActivity extends AppCompatActivity {
     private static final int FRAGMENT_CALCULAR_DIA = 5;
     private static final int FRAGMENT_CALCULAR_RECORRIDO = 6;
     private static final int FRAGMENT_CALCULAR_AÑO = 7;
-    public static final String PRICE_PREFS = "prices";
-    public static final String PRICE_20 = "price_20";
-    public static final String PRICE_12 = "price_12";
-    public static final String PRICE_BOT = "price_botellitas";
-    public static final String PRICE_DEST = "price_destilada";
-    public static final String PRICE_DISP_MESA = "price_dispenser_mesa";
     private static final int PERMISSION_WRITE = 0;
     private static final int ANIMATION_DEFAULT_TIME= 300;
 
@@ -118,27 +113,10 @@ public class MainActivity extends AppCompatActivity {
                 }
         );
 
-        initializePrefs();
-
         if (savedInstanceState == null) {
             setFragment(FRAGMENT_AGREGAR);
         }
 
-    }
-
-    private void initializePrefs() {
-        SharedPreferences preferences = getSharedPreferences(PRICE_PREFS, 0);
-
-        if (preferences.getBoolean("first_time", true)) {
-            Editor edit = preferences.edit();
-            edit.putFloat(PRICE_20, DEF_VALUE_20);
-            edit.putFloat(PRICE_12, DEF_VALUE_12);
-            edit.putFloat(PRICE_BOT, DEF_VALUE_BOT);
-            edit.putFloat(PRICE_DEST, DEF_VALUE_DEST);
-            edit.putFloat(PRICE_DISP_MESA, DEF_VALUE_DISP_MESA);
-            edit.putBoolean("first_time", false);
-            edit.apply();
-        }
     }
 
     @Override
