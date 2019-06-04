@@ -10,7 +10,7 @@
         android:orientation="vertical"
         android:gravity="fill_vertical">
 
-        <android.support.design.button.MaterialButton
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/BotonCalcularRecorrido"
             style="@style/AppTheme.Button"
             android:layout_width="wrap_content"

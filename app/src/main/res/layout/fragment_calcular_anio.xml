@@ -7,7 +7,7 @@
     android:gravity="fill_vertical"
     android:orientation="vertical">
 
-    <android.support.design.button.MaterialButton
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonAnio"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="wrap_content"
@@ -18,7 +18,7 @@
         android:textSize="20sp" />
 
 
-    <android.support.design.button.MaterialButton
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/calcular_dinero_anual"
         style="@style/AppTheme.Button"
         android:backgroundTint="@color/colorAccent"
@@ -26,21 +26,21 @@
         android:layout_height="wrap_content"
         android:text="@string/bruto_anual" />
 
-    <android.support.design.button.MaterialButton
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/calcular_total_bidones_anual"
         style="@style/AppTheme.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/total_bidones_anual" />
 
-    <android.support.design.button.MaterialButton
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/calcular_bidones_20_anual"
         style="@style/AppTheme.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/bidones_total_20_anual" />
 
-    <android.support.design.button.MaterialButton
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/calcular_bidones_12_anual"
         style="@style/AppTheme.Button"
         android:layout_width="wrap_content"

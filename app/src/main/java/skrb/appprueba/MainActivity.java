@@ -2,23 +2,21 @@ package skrb.appprueba;
 
 
 import android.Manifest.permission;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
-import android.support.transition.Slide;
-import android.support.transition.Visibility;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import com.google.android.material.navigation.NavigationView;
+import androidx.transition.Slide;
+import androidx.transition.Visibility;
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import android.view.Gravity;
 import android.view.MenuItem;
 
@@ -35,13 +33,6 @@ import skrb.appprueba.Fragments.RecorridoFragment;
 import skrb.appprueba.R.drawable;
 import skrb.appprueba.R.id;
 import skrb.appprueba.R.layout;
-import skrb.appprueba.helpers.Constants;
-
-import static skrb.appprueba.helpers.Constants.DEF_VALUE_12;
-import static skrb.appprueba.helpers.Constants.DEF_VALUE_20;
-import static skrb.appprueba.helpers.Constants.DEF_VALUE_BOT;
-import static skrb.appprueba.helpers.Constants.DEF_VALUE_DEST_5;
-import static skrb.appprueba.helpers.Constants.DEF_VALUE_DISP_MESA;
 
 /**
  * Main activity for the app. It handles the flow between the principal fragments.

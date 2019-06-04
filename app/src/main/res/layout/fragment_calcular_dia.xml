@@ -7,7 +7,7 @@
     android:gravity="fill_vertical"
     android:orientation="vertical">
 
-    <android.support.design.button.MaterialButton
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonDiaCalcular"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="wrap_content"
@@ -18,7 +18,7 @@
         android:textSize="20sp" />
 
 
-    <android.support.design.button.MaterialButton
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/calcular_dinero_dia"
         style="@style/AppTheme.Button"
         android:layout_width="wrap_content"
@@ -26,21 +26,21 @@
         android:backgroundTint="@color/colorAccent"
         android:text="@string/calcular_ingreso_dia" />
 
-    <android.support.design.button.MaterialButton
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/calcular_total_bidones_dia"
         style="@style/AppTheme.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/calcular_bidones_total_dia" />
 
-    <android.support.design.button.MaterialButton
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/calcular_bidones_20_dia"
         style="@style/AppTheme.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/calcular_bidones_20_dia" />
 
-    <android.support.design.button.MaterialButton
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/calcular_bidones_12_dia"
         style="@style/AppTheme.Button"
         android:layout_width="wrap_content"
