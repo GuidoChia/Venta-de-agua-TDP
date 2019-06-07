@@ -36,4 +36,23 @@ public class YearStrategy implements DateStrategy {
         }
         return finish;
     }
+
+    @Override
+    public boolean isSmaller(Date date) {
+        boolean res = true;
+
+        Calendar calendarToCheck = Calendar.getInstance();
+        calendarToCheck.setTime(date);
+
+        for (int i = 0; (i < calendarCriteria.length) && res; i++) {
+            int criteriaYear = calendarCriteria[i].get(YEAR);
+            int checkYear = calendarToCheck.get(YEAR);
+
+            if (criteriaYear <= checkYear)
+                res = false;
+
+        }
+
+        return res;
+    }
 }

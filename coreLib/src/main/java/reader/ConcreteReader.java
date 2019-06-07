@@ -82,7 +82,7 @@ public class ConcreteReader implements ExcelReader {
     }
 
     @Override
-    public Collection<Customer> readCustomersYear(Date[] years, File directory){
+    public Collection<Customer> readCustomersYear(Date[] years, File directory) {
         DateStrategy strategy = new YearStrategy(years);
 
         return readCostumers(strategy, directory);
@@ -104,7 +104,7 @@ public class ConcreteReader implements ExcelReader {
 
     private Workbook getWorkbook(File customerFile) throws WorkbookException {
         Workbook customerWorkbook;
-        if (!customerFile.exists()) {
+        if (!customerFile.exists() || (customerFile.length() == 0)) {
             throw new WorkbookException();
         } else {
             try {
@@ -165,9 +165,11 @@ public class ConcreteReader implements ExcelReader {
 
             for (File f : Objects.requireNonNull(files)) {
                 if (f.getName().endsWith(".xls") || f.getName().endsWith(".xlsx")) {
-                    Customer c = convertToCustomer(f, strat);
-                    if (!Objects.requireNonNull(c).isEmpty()) {
-                        list.add(c);
+                    if (f.length() != 0) {
+                        Customer c = convertToCustomer(f, strat);
+                        if (!Objects.requireNonNull(c).isEmpty()) {
+                            list.add(c);
+                        }
                     }
                 }
             }
@@ -198,32 +200,30 @@ public class ConcreteReader implements ExcelReader {
         String finalName = getName(f);
         Customer res = new ConcreteCustomer(finalName);
 
-        int currentRow = 3;
+        int currentRow = customerSheet.getLastRowNum();
 
         boolean finish = false;
-
-        if (isEmpty(customerSheet.getRow(currentRow).getCell(0)))
-            finish = true;
 
         /*
         Check line by line if the date corresponds with the given strategy.
         Stop when an empty line is found.
          */
-        while (!finish) {
+        while (!finish && currentRow >= 3) {
+            System.out.println(currentRow);
             Row row = customerSheet.getRow(currentRow);
-            Cell dateCell = row.getCell(0);
-
-            if (belongsDate(dateCell, strat)) {
-                addRowToCustomer(row, res);
-            }
-
-            if (customerSheet.getRow(currentRow + 1) != null) {
-                if (isEmpty(customerSheet.getRow(currentRow + 1).getCell(0))) {
+            if (row == null || isEmpty(row.getCell(0))) {
+                currentRow--;
+            } else {
+                Cell dateCell = row.getCell(0);
+                if (belongsDate(dateCell, strat)) {
+                    addRowToCustomer(row, res);
+                    currentRow--;
+                } else if (isSmaller(dateCell, strat)) {
                     finish = true;
                 } else {
-                    currentRow++;
+                    currentRow--;
                 }
-            } else finish = true;
+            }
         }
 
         if (!res.isEmpty()) {
@@ -260,6 +260,24 @@ public class ConcreteReader implements ExcelReader {
     }
 
     /**
+     * Determines if the date stored in the dateCell is smaller than the given criteria
+     *
+     * @param dateCell The cell containing the date
+     * @param strat Strategy to follow
+     * @return true if the date is smaller than the given criteria, false otherwise
+     */
+    private boolean isSmaller(Cell dateCell, DateStrategy strat){
+        boolean res = false;
+
+        Date date = getDate(dateCell);
+
+        if (date!=null){
+            res = strat.isSmaller(date);
+        }
+
+        return res;
+    }
+    /**
      * Determines if the date stored in the dateCell belongs to the given years and months
      *
      * @param dateCell The cell containing the date
@@ -269,19 +287,7 @@ public class ConcreteReader implements ExcelReader {
     private boolean belongsDate(Cell dateCell, DateStrategy strat) {
         boolean res = false;
 
-        Date date = null;
-        if (dateCell.getCellTypeEnum() == CellType.NUMERIC) {
-            date = dateCell.getDateCellValue();
-
-        } else {
-            String dateString = dateCell.getStringCellValue();
-            DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-            try {
-                date = format.parse(dateString);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-        }
+        Date date = getDate(dateCell);
 
         if (date != null) {
             res = strat.belongsDate(date);
@@ -300,19 +306,8 @@ public class ConcreteReader implements ExcelReader {
     private void addRowToCustomer(Row row, Customer c) {
         String dateString;
         Cell dateCell = row.getCell(0);
-        Date date = null;
 
-        if (dateCell.getCellTypeEnum() == CellType.NUMERIC) {
-            date = dateCell.getDateCellValue();
-        } else {
-            dateString = dateCell.getStringCellValue();
-            DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-            try {
-                date = format.parse(dateString);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-        }
+        Date date = getDate(dateCell);
 
 
         int twentyAmount = (int) row.getCell(1).getNumericCellValue();
@@ -327,6 +322,23 @@ public class ConcreteReader implements ExcelReader {
         if (date != null) {
             c.addUpdate(date, twelveAmount, twentyAmount, paid);
         }
+    }
+
+    private Date getDate(Cell dateCell) {
+        String dateString;
+        Date date = null;
+        if (dateCell.getCellTypeEnum() == CellType.NUMERIC) {
+            date = dateCell.getDateCellValue();
+        } else {
+            dateString = dateCell.getStringCellValue();
+            DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+            try {
+                date = format.parse(dateString);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        return date;
     }
 
     /**
@@ -378,20 +390,7 @@ public class ConcreteReader implements ExcelReader {
      */
     private OutputInfo getInfo(Row row) {
         Cell cell = row.getCell(0);
-        Date date = null;
-        if (cell.getCellTypeEnum() == CellType.NUMERIC)
-            date = cell.getDateCellValue();
-        else {
-            String dateString = cell.getStringCellValue();
-            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-
-            try {
-                date = format.parse(dateString);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-        }
-
+        Date date = getDate(cell);
 
         FormulaEvaluator evaluator = row.getSheet().getWorkbook().getCreationHelper().createFormulaEvaluator();
 

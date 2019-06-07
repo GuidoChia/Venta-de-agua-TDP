@@ -33,9 +33,10 @@ public class RouteVisitor implements VisitorCollection {
         List<Date> lastBuys = c.getLastDates();
 
         double currentDifference;
-        Date firstDate = lastBuys.get(0);
         int amount = lastBuys.size();
-        Date lastDate = lastBuys.get(amount - 1);
+        Date firstDate = lastBuys.get(amount-1);
+
+        Date lastDate = lastBuys.get(0);
 
 
         double averageDifference = getDateDiff(firstDate, lastDate, TimeUnit.MINUTES) / amount;

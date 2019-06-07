@@ -3,11 +3,15 @@ package skrb.appprueba.Fragments;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
 import com.google.android.material.snackbar.Snackbar;
+
 import androidx.fragment.app.Fragment;
 import androidx.core.content.ContextCompat;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,6 +70,7 @@ public class RecorridoFragment extends Fragment {
                     snackbarAgregado.show();
 
                     btn.setEnabled(false);
+
 
                 }
 

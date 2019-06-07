@@ -19,4 +19,11 @@ public interface DateStrategy {
      */
     boolean belongsDate(Date date);
 
+    /**
+     * Compares the given date with the criteria dates.
+     *
+     * @param date
+     * @return true if date is smaller than all the dates, false otherwise
+     */
+    boolean isSmaller(Date date);
 }

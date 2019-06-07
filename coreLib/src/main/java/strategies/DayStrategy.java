@@ -38,4 +38,21 @@ public class DayStrategy implements DateStrategy {
 
         return finish;
     }
+
+    @Override
+    public boolean isSmaller(Date date) {
+        boolean res = true;
+
+        Calendar calendarToCheck = Calendar.getInstance();
+        calendarToCheck.setTime(date);
+
+        for (int i = 0; (i < calendarCriteria.length) && res; i++){
+            if (calendarCriteria[i].before(calendarToCheck))
+                res=false;
+        }
+
+        return res;
+    }
+
+
 }

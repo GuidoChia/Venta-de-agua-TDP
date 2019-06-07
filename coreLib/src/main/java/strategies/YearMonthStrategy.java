@@ -37,4 +37,25 @@ public class YearMonthStrategy implements DateStrategy {
         }
         return finish;
     }
+
+    @Override
+    public boolean isSmaller(Date date) {
+        boolean res = true;
+
+        Calendar calendarToCheck = Calendar.getInstance();
+        calendarToCheck.setTime(date);
+
+        for (int i = 0; (i < calendarCriteria.length) && res; i++) {
+            int criteriaYear = calendarCriteria[i].get(YEAR);
+            int criteriaMonth = calendarCriteria[i].get(MONTH);
+            int checkYear = calendarToCheck.get(YEAR);
+            int checkMonth = calendarToCheck.get(MONTH);
+
+            if ((criteriaYear < checkYear) || ((criteriaYear == checkYear) && criteriaMonth <= checkMonth))
+                res = false;
+
+        }
+
+        return  res;
+    }
 }
