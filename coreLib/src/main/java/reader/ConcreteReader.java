@@ -82,7 +82,7 @@ public class ConcreteReader implements ExcelReader {
     }
 
     @Override
-    public Collection<Customer> readCustomersYear(Date[] years, File directory){
+    public Collection<Customer> readCustomersYear(Date[] years, File directory) {
         DateStrategy strategy = new YearStrategy(years);
 
         return readCostumers(strategy, directory);
@@ -104,7 +104,7 @@ public class ConcreteReader implements ExcelReader {
 
     private Workbook getWorkbook(File customerFile) throws WorkbookException {
         Workbook customerWorkbook;
-        if (!customerFile.exists()) {
+        if (!customerFile.exists() || customerFile.length() == 0) {
             throw new WorkbookException();
         } else {
             try {
@@ -166,8 +166,12 @@ public class ConcreteReader implements ExcelReader {
             for (File f : Objects.requireNonNull(files)) {
                 if (f.getName().endsWith(".xls") || f.getName().endsWith(".xlsx")) {
                     Customer c = convertToCustomer(f, strat);
-                    if (!Objects.requireNonNull(c).isEmpty()) {
-                        list.add(c);
+
+                    if (f.length() != 0) {
+                        if (!c.isEmpty()) {
+                            System.out.println(f.getName());
+                            list.add(c);
+                        }
                     }
                 }
             }
@@ -182,7 +186,6 @@ public class ConcreteReader implements ExcelReader {
      * @return Customer object containing the info of the given month of the customer
      */
     private Customer convertToCustomer(File f, DateStrategy strat) {
-
 
         Workbook customerWorkbook;
         try {
