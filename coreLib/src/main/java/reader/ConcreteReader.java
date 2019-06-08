@@ -205,8 +205,7 @@ public class ConcreteReader implements ExcelReader {
         boolean finish = false;
 
         /*
-        Check line by line if the date corresponds with the given strategy.
-        Stop when an empty line is found.
+        Starting from the bottom, read each line to find
          */
         while (!finish && currentRow >= 3) {
             System.out.println(currentRow);
