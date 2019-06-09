@@ -5,6 +5,7 @@ import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.ComparisonOperator;
 import org.apache.poi.ss.usermodel.ConditionalFormattingRule;
+import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.PatternFormatting;
 import org.apache.poi.ss.usermodel.Row;
@@ -60,6 +61,7 @@ public class ConcreteRowInitializer implements RowInitializer {
     @Override
     public void initBuyRow(Row lastRow, BuyInfo info, PriceInfo prices, CellStyle style) {
         int cellIndex = 0;
+
 
         /*
         This is the row num of the lastRow, but plus one to use it in formulas.
@@ -131,6 +133,13 @@ public class ConcreteRowInitializer implements RowInitializer {
         Calculate the eleventh cell, the total balance of canisters.
          */
         initEleventhCellBuy(lastRow, style, cellIndex, lastRowNum);
+
+        FormulaEvaluator evaluator = lastRow.getSheet().getWorkbook().getCreationHelper().createFormulaEvaluator();
+        for (Cell c : lastRow) {
+            if (c.getCellType() == Cell.CELL_TYPE_FORMULA) {
+                evaluator.evaluateFormulaCell(c);
+            }
+        }
     }
 
     private void initEleventhCellBuy(Row lastRow, CellStyle style, int cellIndex, int lastRowNum) {

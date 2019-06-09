@@ -12,8 +12,10 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -169,7 +171,6 @@ public class ConcreteReader implements ExcelReader {
 
                     if (f.length() != 0) {
                         if (!c.isEmpty()) {
-                            System.out.println(f.getName());
                             list.add(c);
                         }
                     }
@@ -231,13 +232,12 @@ public class ConcreteReader implements ExcelReader {
 
         if (!res.isEmpty()) {
             Row row = customerSheet.getRow(currentRow);
-            FormulaEvaluator evaluator = customerWorkbook.getCreationHelper().createFormulaEvaluator();
-            CellValue value = evaluator.evaluate(row.getCell(5));
+            Cell balanceCell = row.getCell(5);
             double balance = 0;
-            if (value != null) {
-                balance = value.getNumberValue();
-                res.setBalance(balance);
-            }
+            balance = balanceCell.getNumericCellValue();
+            System.out.print(finalName+" balance: "+ balance);
+            res.setBalance(balance);
+
         }
 
 
