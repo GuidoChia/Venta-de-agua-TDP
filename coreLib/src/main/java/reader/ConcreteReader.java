@@ -200,6 +200,7 @@ public class ConcreteReader implements ExcelReader {
         Sheet customerSheet = customerWorkbook.getSheetAt(0);
 
         String finalName = getName(f);
+
         Customer res = new ConcreteCustomer(finalName);
 
         int currentRow = 3;
@@ -235,11 +236,8 @@ public class ConcreteReader implements ExcelReader {
             Cell balanceCell = row.getCell(5);
             double balance = 0;
             balance = balanceCell.getNumericCellValue();
-            System.out.print(finalName+" balance: "+ balance);
             res.setBalance(balance);
-
         }
-
 
         try {
             customerWorkbook.close();
