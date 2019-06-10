@@ -21,6 +21,13 @@
 
             />
 
+        <ProgressBar
+            android:id="@+id/progress_recorrido"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:visibility="invisible"/>
+
     </LinearLayout>
 
 </ScrollView>
