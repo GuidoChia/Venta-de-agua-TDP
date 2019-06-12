@@ -53,6 +53,12 @@
         android:layout_height="wrap_content"
         android:text="@string/mostrar_lista" />
 
+    <ProgressBar
+        android:id="@+id/progress_calcular_anio"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:visibility="invisible"/>
+
     <ScrollView
         android:id="@+id/fragment_resultados_anio"
         android:layout_width="wrap_content"

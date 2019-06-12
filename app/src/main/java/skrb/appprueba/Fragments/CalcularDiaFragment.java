@@ -197,4 +197,9 @@ public class CalcularDiaFragment extends Fragment implements DatePickerDialog.On
     public void onUpdate(CustomerManager manager) {
 
     }
+
+    @Override
+    public void onPreExecute() {
+
+    }
 }

@@ -209,4 +209,9 @@ public class CalcularFragment extends Fragment implements Updatable {
     public void onUpdate(CustomerManager manager) {
 
     }
+
+    @Override
+    public void onPreExecute() {
+
+    }
 }

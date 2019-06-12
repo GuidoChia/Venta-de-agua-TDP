@@ -2,6 +2,7 @@ package skrb.appprueba.tasks;
 
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.View;
 
 import java.lang.ref.WeakReference;
 import java.text.DateFormat;
@@ -18,19 +19,17 @@ import skrb.appprueba.helpers.FileHelper;
 import skrb.appprueba.interfaces.Updatable;
 
 public abstract class TemplateCustomerTask extends AsyncTask<String, Void, CustomerManager> {
-    WeakReference<Updatable> observer;
+    protected WeakReference<Updatable> observerReference;
+    protected WeakReference<View> viewReference;
 
-    /*
-    AL HACER EL NEW TENDRIA QUE TENER POR PARAMETRO UNA INTERFACE QUE TENGA UN UPDATE O ALGO ASI
-    ESTA INTERFACE LA TIENEN QUE IMPLEMENTAR LOS FRAGMENTS QUE USAN ESTA CLASE
-    */
-    public TemplateCustomerTask(Updatable observer){
-        this.observer = new WeakReference<>(observer);
+    public TemplateCustomerTask(Updatable observer, View view) {
+        this.observerReference = new WeakReference<>(observer);
+        this.viewReference = new WeakReference<>(view);
     }
 
 
     @Override
-    public CustomerManager doInBackground(String... strings){
+    public CustomerManager doInBackground(String... strings) {
         DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         Date[] date = null;
         try {
@@ -45,10 +44,21 @@ public abstract class TemplateCustomerTask extends AsyncTask<String, Void, Custo
     abstract Collection<Customer> getCustomers(Date[] date);
 
     @Override
-    protected void onPostExecute(CustomerManager customerManager){
-        observer.get().onUpdate(customerManager);
+    protected void onPostExecute(CustomerManager customerManager) {
+        Updatable observer = observerReference.get();
+
+        if (observer != null) {
+            observer.onUpdate(customerManager);
+        }
     }
 
+    protected void onPreExecute(){
+        Updatable observer =observerReference.get();
+
+        if(observer!=null){
+            observer.onPreExecute();
+        }
+    }
 
 
 }

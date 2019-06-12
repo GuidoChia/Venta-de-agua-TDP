@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ProgressBar;
 
 import com.whiteelephant.monthpicker.MonthPickerDialog;
 
@@ -52,8 +53,8 @@ public class CalcularAnioFragment extends Fragment implements Updatable {
     private WeakReference<View> viewReference;
     private int lastPressed;
     @Nullable
-    private
-    CustomerManager manager;
+    private CustomerManager manager;
+    private TemplateCustomerTask currentTask;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -84,64 +85,30 @@ public class CalcularAnioFragment extends Fragment implements Updatable {
 
 
             btnDinero.setOnClickListener(v -> {
-                Button btnAnio = view.findViewById(R.id.buttonAnio);
-                String dateString = "1/01/" + btnAnio.getText().toString();
-
                 lastPressed = BOTON_DINERO;
-                if (manager == null) {
-                    TemplateCustomerTask task = new YearCustomerTask(this);
-                    task.execute(dateString);
-                } else {
-                    updateResultText();
-                }
-
+                onClickedButton();
             });
 
             btn12.setOnClickListener(v -> {
-                Button btnAnio = view.findViewById(R.id.buttonAnio);
-                String dateString = "1/01/" + btnAnio.getText().toString();
-
                 lastPressed = BOTON_TOTAL_12;
-                if (manager == null) {
-                    TemplateCustomerTask task = new YearCustomerTask(this);
-                    task.execute(dateString);
-                } else {
-                    updateResultText();
-                }
+                onClickedButton();
 
             });
 
             btn20.setOnClickListener(v -> {
-                Button btnAnio = view.findViewById(R.id.buttonAnio);
-                String dateString = "1/01/" + btnAnio.getText().toString();
-
                 lastPressed = BOTON_TOTAL_20;
-                if (manager == null) {
-                    TemplateCustomerTask task = new YearCustomerTask(this);
-                    task.execute(dateString);
-                } else {
-                    updateResultText();
-                }
+                onClickedButton();
 
             });
 
             btnTot.setOnClickListener(v -> {
-                Button btnAnio = view.findViewById(R.id.buttonAnio);
-                String dateString = "1/01/" + btnAnio.getText().toString();
-
                 lastPressed = BOTON_TOTAL_BIDONES;
-                if (manager == null) {
-                    TemplateCustomerTask task = new YearCustomerTask(this);
-                    task.execute(dateString);
-                } else {
-                    updateResultText();
-                }
+                onClickedButton();
             });
         }
 
         return view;
     }
-
 
 
     private void initYearButton(View view) {
@@ -170,58 +137,97 @@ public class CalcularAnioFragment extends Fragment implements Updatable {
     private void setFragment(int position, Bundle bnd) {
         MainActivity act = (MainActivity) getActivity();
 
-        FragmentManager fragmentManager;
-        FragmentTransaction fragmentTransaction;
-        Fragment frag;
-        switch (position) {
-            case FRAGMENT_RESULTADOS:
-                fragmentManager = Objects.requireNonNull(act).getSupportFragmentManager();
-                fragmentTransaction = fragmentManager.beginTransaction();
-                frag = new ResultadosCalculosFragment();
-                frag.setArguments(bnd);
-                fragmentTransaction.replace(R.id.fragment_resultados_anio, frag);
-                fragmentTransaction.commit();
-                break;
+        if (act != null) {
+            FragmentManager fragmentManager;
+            FragmentTransaction fragmentTransaction;
+            Fragment frag;
+            switch (position) {
+                case FRAGMENT_RESULTADOS:
+                    fragmentManager = Objects.requireNonNull(act).getSupportFragmentManager();
+                    fragmentTransaction = fragmentManager.beginTransaction();
+                    frag = new ResultadosCalculosFragment();
+                    frag.setArguments(bnd);
+                    fragmentTransaction.replace(R.id.fragment_resultados_anio, frag);
+                    fragmentTransaction.commit();
+                    break;
 
+            }
         }
     }
 
     @Override
     public void onUpdate(CustomerManager manager) {
         this.manager = manager;
+        currentTask = null;
+        View view = viewReference.get();
+        if (view != null) {
+            ProgressBar pb = view.findViewById(R.id.progress_calcular_anio);
+            pb.setVisibility(View.GONE);
+        }
+
         updateResultText();
+    }
+
+    @Override
+    public void onPreExecute() {
+        View view = viewReference.get();
+
+        if (view != null) {
+            ProgressBar pb = view.findViewById(R.id.progress_calcular_anio);
+            pb.setVisibility(View.VISIBLE);
+        }
     }
 
     private void updateResultText() {
         View parent = viewReference.get();
-        CheckBox checkBox = parent.findViewById(R.id.checkbox_lista_anio);
+        if (parent != null) {
+            CheckBox checkBox = parent.findViewById(R.id.checkbox_lista_anio);
 
-        Bundle bnd = new Bundle();
+            Bundle bnd = new Bundle();
 
-        if (checkBox.isChecked()) {
-            bnd.putString("list", manager.toString());
-        } else {
-            bnd.putString("list", "");
+            if (checkBox.isChecked()) {
+                bnd.putString("list", manager.toString());
+            } else {
+                bnd.putString("list", "");
+            }
+
+            double res = 0;
+
+            switch (lastPressed) {
+                case BOTON_DINERO:
+                    res = manager.getPaid();
+                    break;
+                case BOTON_TOTAL_12:
+                    res = manager.getTwelveBought();
+                    break;
+                case BOTON_TOTAL_20:
+                    res = manager.getTwentyBought();
+                    break;
+                case BOTON_TOTAL_BIDONES:
+                    res = manager.getTwentyBought() + manager.getTwelveBought();
+            }
+
+            bnd.putString("result", String.valueOf(res));
+
+            setFragment(FRAGMENT_RESULTADOS, bnd);
         }
+    }
 
-        double res = 0;
+    private void onClickedButton() {
+        View view = viewReference.get();
+        if (view != null) {
+            Button btnAnio = view.findViewById(R.id.buttonAnio);
+            String dateString = "1/01/" + btnAnio.getText().toString();
 
-        switch (lastPressed) {
-            case BOTON_DINERO:
-                res = manager.getPaid();
-                break;
-            case BOTON_TOTAL_12:
-                res = manager.getTwelveBought();
-                break;
-            case BOTON_TOTAL_20:
-                res = manager.getTwentyBought();
-                break;
-            case BOTON_TOTAL_BIDONES:
-                res = manager.getTwentyBought() + manager.getTwelveBought();
+            if (manager == null) {
+                if (currentTask != null) {
+                    currentTask.cancel(true);
+                }
+                currentTask = new YearCustomerTask(this, view);
+                currentTask.execute(dateString);
+            } else {
+                updateResultText();
+            }
         }
-
-        bnd.putString("result", String.valueOf(res));
-
-        setFragment(FRAGMENT_RESULTADOS, bnd);
     }
 }
