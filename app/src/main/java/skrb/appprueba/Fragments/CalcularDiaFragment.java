@@ -32,8 +32,9 @@ import reader.CustomerManager;
 import skrb.appprueba.MainActivity;
 import skrb.appprueba.R;
 import skrb.appprueba.helpers.FileHelper;
+import skrb.appprueba.interfaces.Updatable;
 
-public class CalcularDiaFragment extends Fragment implements DatePickerDialog.OnDateSetListener {
+public class CalcularDiaFragment extends Fragment implements DatePickerDialog.OnDateSetListener, Updatable {
     private static final int FRAGMENT_RESULTADOS = 0;
 
     @Nullable
@@ -190,5 +191,10 @@ public class CalcularDiaFragment extends Fragment implements DatePickerDialog.On
         Button btn = Objects.requireNonNull(act).findViewById(R.id.buttonDiaCalcular);
         btn.setText(dayOfMonth + "/" + (month + 1) + '/' + year);
         manager = null;
+    }
+
+    @Override
+    public void onUpdate(CustomerManager manager) {
+
     }
 }

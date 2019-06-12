@@ -34,8 +34,9 @@ import skrb.appprueba.R;
 import skrb.appprueba.R.id;
 import skrb.appprueba.R.layout;
 import skrb.appprueba.helpers.FileHelper;
+import skrb.appprueba.interfaces.Updatable;
 
-public class CalcularFragment extends Fragment {
+public class CalcularFragment extends Fragment implements Updatable {
     private static final int FRAGMENT_RESULTADOS = 0;
     private static final int MIN_YEAR = 1990;
     private static final int MAX_YEAR = 2050;
@@ -202,5 +203,10 @@ public class CalcularFragment extends Fragment {
                 break;
 
         }
+    }
+
+    @Override
+    public void onUpdate(CustomerManager manager) {
+
     }
 }

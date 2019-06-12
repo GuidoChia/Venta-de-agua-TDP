@@ -26,4 +26,9 @@ public enum Constants {
     public static final int DEF_VALUE_MIEL_1_COMERCIO = 130;
     public static final int DEF_VALUE_MIEL_MEDIO_NORMAL = 80;
     public static final int DEF_VALUE_MIEL_MEDIO_COMERCIO = 70;
+
+    public static final int BOTON_DINERO = 0;
+    public static final int BOTON_TOTAL_12 = 1;
+    public static final int BOTON_TOTAL_20 = 2;
+    public static final int BOTON_TOTAL_BIDONES = 3;
 }
