@@ -14,7 +14,6 @@
         “Tecnologías de Programación” de la carrera Ingeniería en Sistemas de Información.</string>
     <string name="autor">Autor: Guido Chia. LU: 117.825</string>
     <string name="saldo">Saldo: </string>
-    <string name="nombre">Nombre: </string>
     <string name="saldoDe12">Saldo de 12: </string>
     <string name="saldoDe20">Saldo de 20: </string>
     <string name="ultimaFecha">Fecha de última compra: </string>
@@ -30,7 +29,6 @@
     <string name="calcular_cantidad_total_de_bidones">Calcular total mensual de bidones</string>
     <string name="calcular_cantidad_total_de_bidones_de_20">Calcular total mensual de bidones de 20</string>
     <string name="calcular_cantidad_total_de_bidones_de_12">Calcular total mensual de bidones de 12</string>
-    <string name="resultado_mensual">Resultado mensual:  </string>
     <string name="precio">Precio</string>
     <string name="establecer_precio">Establecer precio</string>
     <string name="elija_mes">Elija mes y año</string>

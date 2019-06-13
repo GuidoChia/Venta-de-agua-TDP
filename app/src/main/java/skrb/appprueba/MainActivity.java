@@ -39,14 +39,6 @@ import skrb.appprueba.R.layout;
  */
 public class MainActivity extends AppCompatActivity {
 
-    private static final int FRAGMENT_AGREGAR = 0;
-    private static final int FRAGMENT_BUSCAR = 1;
-    private static final int FRAGMENT_ABOUT = 2;
-    private static final int FRAGMENT_CALCULAR = 3;
-    private static final int FRAGMENT_PRECIO = 4;
-    private static final int FRAGMENT_CALCULAR_DIA = 5;
-    private static final int FRAGMENT_CALCULAR_RECORRIDO = 6;
-    private static final int FRAGMENT_CALCULAR_AÑO = 7;
     private static final int PERMISSION_WRITE = 0;
     private static final int ANIMATION_DEFAULT_TIME= 300;
 
@@ -72,30 +64,40 @@ public class MainActivity extends AppCompatActivity {
         NavigationView navView = findViewById(id.NavigationView);
         navView.setNavigationItemSelectedListener(
                 menuItem -> {
+                    if (ContextCompat.checkSelfPermission(this,
+                            permission.WRITE_EXTERNAL_STORAGE)
+                            != PackageManager.PERMISSION_GRANTED) {
+
+                        ActivityCompat.requestPermissions(this,
+                                new String[]{permission.WRITE_EXTERNAL_STORAGE},
+                                PERMISSION_WRITE);
+
+                    }
+
                     switch (menuItem.getItemId()) {
                         case R.id.AgregarCliente:
-                            setFragment(FRAGMENT_AGREGAR);
+                            setFragment(new AgregarClienteFragment());
                             break;
                         case R.id.BuscarCliente:
-                            setFragment(FRAGMENT_BUSCAR);
+                            setFragment(new BuscarClienteFragment());
                             break;
                         case R.id.About:
-                            setFragment(FRAGMENT_ABOUT);
+                            setFragment(new AboutFragment());
                             break;
                         case R.id.Calcular:
-                            setFragment(FRAGMENT_CALCULAR);
+                            setFragment(new CalcularFragment());
                             break;
                         case R.id.EstablecerPrecio:
-                            setFragment(FRAGMENT_PRECIO);
+                            setFragment(new EstablecerPrecioFragment());
                             break;
                         case id.Calcular_dia:
-                            setFragment(FRAGMENT_CALCULAR_DIA);
+                            setFragment(new CalcularDiaFragment());
                             break;
                         case id.Calcular_recorrido:
-                            setFragment(FRAGMENT_CALCULAR_RECORRIDO);
+                            setFragment(new RecorridoFragment());
                             break;
                         case id.Calcular_anio:
-                            setFragment(FRAGMENT_CALCULAR_AÑO);
+                            setFragment(new CalcularAnioFragment());
                     }
 
                     mDrawerLayout.closeDrawers();
@@ -105,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
         );
 
         if (savedInstanceState == null) {
-            setFragment(FRAGMENT_AGREGAR);
+            setFragment(new AgregarClienteFragment());
         }
 
     }
@@ -120,45 +122,9 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void setFragment(int position) {
-        if (ContextCompat.checkSelfPermission(this,
-                permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
 
-            ActivityCompat.requestPermissions(this,
-                    new String[]{permission.WRITE_EXTERNAL_STORAGE},
-                    PERMISSION_WRITE);
 
-        }
-        switch (position) {
-            case FRAGMENT_AGREGAR:
-                changeFragment(new AgregarClienteFragment());
-                break;
-            case FRAGMENT_BUSCAR:
-                changeFragment(new BuscarClienteFragment());
-                break;
-            case FRAGMENT_ABOUT:
-                changeFragment(new AboutFragment());
-                break;
-            case FRAGMENT_CALCULAR:
-                changeFragment(new CalcularFragment());
-                break;
-            case FRAGMENT_PRECIO:
-                changeFragment(new EstablecerPrecioFragment());
-                break;
-            case FRAGMENT_CALCULAR_DIA:
-                changeFragment(new CalcularDiaFragment());
-                break;
-            case FRAGMENT_CALCULAR_RECORRIDO:
-                changeFragment(new RecorridoFragment());
-                break;
-            case FRAGMENT_CALCULAR_AÑO:
-                changeFragment(new CalcularAnioFragment());
-                break;
-        }
-    }
-
-    private void changeFragment(Fragment frag) {
+    private void setFragment(Fragment frag) {
         FragmentManager fragmentManager;
         FragmentTransaction fragmentTransaction;
 

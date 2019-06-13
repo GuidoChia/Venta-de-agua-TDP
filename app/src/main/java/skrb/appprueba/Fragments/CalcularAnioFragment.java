@@ -3,15 +3,6 @@ package skrb.appprueba.Fragments;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.core.content.ContextCompat;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,23 +10,22 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ProgressBar;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.whiteelephant.monthpicker.MonthPickerDialog;
 
-import java.io.File;
 import java.lang.ref.WeakReference;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Objects;
 
-import reader.ConcreteCustomerManager;
-import reader.ConcreteReader;
 import reader.CustomerManager;
 import skrb.appprueba.MainActivity;
 import skrb.appprueba.R;
-import skrb.appprueba.helpers.FileHelper;
 import skrb.appprueba.interfaces.Updatable;
 import skrb.appprueba.tasks.TemplateCustomerTask;
 import skrb.appprueba.tasks.YearCustomerTask;
@@ -66,8 +56,6 @@ public class CalcularAnioFragment extends Fragment implements Updatable {
 
         initYearButton(view);
 
-        File path = FileHelper.getPath();
-
         Button btnDinero = view.findViewById(R.id.calcular_dinero_anual);
         Button btn12 = view.findViewById(R.id.calcular_bidones_12_anual);
         Button btn20 = view.findViewById(R.id.calcular_bidones_20_anual);
@@ -82,8 +70,6 @@ public class CalcularAnioFragment extends Fragment implements Updatable {
             btnDinero.setEnabled(false);
             btnTot.setEnabled(false);
         } else {
-
-
             btnDinero.setOnClickListener(v -> {
                 lastPressed = BOTON_DINERO;
                 onClickedButton();
@@ -92,13 +78,11 @@ public class CalcularAnioFragment extends Fragment implements Updatable {
             btn12.setOnClickListener(v -> {
                 lastPressed = BOTON_TOTAL_12;
                 onClickedButton();
-
             });
 
             btn20.setOnClickListener(v -> {
                 lastPressed = BOTON_TOTAL_20;
                 onClickedButton();
-
             });
 
             btnTot.setOnClickListener(v -> {
@@ -163,9 +147,8 @@ public class CalcularAnioFragment extends Fragment implements Updatable {
         if (view != null) {
             ProgressBar pb = view.findViewById(R.id.progress_calcular_anio);
             pb.setVisibility(View.GONE);
+            updateResultText();
         }
-
-        updateResultText();
     }
 
     @Override
@@ -192,22 +175,27 @@ public class CalcularAnioFragment extends Fragment implements Updatable {
             }
 
             double res = 0;
+            String stringRes = "";
 
             switch (lastPressed) {
                 case BOTON_DINERO:
                     res = manager.getPaid();
+                    stringRes = String.valueOf(res);
                     break;
                 case BOTON_TOTAL_12:
                     res = manager.getTwelveBought();
+                    stringRes = String.valueOf((int) res);
                     break;
                 case BOTON_TOTAL_20:
                     res = manager.getTwentyBought();
+                    stringRes = String.valueOf((int) res);
                     break;
                 case BOTON_TOTAL_BIDONES:
                     res = manager.getTwentyBought() + manager.getTwelveBought();
+                    stringRes = String.valueOf((int) res);
             }
 
-            bnd.putString("result", String.valueOf(res));
+            bnd.putString("result", stringRes);
 
             setFragment(FRAGMENT_RESULTADOS, bnd);
         }
@@ -220,11 +208,10 @@ public class CalcularAnioFragment extends Fragment implements Updatable {
             String dateString = "1/01/" + btnAnio.getText().toString();
 
             if (manager == null) {
-                if (currentTask != null) {
-                    currentTask.cancel(true);
+                if (currentTask == null) {
+                    currentTask = new YearCustomerTask(this, view);
+                    currentTask.execute(dateString);
                 }
-                currentTask = new YearCustomerTask(this, view);
-                currentTask.execute(dateString);
             } else {
                 updateResultText();
             }

@@ -53,6 +53,10 @@
         android:layout_height="wrap_content"
         android:text="@string/mostrar_lista" />
 
+    <ProgressBar
+        android:id="@+id/progress_calcular_dia"
+        style="@style/AppTheme.Progressbar"/>
+
     <LinearLayout
         android:id="@+id/fragment_resultados_dia"
         android:layout_width="wrap_content"

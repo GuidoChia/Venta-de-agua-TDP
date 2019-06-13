@@ -3,22 +3,26 @@ package skrb.appprueba.Fragments;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.core.content.ContextCompat;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ProgressBar;
 
 import com.whiteelephant.monthpicker.MonthPickerDialog;
 
 import java.io.File;
+import java.lang.ref.WeakReference;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -35,24 +39,35 @@ import skrb.appprueba.R.id;
 import skrb.appprueba.R.layout;
 import skrb.appprueba.helpers.FileHelper;
 import skrb.appprueba.interfaces.Updatable;
+import skrb.appprueba.tasks.MonthCustomerTask;
+import skrb.appprueba.tasks.TemplateCustomerTask;
+
+import static skrb.appprueba.helpers.Constants.BOTON_DINERO;
+import static skrb.appprueba.helpers.Constants.BOTON_TOTAL_12;
+import static skrb.appprueba.helpers.Constants.BOTON_TOTAL_20;
+import static skrb.appprueba.helpers.Constants.BOTON_TOTAL_BIDONES;
 
 public class CalcularFragment extends Fragment implements Updatable {
     private static final int FRAGMENT_RESULTADOS = 0;
     private static final int MIN_YEAR = 1990;
     private static final int MAX_YEAR = 2050;
+
+    private int lastPressed;
+
     @Nullable
-    private
-    CustomerManager manager;
+    private CustomerManager manager;
+    private WeakReference<View> viewReference;
+    private TemplateCustomerTask currentTask;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(layout.fragment_calcular, container, false);
+        viewReference = new WeakReference<>(view);
+
         final MainActivity act = (MainActivity) getActivity();
         Objects.requireNonNull(act.getSupportActionBar()).setTitle("Calculos mensuales");
 
         initMonthButton(view);
-
-        File path = FileHelper.getPath();
 
         Button btnDinero = view.findViewById(id.calcular_dinero_mensual);
         Button btn12 = view.findViewById(id.calcular_bidones_12);
@@ -69,92 +84,27 @@ public class CalcularFragment extends Fragment implements Updatable {
             btnTot.setEnabled(false);
         } else {
             btnDinero.setOnClickListener(v -> {
-                CustomerManager manager = getMonthManager(view, path);
-
-                Bundle bnd = new Bundle();
-
-                if (checkBox.isChecked()) {
-                    bnd.putString("list", manager.toString());
-                } else {
-                    bnd.putString("list", "");
-                }
-
-                bnd.putString("result", String.valueOf(manager.getPaid()));
-
-                setFragment(FRAGMENT_RESULTADOS, bnd);
+                lastPressed = BOTON_DINERO;
+                onClickedButton();
             });
 
             btn12.setOnClickListener(v -> {
-                CustomerManager manager = getMonthManager(view, path);
-
-                Bundle bnd = new Bundle();
-
-                if (checkBox.isChecked()) {
-                    bnd.putString("list", manager.toString());
-                } else {
-                    bnd.putString("list", "");
-                }
-
-                bnd.putString("result", String.valueOf(manager.getTwelveBought()));
-
-                setFragment(FRAGMENT_RESULTADOS, bnd);
+                lastPressed = BOTON_TOTAL_12;
+                onClickedButton();
             });
 
             btn20.setOnClickListener(v -> {
-
-                CustomerManager manager = getMonthManager(view, path);
-
-                Bundle bnd = new Bundle();
-
-
-                if (checkBox.isChecked()) {
-                    bnd.putString("list", manager.toString());
-                } else {
-                    bnd.putString("list", "");
-                }
-                bnd.putString("result", String.valueOf(manager.getTwentyBought()));
-
-                setFragment(FRAGMENT_RESULTADOS, bnd);
+                lastPressed = BOTON_TOTAL_20;
+                onClickedButton();
             });
 
             btnTot.setOnClickListener(v -> {
-                CustomerManager manager = getMonthManager(view, path);
-
-                Bundle bnd = new Bundle();
-
-                if (checkBox.isChecked()) {
-                    bnd.putString("list", manager.toString());
-                } else {
-                    bnd.putString("list", "");
-                }
-
-                int res = manager.getTwelveBought() + manager.getTwentyBought();
-                bnd.putString("result", String.valueOf(res));
-
-                setFragment(FRAGMENT_RESULTADOS, bnd);
+                lastPressed = BOTON_TOTAL_BIDONES;
+                onClickedButton();
             });
         }
 
         return view;
-    }
-
-    @NonNull
-    private CustomerManager getMonthManager(View view, File path) {
-        if (manager == null) {
-            Button btnMes = view.findViewById(id.buttonMesAño);
-            String dateString = "1/" + btnMes.getText().toString();
-            DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-            Date[] date = null;
-            try {
-                date = new Date[]{format.parse(dateString)};
-            } catch (ParseException e) {
-                Log.e("Parse error ", e.getClass().toString(), e);
-            }
-
-            manager = new ConcreteCustomerManager(ConcreteReader.getInstance().readCustomersMonth(date, path));
-        }
-
-        return manager;
     }
 
 
@@ -189,29 +139,102 @@ public class CalcularFragment extends Fragment implements Updatable {
     private void setFragment(int position, Bundle bnd) {
         MainActivity act = (MainActivity) getActivity();
 
-        FragmentManager fragmentManager;
-        FragmentTransaction fragmentTransaction;
-        Fragment frag;
-        switch (position) {
-            case FRAGMENT_RESULTADOS:
-                fragmentManager = Objects.requireNonNull(act).getSupportFragmentManager();
-                fragmentTransaction = fragmentManager.beginTransaction();
-                frag = new ResultadosCalculosFragment();
-                frag.setArguments(bnd);
-                fragmentTransaction.replace(id.fragment_resultados_mes, frag);
-                fragmentTransaction.commit();
-                break;
+        if (act != null) {
 
+            FragmentManager fragmentManager;
+            FragmentTransaction fragmentTransaction;
+            Fragment frag;
+            switch (position) {
+                case FRAGMENT_RESULTADOS:
+                    fragmentManager = Objects.requireNonNull(act).getSupportFragmentManager();
+                    fragmentTransaction = fragmentManager.beginTransaction();
+                    frag = new ResultadosCalculosFragment();
+                    frag.setArguments(bnd);
+                    fragmentTransaction.replace(id.fragment_resultados_mes, frag);
+                    fragmentTransaction.commit();
+                    break;
+
+            }
         }
     }
 
     @Override
     public void onUpdate(CustomerManager manager) {
+        this.manager = manager;
+        currentTask = null;
+        View view = viewReference.get();
+        if (view != null) {
+            ProgressBar pb = view.findViewById(R.id.progress_calcular_mes);
+            pb.setVisibility(View.GONE);
+            updateResultText();
+        }
+    }
 
+    private void updateResultText() {
+        View parent = viewReference.get();
+        if (parent != null) {
+            CheckBox checkBox = parent.findViewById(id.checkbox_lista_mes);
+
+            Bundle bnd = new Bundle();
+
+            if (checkBox.isChecked()) {
+                bnd.putString("list", manager.toString());
+            } else {
+                bnd.putString("list", "");
+            }
+
+            double res = 0;
+            String stringRes = "";
+
+            switch (lastPressed) {
+                case BOTON_DINERO:
+                    res = manager.getPaid();
+                    stringRes = String.valueOf(res);
+                    break;
+                case BOTON_TOTAL_12:
+                    res = manager.getTwelveBought();
+                    stringRes = String.valueOf((int) res);
+                    break;
+                case BOTON_TOTAL_20:
+                    res = manager.getTwentyBought();
+                    stringRes = String.valueOf((int) res);
+                    break;
+                case BOTON_TOTAL_BIDONES:
+                    res = manager.getTwentyBought() + manager.getTwelveBought();
+                    stringRes = String.valueOf((int) res);
+            }
+
+
+            bnd.putString("result", stringRes);
+
+            setFragment(FRAGMENT_RESULTADOS, bnd);
+        }
     }
 
     @Override
     public void onPreExecute() {
+        View view = viewReference.get();
 
+        if (view != null) {
+            ProgressBar pb = view.findViewById(R.id.progress_calcular_mes);
+            pb.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void onClickedButton() {
+        View view = viewReference.get();
+        if (view != null) {
+            Button btnMes = view.findViewById(id.buttonMesAño);
+            String dateString = "1/" + btnMes.getText().toString();
+
+            if (manager == null) {
+                if (currentTask == null) {
+                    currentTask = new MonthCustomerTask(this, view);
+                    currentTask.execute(dateString);
+                }
+            } else {
+                updateResultText();
+            }
+        }
     }
 }
