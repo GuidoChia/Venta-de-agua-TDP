@@ -23,4 +23,56 @@
         <item name="android:visibility">gone</item>
     </style>
 
+    <style name="AppTheme.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">65dp</item>
+        <item name="android:hapticFeedbackEnabled">true</item>
+        <item name="android:layout_margin">2dp</item>
+    </style>
+
+    <style name="AppTheme.TextInputEditText">
+        <item name="android:drawablePadding">8dp</item>
+
+        <item name="android:imeOptions">flagNoFullscreen|flagNoExtractUi</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="AppTheme.TextInputEditText.Accent" parent="AppTheme.TextInputEditText">
+        <item name="android:drawableTint">@color/colorAccent</item>
+    </style>
+
+    <style name="AppTheme.TextInputEditText.Number" parent="AppTheme.TextInputEditText">
+        <item name="android:inputType">number</item>
+        <item name="android:text">@string/_0</item>
+    </style>
+
+    <style name="AppTheme.TextInputEditText.Number.Accent" parent="AppTheme.TextInputEditText.Number">
+        <item name="android:drawableTint">@color/colorAccent</item>
+    </style>
+
+    <style name="AppTheme.TextInputEditText.Red" parent="AppTheme.TextInputEditText.Number">
+        <item name="android:drawableTint">@android:color/holo_red_light</item>
+    </style>
+
+    <style name="AppTheme.AutoCompleteInputEditText" parent="AppTheme.TextInputEditText.Accent">
+        <item name="android:capitalize">words</item>
+        <item name="android:completionThreshold">1</item>
+        <item name="android:paddingStart">12dp</item>
+        <item name="android:paddingTop">28dp</item>
+        <item name="android:paddingEnd">12dp</item>
+        <item name="android:paddingBottom">10dp</item>
+    </style>
+
+    <style name="AppTheme.DateButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:textAppearance">@style/ThemeOverlay.MaterialComponents.Light</item>
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textSize">20sp</item>
+
+    </style>
+
+
 </resources>

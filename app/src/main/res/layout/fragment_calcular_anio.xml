@@ -9,13 +9,8 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonAnio"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:textAppearance="@style/ThemeOverlay.MaterialComponents.Light"
-        android:textColor="@color/colorAccent"
-        android:layout_gravity="center"
-        android:textSize="20sp" />
+        style="@style/AppTheme.DateButton"
+        android:layout_gravity="center" />
 
 
     <com.google.android.material.button.MaterialButton

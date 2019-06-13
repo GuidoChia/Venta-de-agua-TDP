@@ -3,50 +3,60 @@
     <group
         android:checkableBehavior="single"
         android:menuCategory="container">
-        <item
-            android:id="@+id/AgregarCliente"
-            android:checkable="false"
-            android:icon="@drawable/account_plus_outline"
-            android:title="Agregar Cliente" />
-        <item
-            android:id="@+id/BuscarCliente"
-            android:checkable="false"
-            android:icon="@drawable/account_search_outline"
-            android:title="Buscar Cliente" />
-        <item
-            android:id="@+id/Calcular_dia"
-            android:checkable="false"
-            android:icon="@drawable/calendar_today"
-            android:title="Calculos diarios" />
-        <item
-            android:id="@+id/Calcular"
-            android:checkable="false"
-            android:icon="@drawable/calendar_blank"
-            android:title="Calculos mensuales" />
-        <item
-            android:id="@+id/Calcular_anio"
-            android:checkable="false"
-            android:icon="@drawable/ic_baseline_date_range_24px"
-            android:title="Calculos anuales" />
-        <item
-            android:id="@+id/Calcular_recorrido"
-            android:checkable="false"
-            android:icon="@drawable/account_multiple_check"
-            android:title="Calculo de recorrido" />
-        <item
-            android:id="@+id/EstablecerPrecio"
-            android:checkable="false"
-            android:icon="@drawable/currency_usd"
-            android:title="Precio" />
+
+        <group android:id="@+id/group1">
+
+            <item
+                android:id="@+id/AgregarCliente"
+                android:checkable="false"
+                android:icon="@drawable/account_plus_outline"
+                android:title="Agregar Cliente" />
+            <item
+                android:id="@+id/BuscarCliente"
+                android:checkable="false"
+                android:icon="@drawable/account_search_outline"
+                android:title="Buscar Cliente" />
+        </group>
+
+        <group android:id="@+id/group2">
+            <item
+                android:id="@+id/Calcular_dia"
+                android:checkable="false"
+                android:icon="@drawable/calendar_today"
+                android:title="Calculos diarios" />
+            <item
+                android:id="@+id/Calcular"
+                android:checkable="false"
+                android:icon="@drawable/calendar_blank"
+                android:title="Calculos mensuales" />
+            <item
+                android:id="@+id/Calcular_anio"
+                android:checkable="false"
+                android:icon="@drawable/ic_baseline_date_range_24px"
+                android:title="Calculos anuales" />
+        </group>
+
+        <group android:id="@+id/group3">
+            <item
+                android:id="@+id/Calcular_recorrido"
+                android:checkable="false"
+                android:icon="@drawable/account_multiple_check"
+                android:title="Calculo de recorrido" />
+            <item
+                android:id="@+id/EstablecerPrecio"
+                android:checkable="false"
+                android:icon="@drawable/currency_usd"
+                android:title="Precio" />
+        </group>
+
+        <group android:id="@+id/group4">
+            <item
+                android:id="@+id/About"
+                android:checkable="false"
+                android:icon="@drawable/information_outline"
+                android:title="About" />
+        </group>
     </group>
-    <group
-        android:checkableBehavior="single"
-        android:menuCategory="container">
-        <item
-            android:id="@+id/About"
-            android:checkable="false"
-            android:icon="@drawable/information_outline"
-            android:title="About" />
-    </group>
+
 
 </menu>
