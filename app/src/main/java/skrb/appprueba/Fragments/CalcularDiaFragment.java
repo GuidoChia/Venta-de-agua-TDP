@@ -48,7 +48,7 @@ import static skrb.appprueba.helpers.Constants.BOTON_TOTAL_BIDONES;
 
 public class CalcularDiaFragment extends Fragment implements DatePickerDialog.OnDateSetListener, Updatable {
     private static final int FRAGMENT_RESULTADOS = 0;
-
+    private boolean isStopped = false;
     private WeakReference<View> viewReference;
     private int lastPressed;
     @Nullable
@@ -139,7 +139,7 @@ public class CalcularDiaFragment extends Fragment implements DatePickerDialog.On
     private void setFragment(int position, Bundle bnd) {
         MainActivity act = (MainActivity) getActivity();
 
-        if (act != null) {
+        if (act != null && !isStopped) {
             FragmentManager fragmentManager;
             FragmentTransaction fragmentTransaction;
             Fragment frag;
@@ -243,5 +243,17 @@ public class CalcularDiaFragment extends Fragment implements DatePickerDialog.On
 
             setFragment(FRAGMENT_RESULTADOS, bnd);
         }
+    }
+
+    @Override
+    public void onStop(){
+        isStopped = true;
+        super.onStop();
+    }
+
+    @Override
+    public void onResume(){
+        isStopped = false;
+        super.onResume();
     }
 }

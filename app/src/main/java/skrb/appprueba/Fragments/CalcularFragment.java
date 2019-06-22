@@ -52,6 +52,8 @@ public class CalcularFragment extends Fragment implements Updatable {
     private static final int MIN_YEAR = 1990;
     private static final int MAX_YEAR = 2050;
 
+    private boolean isStopped = false;
+
     private int lastPressed;
 
     @Nullable
@@ -139,7 +141,7 @@ public class CalcularFragment extends Fragment implements Updatable {
     private void setFragment(int position, Bundle bnd) {
         MainActivity act = (MainActivity) getActivity();
 
-        if (act != null) {
+        if (act != null && !isStopped) {
 
             FragmentManager fragmentManager;
             FragmentTransaction fragmentTransaction;
@@ -236,5 +238,17 @@ public class CalcularFragment extends Fragment implements Updatable {
                 updateResultText();
             }
         }
+    }
+
+    @Override
+    public void onStop(){
+        isStopped = true;
+        super.onStop();
+    }
+
+    @Override
+    public void onResume(){
+        isStopped = false;
+        super.onResume();
     }
 }
