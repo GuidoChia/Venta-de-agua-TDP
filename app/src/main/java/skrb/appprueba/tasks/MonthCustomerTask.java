@@ -2,12 +2,10 @@ package skrb.appprueba.tasks;
 
 import android.view.View;
 
-import java.io.File;
 import java.util.Collection;
 import java.util.Date;
 
 import customer.Customer;
-import reader.ConcreteCustomerManager;
 import reader.ConcreteReader;
 import skrb.appprueba.helpers.FileHelper;
 import skrb.appprueba.interfaces.Updatable;

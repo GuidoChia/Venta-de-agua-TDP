@@ -5,7 +5,6 @@ import android.util.AttributeSet;
 import android.view.ViewParent;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
-import android.widget.AutoCompleteTextView;
 
 import com.google.android.material.textfield.TextInputLayout;
 

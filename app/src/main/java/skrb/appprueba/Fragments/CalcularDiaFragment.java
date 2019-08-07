@@ -4,14 +4,6 @@ import android.Manifest;
 import android.app.DatePickerDialog;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.core.content.ContextCompat;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +12,13 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.ProgressBar;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import java.io.File;
 import java.lang.ref.WeakReference;
@@ -35,11 +34,9 @@ import reader.ConcreteReader;
 import reader.CustomerManager;
 import skrb.appprueba.MainActivity;
 import skrb.appprueba.R;
-import skrb.appprueba.helpers.FileHelper;
 import skrb.appprueba.interfaces.Updatable;
 import skrb.appprueba.tasks.DayCustomerTask;
 import skrb.appprueba.tasks.TemplateCustomerTask;
-import skrb.appprueba.tasks.YearCustomerTask;
 
 import static skrb.appprueba.helpers.Constants.BOTON_DINERO;
 import static skrb.appprueba.helpers.Constants.BOTON_TOTAL_12;

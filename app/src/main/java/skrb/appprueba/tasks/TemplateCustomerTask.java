@@ -13,9 +13,7 @@ import java.util.Date;
 
 import customer.Customer;
 import reader.ConcreteCustomerManager;
-import reader.ConcreteReader;
 import reader.CustomerManager;
-import skrb.appprueba.helpers.FileHelper;
 import skrb.appprueba.interfaces.Updatable;
 
 public abstract class TemplateCustomerTask extends AsyncTask<String, Void, CustomerManager> {

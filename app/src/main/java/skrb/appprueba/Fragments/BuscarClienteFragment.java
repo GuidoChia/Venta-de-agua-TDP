@@ -5,14 +5,6 @@ import android.R.layout;
 import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.transition.Slide;
-import androidx.transition.Visibility;
-import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.core.content.ContextCompat;
 import android.text.Editable;
 import android.util.Log;
 import android.view.Gravity;
@@ -23,6 +15,15 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.transition.Slide;
+import androidx.transition.Visibility;
 
 import java.io.File;
 import java.text.DateFormat;
@@ -113,6 +114,8 @@ public class BuscarClienteFragment extends Fragment {
                         bnd.putInt("twelveBought", out.getTwelveBought());
 
                         bnd.putInt("twentyBought", out.getTwentyBought());
+
+                        bnd.putString("description", out.getDescription());
 
                         setFragment(FRAGMENT_RESULTADOS, bnd);
                     } else {

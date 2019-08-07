@@ -4,21 +4,22 @@ package skrb.appprueba;
 import android.Manifest.permission;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import com.google.android.material.navigation.NavigationView;
-import androidx.transition.Slide;
-import androidx.transition.Visibility;
-import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.core.content.ContextCompat;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
+import android.view.MenuItem;
+
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import android.view.Gravity;
-import android.view.MenuItem;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.transition.AutoTransition;
+import androidx.transition.TransitionSet;
+
+import com.google.android.material.navigation.NavigationView;
 
 import java.util.Objects;
 
@@ -28,6 +29,7 @@ import skrb.appprueba.Fragments.BuscarClienteFragment;
 import skrb.appprueba.Fragments.CalcularAnioFragment;
 import skrb.appprueba.Fragments.CalcularDiaFragment;
 import skrb.appprueba.Fragments.CalcularFragment;
+import skrb.appprueba.Fragments.CompraExtraFragment;
 import skrb.appprueba.Fragments.EstablecerPrecioFragment;
 import skrb.appprueba.Fragments.RecorridoFragment;
 import skrb.appprueba.R.drawable;
@@ -40,10 +42,8 @@ import skrb.appprueba.R.layout;
 public class MainActivity extends AppCompatActivity {
 
     private static final int PERMISSION_WRITE = 0;
-    private static final int ANIMATION_DEFAULT_TIME= 300;
 
     private DrawerLayout mDrawerLayout;
-    private ActionBar actBar;
 
 
     @Override
@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar tb = findViewById(id.toolbar);
         setSupportActionBar(tb);
 
-        actBar = getSupportActionBar();
+        ActionBar actBar = getSupportActionBar();
         Objects.requireNonNull(actBar).setDisplayHomeAsUpEnabled(true);
         actBar.setHomeAsUpIndicator(drawable.ic_menu);
 
@@ -77,6 +77,9 @@ public class MainActivity extends AppCompatActivity {
                     switch (menuItem.getItemId()) {
                         case R.id.AgregarCliente:
                             setFragment(new AgregarClienteFragment());
+                            break;
+                        case id.AgregarCompraExtra:
+                            setFragment(new CompraExtraFragment());
                             break;
                         case R.id.BuscarCliente:
                             setFragment(new BuscarClienteFragment());
@@ -128,13 +131,14 @@ public class MainActivity extends AppCompatActivity {
         FragmentManager fragmentManager;
         FragmentTransaction fragmentTransaction;
 
-        Visibility transition = new Slide(Gravity.END);
+        TransitionSet transitionSet = new AutoTransition();
 
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
-        frag.setEnterTransition(transition);
-        frag.setExitTransition(transition);
+        frag.setEnterTransition(transitionSet);
+        frag.setExitTransition(transitionSet);
         fragmentTransaction.replace(id.fragment, frag);
+
         fragmentTransaction.commit();
     }
 }

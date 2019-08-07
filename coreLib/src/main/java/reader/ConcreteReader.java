@@ -3,8 +3,6 @@ package reader;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
-import org.apache.poi.ss.usermodel.CellValue;
-import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -12,10 +10,8 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -393,31 +389,24 @@ public class ConcreteReader implements ExcelReader {
             }
         }
 
+        double balance = row.getCell(5).getNumericCellValue();
 
-        FormulaEvaluator evaluator = row.getSheet().getWorkbook().getCreationHelper().createFormulaEvaluator();
+        int twentyBalance = (int) row.getCell(7).getNumericCellValue();
 
-        CellValue value = evaluator.evaluate(row.getCell(5));
-        double balance = 0;
-        if (value != null) {
-            balance = value.getNumberValue();
-        }
-
-        value = evaluator.evaluate(row.getCell(7));
-        int twentyBalance = 0;
-        if (value != null) {
-            twentyBalance = (int) value.getNumberValue();
-        }
-
-        value = evaluator.evaluate(row.getCell(9));
-        int twelveBalance = 0;
-        if (value != null) {
-            twelveBalance = (int) value.getNumberValue();
-        }
+        int twelveBalance = (int) row.getCell(9).getNumericCellValue();
 
         int twentyBought = (int) row.getCell(1).getNumericCellValue();
 
         int twelveBought = (int) row.getCell(2).getNumericCellValue();
 
-        return new ConcreteOutputInfo(date, balance, twentyBalance, twelveBalance, twentyBought, twelveBought);
+        String description;
+        Cell descriptionCell = row.getCell(11);
+        if (descriptionCell!=null && descriptionCell.getCellTypeEnum()==CellType.STRING){
+            description = descriptionCell.getStringCellValue();
+        } else{
+            description= "";
+        }
+
+        return new ConcreteOutputInfo(date, balance, twentyBalance, twelveBalance, twentyBought, twelveBought, description);
     }
 }

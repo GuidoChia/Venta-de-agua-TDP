@@ -57,4 +57,11 @@ public interface OutputInfo {
      */
     int getCanistersBalance();
 
+    /**
+     * Description getter.
+     *
+     * @return Description of the buy, if there is one, empty string otherwise.
+     */
+    String getDescription();
+
 }

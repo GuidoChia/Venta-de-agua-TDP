@@ -3,15 +3,6 @@ package skrb.appprueba.Fragments;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.core.content.ContextCompat;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,25 +10,24 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ProgressBar;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.whiteelephant.monthpicker.MonthPickerDialog;
 
-import java.io.File;
 import java.lang.ref.WeakReference;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Objects;
 
-import reader.ConcreteCustomerManager;
-import reader.ConcreteReader;
 import reader.CustomerManager;
 import skrb.appprueba.MainActivity;
 import skrb.appprueba.R;
 import skrb.appprueba.R.id;
 import skrb.appprueba.R.layout;
-import skrb.appprueba.helpers.FileHelper;
 import skrb.appprueba.interfaces.Updatable;
 import skrb.appprueba.tasks.MonthCustomerTask;
 import skrb.appprueba.tasks.TemplateCustomerTask;

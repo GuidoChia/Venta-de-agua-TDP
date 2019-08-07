@@ -8,12 +8,6 @@ import android.app.DatePickerDialog.OnDateSetListener;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.textfield.TextInputLayout;
-import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
-import androidx.core.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,6 +19,14 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
+
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.io.File;
 import java.text.DateFormat;

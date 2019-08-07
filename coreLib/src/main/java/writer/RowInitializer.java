@@ -6,6 +6,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 
 import customer.Customer;
 import infos.BuyInfo;
+import infos.ExtraBuyInfo;
 import infos.PriceInfo;
 
 interface RowInitializer {
@@ -35,6 +36,15 @@ interface RowInitializer {
      * @param style  Style to use
      */
     void initBuyRow(Row row, BuyInfo info, PriceInfo prices, CellStyle style);
+
+    /**
+     * Initializes a row with an extra buy.
+     *
+     * @param row   Row to initialize.
+     * @param info  Info to write in the row.
+     * @param style Style to use.
+     */
+    void initExtraBuyRow(Row row, ExtraBuyInfo info, CellStyle style);
 
     /**
      * Initializes a the buy titles

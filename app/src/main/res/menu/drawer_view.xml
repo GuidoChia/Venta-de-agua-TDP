@@ -11,6 +11,13 @@
                 android:checkable="false"
                 android:icon="@drawable/account_plus_outline"
                 android:title="Agregar Cliente" />
+
+            <item
+                android:id="@+id/AgregarCompraExtra"
+                android:checkable="false"
+                android:icon="@drawable/ic_add_document"
+                android:title="Agregar Compra Extra" />
+
             <item
                 android:id="@+id/BuscarCliente"
                 android:checkable="false"

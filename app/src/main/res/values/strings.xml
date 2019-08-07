@@ -21,7 +21,7 @@
     <string name="errorAgregar">Se produjo un error, debe completar todos los campos</string>
     <string name="errorEstablecer">Se produjo un error, debe establecer un precio</string>
     <string name="OK">OK</string>
-    <string name="CONFIRM">CONFIMAR</string>
+    <string name="CONFIRM">CONFIRMAR</string>
     <string name="CANCEL">CANCELAR</string>
 
     <string name="_0">0</string>
@@ -48,6 +48,9 @@
     <string name="bidones_total_12_anual">Calcular total anual de bidones de 12</string>
     <string name="comprados_de_20">Comprados de 20:</string>
     <string name="comprados_de_12">Comprados de 12:</string>
+    <string name="precio_total">Precio total</string>
+    <string name="descripci_n_de_la_compra">Descripción de la compra</string>
+    <string name="descripcion">Descripción</string>
 
     <string-array name="precios_array">
         <item>Precio de 20</item>

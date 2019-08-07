@@ -71,6 +71,13 @@
                 android:textIsSelectable="true"
                 android:textSize="20sp" />
 
+            <TextView
+                android:id="@+id/descripcion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textIsSelectable="true"
+                android:textSize="20sp" />
+
 
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>

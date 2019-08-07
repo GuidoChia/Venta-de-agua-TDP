@@ -3,7 +3,6 @@ package strategies;
 import java.util.Calendar;
 import java.util.Date;
 
-import static java.util.Calendar.MONTH;
 import static java.util.Calendar.YEAR;
 
 public class YearStrategy implements DateStrategy {

@@ -6,6 +6,7 @@ import java.util.Collection;
 
 import customer.Customer;
 import infos.BuyInfo;
+import infos.ExtraBuyInfo;
 import infos.PriceInfo;
 
 /**
@@ -22,6 +23,7 @@ import infos.PriceInfo;
  * Ninth column: amount of returned twelve canisters.
  * Tenth column: balance of twelve canisters.
  * Eleventh column: total balance of canisters.
+ * Twelfth column: additional comment.
  *
  * @author Guido Chia
  */
@@ -36,6 +38,16 @@ public interface ExcelWriter {
      * @param file   The file to read and write.
      */
     void WriteBuy(BuyInfo info, PriceInfo prices, File file);
+
+    /**
+     * Writes an extra buy with the given ExtraBuyInfo, on the file given.
+     * If the file doesn't exist, it creates one.
+     * Requires a ExtraBuyInfo object non-null and with non-nulls returns on its methods.
+     *
+     * @param info ExtraBuyInfo that contains the info of the buy.
+     * @param file The file to read and write.
+     */
+    void writeExtraBuy(ExtraBuyInfo info, File file);
 
     /**
      * Writes a route in an excel file with the given customers.

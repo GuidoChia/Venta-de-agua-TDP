@@ -2,12 +2,14 @@ package skrb.appprueba.Fragments;
 
 import android.graphics.Typeface;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 
 import java.util.Objects;
 
@@ -49,6 +51,14 @@ public class MostrarResultadosFragment extends Fragment {
         txt = view.findViewById(id.textResultadoCompradosDe20);
         msg = Integer.toString(getArguments().getInt("twentyBought"));
         txt.setText(getResources().getString(string.comprados_de_20) + " " + msg);
+
+        txt = view.findViewById(id.descripcion);
+        msg = getArguments().getString("description");
+        if (!TextUtils.isEmpty(msg)) {
+            txt.setText(getResources().getString(string.descripcion) + " " + msg);
+        } else {
+            txt.setVisibility(View.GONE);
+        }
 
         return view;
     }

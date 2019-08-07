@@ -1,0 +1,81 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id='@+id/fragment'
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="fill_vertical"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/InputLayoutClient"
+            style="@style/AppTheme.TextInputLayout"
+            android:hint="@string/nombre_del_cliente">
+
+            <skrb.appprueba.customviews.TextInputAutoCompleteTextView
+                android:id="@+id/NombreCliente"
+                style="@style/AppTheme.AutoCompleteInputEditText"
+                android:drawableStart="@drawable/account_plus_outline" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/AppTheme.TextInputLayout"
+            android:hint="@string/cantidad_de_dinero_pagado">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/DineroPagado"
+                style="@style/AppTheme.TextInputEditText.Number.Accent"
+                android:drawableStart="@drawable/ic_hand" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/AppTheme.TextInputLayout"
+            android:hint="@string/precio_total">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/precio_total"
+                style="@style/AppTheme.TextInputEditText.Number.Accent"
+                android:drawableStart="@drawable/currency_usd" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/AppTheme.TextInputLayout"
+            android:hint="@string/descripci_n_de_la_compra">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/descripcion"
+                style="@style/AppTheme.TextInputEditText.Accent"
+                android:drawableStart="@drawable/ic_information" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id='@+id/BotonFecha'
+            style="@style/AppTheme.DateButton"
+            android:hint="@string/fecha">
+
+        </com.google.android.material.button.MaterialButton>
+
+        <com.google.android.material.button.MaterialButton
+            android:id='@+id/BotonConfirmar'
+            style="@style/AppTheme.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:text="@string/confirmar_venta">
+
+        </com.google.android.material.button.MaterialButton>
+
+
+    </LinearLayout>
+
+</ScrollView>
+

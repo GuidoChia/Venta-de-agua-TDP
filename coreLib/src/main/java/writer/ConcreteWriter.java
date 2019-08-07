@@ -23,6 +23,7 @@ import java.util.Iterator;
 
 import customer.Customer;
 import infos.BuyInfo;
+import infos.ExtraBuyInfo;
 import infos.PriceInfo;
 
 
@@ -70,17 +71,7 @@ public class ConcreteWriter implements ExcelWriter {
 
         initBuyRow(lastRow, info, prices);
 
-        /*
-        Autosize columns to fit content. Since autoSizeColumn method doesn't work on android
-        (missing java.awt files) they will be manually defined from a test.
-         */
-        int[] sizes = {2828, 835, 835, 1404, 1689, 1575, 5275, 2941,
-                5275, 2941, 5275, 2941, 3880, 2062};
-
-        int columnsAmount = 12;
-        for (int i = 0; i < columnsAmount; i++) {
-            customerSheet.setColumnWidth(i, sizes[i]);
-        }
+        autoSizeColumns(customerSheet);
 
         try {
             FileOutputStream fileOut = new FileOutputStream(file);
@@ -90,6 +81,37 @@ public class ConcreteWriter implements ExcelWriter {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+
+
+    @Override
+    public void writeExtraBuy(ExtraBuyInfo info, File file) {
+        String name = info.getName();
+        Workbook customerWorkbook = createWorkbook(name, file);
+
+        Sheet customerSheet = customerWorkbook.getSheetAt(0);
+
+        Row lastRow = moveToEnd(customerSheet);
+
+        initExtraBuyRow(lastRow, info);
+
+        autoSizeColumns(customerSheet);
+
+        try {
+            FileOutputStream fileOut = new FileOutputStream(file);
+            customerWorkbook.write(fileOut);
+            fileOut.close();
+            customerWorkbook.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void initExtraBuyRow(Row lastRow, ExtraBuyInfo info){
+        CellStyle style = getDefaultStyle(lastRow.getSheet().getWorkbook());
+        style.setAlignment(HorizontalAlignment.RIGHT);
+        rowInitializer.initExtraBuyRow(lastRow, info, style);
     }
 
     @Override
@@ -286,5 +308,19 @@ public class ConcreteWriter implements ExcelWriter {
         style.setBorderTop(BorderStyle.THIN);
 
         return style;
+    }
+
+    private void autoSizeColumns(Sheet customerSheet) {
+    /*
+    Autosize columns to fit content. Since autoSizeColumn method doesn't work on android
+    (missing java.awt files) they will be manually defined from a test.
+     */
+        int[] sizes = {2828, 835, 835, 1404, 1689, 1575, 5275, 2941,
+                5275, 2941, 5275, 2941, 3880, 2062};
+
+        int columnsAmount = 13;
+        for (int i = 0; i < columnsAmount; i++) {
+            customerSheet.setColumnWidth(i, sizes[i]);
+        }
     }
 }

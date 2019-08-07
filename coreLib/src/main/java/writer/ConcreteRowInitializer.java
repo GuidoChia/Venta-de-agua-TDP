@@ -14,9 +14,11 @@ import org.apache.poi.ss.usermodel.SheetConditionalFormatting;
 import org.apache.poi.ss.util.CellRangeAddress;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import customer.Customer;
 import infos.BuyInfo;
+import infos.ExtraBuyInfo;
 import infos.PriceInfo;
 
 public class ConcreteRowInitializer implements RowInitializer {
@@ -71,7 +73,7 @@ public class ConcreteRowInitializer implements RowInitializer {
         /*
         Initialize the first cell, the date.
          */
-        initFirstCellBuy(lastRow, info, style, cellIndex);
+        initFirstCellBuy(lastRow, info.getDate(), style, cellIndex);
         cellIndex++;
 
         /*
@@ -134,6 +136,101 @@ public class ConcreteRowInitializer implements RowInitializer {
          */
         initEleventhCellBuy(lastRow, style, cellIndex, lastRowNum);
 
+        evaluateFormulas(lastRow);
+    }
+
+    @Override
+    public void initExtraBuyRow(Row lastRow, ExtraBuyInfo info, CellStyle style) {
+        int cellIndex = 0;
+
+        /*
+        This is the row num of the lastRow, but plus one to use it in formulas.
+         */
+        int lastRowNum = lastRow.getRowNum() + 1;
+
+         /*
+        Initialize the first cell, the date.
+         */
+        initFirstCellBuy(lastRow, info.getDate(), style, cellIndex);
+        cellIndex++;
+
+         /*
+        Initialize the second cell, the amount of twenty canisters bought.
+         */
+        initIntCellBuy(lastRow, style, cellIndex, 0);
+        cellIndex++;
+
+        /*
+        Initialize the third cell, the amount of twelve canisters bought.
+         */
+        initIntCellBuy(lastRow, style, cellIndex, 0);
+        cellIndex++;
+
+        /*
+        Initialize the fourth cell, the total price of the buy.
+         */
+        initIntCellBuy(lastRow, style, cellIndex, (int) info.getPrice());
+        cellIndex++;
+
+        /*
+        Initialize the fifth cell, the amount of money paid
+         */
+        initIntCellBuy(lastRow, style, cellIndex, (int) info.getPaid());
+        cellIndex++;
+
+        /*
+        Calculate the sixth cell, the customer's balance.
+         */
+        initSixthCellBuy(lastRow, style, cellIndex, lastRowNum);
+        cellIndex++;
+
+        /*
+        Initialize the seventh cell, the amount of returned twenty canisters.
+         */
+        initIntCellBuy(lastRow, style, cellIndex, 0);
+        cellIndex++;
+
+        /*
+        Calculate the eighth cell, the balance of twenty canisters.
+         */
+        initFormulaCellBuy(lastRow, style, cellIndex, lastRowNum, "+H", "B", "-G");
+        cellIndex++;
+
+        /*
+        Initialize the  ninth cell, the amount of returned twelve canisters.
+         */
+        initIntCellBuy(lastRow, style, cellIndex, 0);
+        cellIndex++;
+
+        /*
+        Calculate the tenth cell, the balance of twelve canisters.
+         */
+        initFormulaCellBuy(lastRow, style, cellIndex, lastRowNum, "+J", "C", "-I");
+        cellIndex++;
+
+        /*
+        Calculate the eleventh cell, the total balance of canisters.
+         */
+        initEleventhCellBuy(lastRow, style, cellIndex, lastRowNum);
+        cellIndex++;
+
+        /*
+        Initialize the twelfth cell, the description
+         */
+        initStringCellBuy(lastRow, style, cellIndex, info.getDescription());
+
+        evaluateFormulas(lastRow);
+    }
+
+    private void initStringCellBuy(Row lastRow, CellStyle style, int cellIndex, String description) {
+        Cell currentCell;
+        currentCell = (lastRow.getCell(cellIndex) == null) ? lastRow.createCell(cellIndex) : lastRow.getCell(cellIndex);
+        currentCell.setCellType(CellType.STRING);
+        currentCell.setCellValue(description);
+        currentCell.setCellStyle(style);
+    }
+
+    private void evaluateFormulas(Row lastRow) {
         FormulaEvaluator evaluator = lastRow.getSheet().getWorkbook().getCreationHelper().createFormulaEvaluator();
         for (Cell c : lastRow) {
             if (c.getCellType() == Cell.CELL_TYPE_FORMULA) {
@@ -220,11 +317,11 @@ public class ConcreteRowInitializer implements RowInitializer {
         currentCell.setCellStyle(style);
     }
 
-    private void initFirstCellBuy(Row lastRow, BuyInfo info, CellStyle style, int cellIndex) {
+    private void initFirstCellBuy(Row lastRow, Date date, CellStyle style, int cellIndex) {
         Cell currentCell;
         currentCell = (lastRow.getCell(cellIndex) == null) ? lastRow.createCell(cellIndex) : lastRow.getCell(cellIndex);
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-        String format = formatter.format(info.getDate());
+        String format = formatter.format(date);
         currentCell.setCellType(CellType.STRING);
         currentCell.setCellValue(format);
         currentCell.setCellStyle(style);
