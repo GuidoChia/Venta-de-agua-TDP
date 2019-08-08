@@ -60,7 +60,7 @@ public class ConcreteReader implements ExcelReader {
 
     @Override
     public OutputInfo readInfo(File customerFile) throws WorkbookException {
-        OutputInfo res;
+        OutputInfo res = null;
         Workbook customerWorkbook;
 
         customerWorkbook = getWorkbook(customerFile);
@@ -68,7 +68,9 @@ public class ConcreteReader implements ExcelReader {
         Sheet sheet = customerWorkbook.getSheetAt(0);
         Row lastRow = getLastRow(sheet);
 
-        res = getInfo(lastRow);
+        if (lastRow != null && lastRow.getCell(0) != null) {
+            res = getInfo(lastRow);
+        }
 
         try {
             customerWorkbook.close();
@@ -203,7 +205,7 @@ public class ConcreteReader implements ExcelReader {
 
         boolean finish = false;
 
-        if (isEmpty(customerSheet.getRow(currentRow).getCell(0)))
+        if (customerSheet.getRow(currentRow)==null || isEmpty(customerSheet.getRow(currentRow).getCell(0)))
             finish = true;
 
         /*
@@ -401,10 +403,10 @@ public class ConcreteReader implements ExcelReader {
 
         String description;
         Cell descriptionCell = row.getCell(11);
-        if (descriptionCell!=null && descriptionCell.getCellTypeEnum()==CellType.STRING){
+        if (descriptionCell != null && descriptionCell.getCellTypeEnum() == CellType.STRING) {
             description = descriptionCell.getStringCellValue();
-        } else{
-            description= "";
+        } else {
+            description = "";
         }
 
         return new ConcreteOutputInfo(date, balance, twentyBalance, twelveBalance, twentyBought, twelveBought, description);

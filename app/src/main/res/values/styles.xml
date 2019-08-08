@@ -40,6 +40,7 @@
 
     <style name="AppTheme.TextInputEditText.Accent" parent="AppTheme.TextInputEditText">
         <item name="android:drawableTint">@color/colorAccent</item>
+        <item name="android:capitalize">words</item>
     </style>
 
     <style name="AppTheme.TextInputEditText.Number" parent="AppTheme.TextInputEditText">

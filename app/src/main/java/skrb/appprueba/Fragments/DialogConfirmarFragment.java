@@ -22,7 +22,7 @@ public class DialogConfirmarFragment extends DialogFragment {
         // Use the Builder class for convenient dialog construction
         MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getActivity());
 
-        builder.setMessage(getString(R.string.confirmar_compra))
+        builder.setMessage(getString(mListener.getMessageId()))
                 .setPositiveButton(R.string.CONFIRM, (dialog, id1) -> mListener.onDialogPositiveClick())
                 .setNegativeButton(R.string.CANCEL, (dialog, which) -> DialogConfirmarFragment.this.getDialog().cancel());
 
@@ -48,5 +48,6 @@ public class DialogConfirmarFragment extends DialogFragment {
 
     public interface DialogConfirmarListener {
         void onDialogPositiveClick();
+        int getMessageId();
     }
 }

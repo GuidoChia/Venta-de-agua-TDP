@@ -162,6 +162,11 @@ public class CompraExtraFragment extends Fragment implements DatePickerDialog.On
 
     }
 
+    @Override
+    public int getMessageId() {
+        return R.string.confirmar_compra;
+    }
+
     @NonNull
     private EditText[] getEditTexts(View view) {
         TextInputLayout lay = view.findViewById(R.id.InputLayoutClient);

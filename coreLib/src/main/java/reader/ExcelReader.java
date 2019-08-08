@@ -31,7 +31,7 @@ public interface ExcelReader {
      * Reads the info of the given file, and stores it in an OutputInfo object.
      *
      * @param customerFile the file of the customer.
-     * @return OutputInfo containing the info read from the excel.
+     * @return OutputInfo containing the info read from the excel. If there are not buys, it returns null
      * @throws WorkbookException if the file doesn't exist, or it's not available.
      */
     OutputInfo readInfo(File customerFile) throws WorkbookException;

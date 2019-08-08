@@ -17,7 +17,7 @@
     <string name="saldoDe12">Saldo de 12: </string>
     <string name="saldoDe20">Saldo de 20: </string>
     <string name="ultimaFecha">Fecha de última compra: </string>
-    <string name="errorBusqueda">Se produjo un error en la búsqueda, el cliente no existe</string>
+    <string name="errorBusqueda">Se produjo un error en la búsqueda, el cliente no existe o no tiene ninguna compra</string>
     <string name="errorAgregar">Se produjo un error, debe completar todos los campos</string>
     <string name="errorEstablecer">Se produjo un error, debe establecer un precio</string>
     <string name="OK">OK</string>
@@ -41,6 +41,8 @@
     <string name="calcular_ingreso_dia">Calcular ingreso bruto diario</string>
     <string name="resultado">Resultado:   </string>
     <string name="confirmar_compra">¿Desea confirmar la compra?</string>
+    <string name="confirmar_eliminar">¿Desea eliminar la compra?</string>
+    <string name="msg_eliminado">Se ha eliminado la compra</string>
     <string name="mostrar_lista">Mostrar lista de clientes</string>
     <string name="bruto_anual">Calcular ingreso bruto anual</string>
     <string name="total_bidones_anual">Calcular total anual de bidones</string>
@@ -50,7 +52,8 @@
     <string name="comprados_de_12">Comprados de 12:</string>
     <string name="precio_total">Precio total</string>
     <string name="descripci_n_de_la_compra">Descripción de la compra</string>
-    <string name="descripcion">Descripción</string>
+    <string name="descripcion">Descripción:</string>
+    <string name="eliminar_venta">Eliminar venta</string>
 
     <string-array name="precios_array">
         <item>Precio de 20</item>

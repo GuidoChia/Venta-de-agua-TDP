@@ -192,6 +192,11 @@ public class AgregarClienteFragment extends Fragment implements OnDateSetListene
 
     }
 
+    @Override
+    public int getMessageId() {
+        return string.confirmar_compra;
+    }
+
     @NonNull
     private EditText[] getEditTexts(View view) {
         TextInputLayout lay = view.findViewById(id.InputLayoutClient);

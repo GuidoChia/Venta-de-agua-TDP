@@ -73,6 +73,10 @@ public class ConcreteWriter implements ExcelWriter {
 
         autoSizeColumns(customerSheet);
 
+        writeToFile(file, customerWorkbook);
+    }
+
+    private void writeToFile(File file, Workbook customerWorkbook) {
         try {
             FileOutputStream fileOut = new FileOutputStream(file);
             customerWorkbook.write(fileOut);
@@ -82,7 +86,6 @@ public class ConcreteWriter implements ExcelWriter {
             e.printStackTrace();
         }
     }
-
 
 
     @Override
@@ -98,17 +101,34 @@ public class ConcreteWriter implements ExcelWriter {
 
         autoSizeColumns(customerSheet);
 
-        try {
-            FileOutputStream fileOut = new FileOutputStream(file);
-            customerWorkbook.write(fileOut);
-            fileOut.close();
-            customerWorkbook.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        writeToFile(file, customerWorkbook);
     }
 
-    private void initExtraBuyRow(Row lastRow, ExtraBuyInfo info){
+    @Override
+    public boolean deleteBuy(File file) {
+        boolean res;
+
+        String fileName = file.getName();
+
+        String customerName = (fileName.endsWith(".xls")) ? fileName.substring(0, fileName.length() - 4) :
+                fileName.substring(0, fileName.length() - 5);
+        Workbook customerWorkbook = createWorkbook(customerName, file);
+        Sheet customerSheet = customerWorkbook.getSheetAt(0);
+        Row lastEmptyRow = moveToEnd(customerSheet);
+
+        int lastUsedRowNum = lastEmptyRow.getRowNum() - 1;
+        if (lastUsedRowNum == 2) {
+            res= false;
+        } else {
+            customerSheet.removeRow(customerSheet.getRow(lastUsedRowNum));
+            writeToFile(file, customerWorkbook);
+            res= true;
+        }
+
+        return res;
+    }
+
+    private void initExtraBuyRow(Row lastRow, ExtraBuyInfo info) {
         CellStyle style = getDefaultStyle(lastRow.getSheet().getWorkbook());
         style.setAlignment(HorizontalAlignment.RIGHT);
         rowInitializer.initExtraBuyRow(lastRow, info, style);

@@ -50,6 +50,15 @@ public interface ExcelWriter {
     void writeExtraBuy(ExtraBuyInfo info, File file);
 
     /**
+     * Deletes the last buy in the given file
+     * If the customer hasn't got any buy, it returns false.
+     *
+     * @param file File of the customer
+     * @return True if it deleted a buy successfully, false if there are not buys.
+     */
+    boolean deleteBuy(File file);
+
+    /**
      * Writes a route in an excel file with the given customers.
      * The file and it's name must be provided by the client.
      *
