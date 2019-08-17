@@ -77,11 +77,8 @@ public class ConcreteWriter implements ExcelWriter {
     }
 
     private void writeToFile(File file, Workbook customerWorkbook) {
-        try {
-            FileOutputStream fileOut = new FileOutputStream(file);
+        try (FileOutputStream fileOut = new FileOutputStream(file)) {
             customerWorkbook.write(fileOut);
-            fileOut.close();
-            customerWorkbook.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -118,11 +115,11 @@ public class ConcreteWriter implements ExcelWriter {
 
         int lastUsedRowNum = lastEmptyRow.getRowNum() - 1;
         if (lastUsedRowNum == 2) {
-            res= false;
+            res = false;
         } else {
             customerSheet.removeRow(customerSheet.getRow(lastUsedRowNum));
             writeToFile(file, customerWorkbook);
-            res= true;
+            res = true;
         }
 
         return res;
@@ -154,13 +151,7 @@ public class ConcreteWriter implements ExcelWriter {
             routeSheet.setColumnWidth(i, sizes[i]);
         }
 
-        try {
-            FileOutputStream out = new FileOutputStream(file);
-            routeWorkbook.write(out);
-            out.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        writeToFile(file, routeWorkbook);
     }
 
     private void writeRouteCustomers(Sheet routeSheet, Collection<Customer> customers) {
@@ -190,10 +181,8 @@ public class ConcreteWriter implements ExcelWriter {
     private Workbook createWorkbook(String name, File file) {
         Workbook res = null;
         if (file.length() != 0) {
-            try {
-                FileInputStream in = new FileInputStream(file);
+            try (FileInputStream in = new FileInputStream(file)) {
                 res = WorkbookFactory.create(in);
-                in.close();
             } catch (IOException | InvalidFormatException e) {
                 e.printStackTrace();
             }
@@ -230,8 +219,6 @@ public class ConcreteWriter implements ExcelWriter {
          */
         row = sheet.createRow(2);
         initBuyTitles(row);
-
-
     }
 
     /**

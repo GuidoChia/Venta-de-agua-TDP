@@ -14,13 +14,13 @@ import skrb.appprueba.MainActivity;
 import skrb.appprueba.R.layout;
 
 public class AboutFragment extends Fragment {
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(layout.fragment_about, container, false);
 
         MainActivity act = (MainActivity) getActivity();
         Objects.requireNonNull(act.getSupportActionBar()).setTitle("About");
-
 
         return view;
     }

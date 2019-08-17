@@ -107,10 +107,8 @@ public class ConcreteReader implements ExcelReader {
         if (!customerFile.exists() || customerFile.length() == 0) {
             throw new WorkbookException();
         } else {
-            try {
-                InputStream in = new FileInputStream(customerFile);
+            try (FileInputStream in = new FileInputStream(customerFile)) {
                 customerWorkbook = WorkbookFactory.create(in);
-                in.close();
             } catch (IOException | InvalidFormatException e) {
                 throw new WorkbookException();
             }
@@ -205,7 +203,7 @@ public class ConcreteReader implements ExcelReader {
 
         boolean finish = false;
 
-        if (customerSheet.getRow(currentRow)==null || isEmpty(customerSheet.getRow(currentRow).getCell(0)))
+        if (customerSheet.getRow(currentRow) == null || isEmpty(customerSheet.getRow(currentRow).getCell(0)))
             finish = true;
 
         /*
@@ -235,12 +233,6 @@ public class ConcreteReader implements ExcelReader {
             double balance = 0;
             balance = balanceCell.getNumericCellValue();
             res.setBalance(balance);
-        }
-
-        try {
-            customerWorkbook.close();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
 
         return res;

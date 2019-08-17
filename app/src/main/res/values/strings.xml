@@ -53,7 +53,7 @@
     <string name="precio_total">Precio total</string>
     <string name="descripci_n_de_la_compra">Descripción de la compra</string>
     <string name="descripcion">Descripción:</string>
-    <string name="eliminar_venta">Eliminar venta</string>
+    <string name="eliminar_venta">Eliminar compra</string>
 
     <string-array name="precios_array">
         <item>Precio de 20</item>
