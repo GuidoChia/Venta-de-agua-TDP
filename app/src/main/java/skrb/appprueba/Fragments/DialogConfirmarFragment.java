@@ -48,6 +48,7 @@ public class DialogConfirmarFragment extends DialogFragment {
 
     public interface DialogConfirmarListener {
         void onDialogPositiveClick();
+
         int getMessageId();
     }
 }

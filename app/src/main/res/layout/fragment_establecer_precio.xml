@@ -10,15 +10,14 @@
         android:dividerPadding="16dp"
         android:gravity="fill_vertical"
         android:orientation="vertical"
-        android:padding="10dp"
-        >
+        android:padding="10dp">
 
 
         <Spinner
             android:id="@+id/spinner_precios"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            style="@style/Widget.AppCompat.Spinner.Underlined"/>
+            style="@style/Widget.AppCompat.Spinner.Underlined" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/inputLayoutPrecioFinal"
@@ -27,8 +26,7 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 style="@style/AppTheme.TextInputEditText.Number.Accent"
-                android:drawableLeft="@drawable/currency_usd"
-                />
+                android:drawableLeft="@drawable/currency_usd" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton

@@ -19,59 +19,59 @@
             android:hint="@string/nombre_del_cliente">
 
             <skrb.appprueba.customviews.TextInputAutoCompleteTextView
-                android:id="@+id/NombreCliente"
                 style="@style/AppTheme.AutoCompleteInputEditText"
                 android:drawableStart="@drawable/account_plus_outline" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/BidonesLlevoDe20"
             style="@style/AppTheme.TextInputLayout"
             android:hint="@string/cantidad_de_bidones_que_llevo_20">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/BidonesLlevoDe20"
+
                 style="@style/AppTheme.TextInputEditText.Number.Accent"
                 android:drawableLeft="@drawable/dice_d20" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/BidonesLlevoDe12"
             style="@style/AppTheme.TextInputLayout"
             android:hint="@string/cantidad_de_bidones_que_llevo_12">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/BidonesLlevoDe12"
                 style="@style/AppTheme.TextInputEditText.Number.Accent"
                 android:drawableLeft="@drawable/dice_d12" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/BidonesDevueltos20"
             style="@style/AppTheme.TextInputLayout"
             android:hint="@string/cantidad_de_bidones_devueltos_20">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/BidonesDevueltos20"
                 style="@style/AppTheme.TextInputEditText.Red"
                 android:drawableLeft="@drawable/dice_d20" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/BidonesDevueltos12"
             style="@style/AppTheme.TextInputLayout"
             android:hint="@string/cantidad_de_bidones_devueltos_12">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/BidonesDevueltos12"
                 style="@style/AppTheme.TextInputEditText.Red"
                 android:drawableLeft="@drawable/dice_d12" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/DineroPagado"
             style="@style/AppTheme.TextInputLayout"
             android:hint="@string/cantidad_de_dinero_pagado">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/DineroPagado"
                 style="@style/AppTheme.TextInputEditText.Number.Accent"
                 android:drawableStart="@drawable/currency_usd" />
 

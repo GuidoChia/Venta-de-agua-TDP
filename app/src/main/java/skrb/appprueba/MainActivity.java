@@ -126,7 +126,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
     private void setFragment(Fragment frag) {
         FragmentManager fragmentManager;
         FragmentTransaction fragmentTransaction;

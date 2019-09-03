@@ -26,7 +26,7 @@ public class ResultadosCalculosFragment extends Fragment {
         TextView list = view.findViewById(id.text_lista_resultados);
 
         String msg = Objects.requireNonNull(getArguments()).getString("result");
-        res.setText(view.getResources().getString(string.resultado)+" " + msg);
+        res.setText(view.getResources().getString(string.resultado) + " " + msg);
 
         msg = Objects.requireNonNull(getArguments()).getString("list");
         list.setText(msg);

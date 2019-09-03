@@ -231,13 +231,13 @@ public class CalcularFragment extends Fragment implements Updatable {
     }
 
     @Override
-    public void onStop(){
+    public void onStop() {
         isStopped = true;
         super.onStop();
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         isStopped = false;
         super.onResume();
     }

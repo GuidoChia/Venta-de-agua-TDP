@@ -131,37 +131,37 @@ public class EstablecerPrecioFragment extends Fragment {
         String[] titles = getResources().getStringArray(R.array.precios_array);
 
         TextView txt = view.findViewById(id.precio_actual_20);
-        txt.setText(titles[0]+": " + prefs.getFloat(PRICE_20, Constants.DEF_VALUE_20));
+        txt.setText(titles[0] + ": " + prefs.getFloat(PRICE_20, Constants.DEF_VALUE_20));
 
         txt = view.findViewById(id.precio_actual_12);
-        txt.setText(titles[1]+": " + prefs.getFloat(PRICE_12, Constants.DEF_VALUE_12));
+        txt.setText(titles[1] + ": " + prefs.getFloat(PRICE_12, Constants.DEF_VALUE_12));
 
         txt = view.findViewById(id.precio_actual_bot);
-        txt.setText(titles[2]+": " + prefs.getFloat(PRICE_BOT, Constants.DEF_VALUE_BOT));
+        txt.setText(titles[2] + ": " + prefs.getFloat(PRICE_BOT, Constants.DEF_VALUE_BOT));
 
         txt = view.findViewById(id.precio_actual_dest_5);
-        txt.setText(titles[3]+": " + prefs.getFloat(PRICE_DEST_5, DEF_VALUE_DEST_5));
+        txt.setText(titles[3] + ": " + prefs.getFloat(PRICE_DEST_5, DEF_VALUE_DEST_5));
 
         txt = view.findViewById(id.precio_actual_dest_2);
-        txt.setText(titles[4]+": " + prefs.getFloat(PRICE_DEST_2, DEF_VALUE_DEST_2));
+        txt.setText(titles[4] + ": " + prefs.getFloat(PRICE_DEST_2, DEF_VALUE_DEST_2));
 
         txt = view.findViewById(id.precio_actual_dest_1);
-        txt.setText(titles[5]+": " + prefs.getFloat(PRICE_DEST_1, DEF_VALUE_DEST_1));
+        txt.setText(titles[5] + ": " + prefs.getFloat(PRICE_DEST_1, DEF_VALUE_DEST_1));
 
         txt = view.findViewById(id.precio_actual_dispenser_mesa);
-        txt.setText(titles[6]+": " + prefs.getFloat(PRICE_DISP_MESA, Constants.DEF_VALUE_DISP_MESA));
+        txt.setText(titles[6] + ": " + prefs.getFloat(PRICE_DISP_MESA, Constants.DEF_VALUE_DISP_MESA));
 
         txt = view.findViewById(id.precio_actual_miel_1_normal);
-        txt.setText(titles[7]+": " + prefs.getFloat(PRICE_MIEL_1_NORMAL, DEF_VALUE_MIEL_1_NORMAL));
+        txt.setText(titles[7] + ": " + prefs.getFloat(PRICE_MIEL_1_NORMAL, DEF_VALUE_MIEL_1_NORMAL));
 
         txt = view.findViewById(id.precio_actual_miel_1_comercio);
-        txt.setText(titles[8]+": " + prefs.getFloat(PRICE_MIEL_1_COMERCIO, DEF_VALUE_MIEL_1_COMERCIO));
+        txt.setText(titles[8] + ": " + prefs.getFloat(PRICE_MIEL_1_COMERCIO, DEF_VALUE_MIEL_1_COMERCIO));
 
         txt = view.findViewById(id.precio_actual_miel_medio_normal);
-        txt.setText(titles[9]+": " + prefs.getFloat(PRICE_MIEL_MEDIO_NORMAL, DEF_VALUE_MIEL_MEDIO_NORMAL));
+        txt.setText(titles[9] + ": " + prefs.getFloat(PRICE_MIEL_MEDIO_NORMAL, DEF_VALUE_MIEL_MEDIO_NORMAL));
 
         txt = view.findViewById(id.precio_actual_miel_medio_comercio);
-        txt.setText(titles[10]+": " + prefs.getFloat(PRICE_MIEL_MEDIO_COMERCIO, DEF_VALUE_MIEL_MEDIO_COMERCIO));
+        txt.setText(titles[10] + ": " + prefs.getFloat(PRICE_MIEL_MEDIO_COMERCIO, DEF_VALUE_MIEL_MEDIO_COMERCIO));
 
     }
 }

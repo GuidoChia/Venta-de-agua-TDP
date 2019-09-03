@@ -21,7 +21,7 @@ android {
         targetCompatibility = '1.8'
     }
 
-    lintOptions{
+    lintOptions {
         showAll true
         abortOnError false
     }

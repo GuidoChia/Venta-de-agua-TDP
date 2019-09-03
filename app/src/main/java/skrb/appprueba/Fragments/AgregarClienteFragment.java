@@ -88,7 +88,8 @@ public class AgregarClienteFragment extends Fragment implements OnDateSetListene
             }
             ArrayAdapter<String> adapter = new ArrayAdapter<>(Objects.requireNonNull(getActivity()),
                     layout.simple_dropdown_item_1line, CLIENTES);
-            AutoCompleteTextView textView = view.findViewById(id.NombreCliente);
+            TextInputLayout clienteInputLayout = view.findViewById(id.InputLayoutClient);
+            AutoCompleteTextView textView =  (AutoCompleteTextView) clienteInputLayout.getEditText();
 
             textView.setAdapter(adapter);
 
@@ -99,32 +100,32 @@ public class AgregarClienteFragment extends Fragment implements OnDateSetListene
     }
 
 
-    private void writeToFile(ExcelWriter writer, EditText[] editTexts, View view) {
+    private void writeToFile(ExcelWriter writer, TextInputLayout[] textInputLayouts, View view) {
 
 
         int i = 0;
 
-        EditText input = editTexts[i];
+        EditText input = textInputLayouts[i].getEditText();
         String name = input.getText().toString();
         i++;
 
-        input = editTexts[i];
+        input = textInputLayouts[i].getEditText();
         int bidones20 = Integer.parseInt(input.getText().toString());
         i++;
 
-        input = editTexts[i];
+        input = textInputLayouts[i].getEditText();
         int bidones12 = Integer.parseInt(input.getText().toString());
         i++;
 
-        input = editTexts[i];
+        input = textInputLayouts[i].getEditText();
         int bidones_devueltos_20 = Integer.parseInt(input.getText().toString());
         i++;
 
-        input = editTexts[i];
+        input = textInputLayouts[i].getEditText();
         int bidones_devueltos_12 = Integer.parseInt(input.getText().toString());
         i++;
 
-        input = editTexts[i];
+        input = textInputLayouts[i].getEditText();
         int dinero_pagado = Integer.parseInt(input.getText().toString());
 
         Button bt = view.findViewById(id.BotonFecha);
@@ -164,9 +165,9 @@ public class AgregarClienteFragment extends Fragment implements OnDateSetListene
         btn.setText(day + "/" + (month + 1) + '/' + year);
     }
 
-    private boolean checkInputs(EditText[] inputs) {
-        for (EditText input : inputs) {
-            if (TextUtils.isEmpty(input.getText().toString())) {
+    private boolean checkInputs(TextInputLayout[] inputs) {
+        for (TextInputLayout input : inputs) {
+            if (TextUtils.isEmpty(input.getEditText().getText().toString())) {
                 return false;
             }
         }
@@ -187,8 +188,8 @@ public class AgregarClienteFragment extends Fragment implements OnDateSetListene
             imm.hideSoftInputFromWindow(focus.getWindowToken(), 0);
         }
 
-        EditText[] editTexts = getEditTexts(view);
-        writeToFile(writer, editTexts, view);
+        TextInputLayout[] inputLayouts = getInputLayouts(view);
+        writeToFile(writer, inputLayouts, view);
 
     }
 
@@ -198,10 +199,10 @@ public class AgregarClienteFragment extends Fragment implements OnDateSetListene
     }
 
     @NonNull
-    private EditText[] getEditTexts(View view) {
-        TextInputLayout lay = view.findViewById(id.InputLayoutClient);
-        return new EditText[]{
-                lay.getEditText(),
+    private TextInputLayout[] getInputLayouts(View view) {
+
+        return new TextInputLayout[]{
+                view.findViewById(id.InputLayoutClient),
                 view.findViewById(id.BidonesLlevoDe20),
                 view.findViewById(id.BidonesLlevoDe12),
                 view.findViewById(id.BidonesDevueltos20),
@@ -227,7 +228,7 @@ public class AgregarClienteFragment extends Fragment implements OnDateSetListene
                 imm.hideSoftInputFromWindow(focus.getWindowToken(), 0);
             }
 
-            EditText[] editTexts = getEditTexts(view);
+            TextInputLayout[] editTexts = getInputLayouts(view);
 
             if (checkInputs(editTexts)) {
                 DialogFragment frag = new DialogConfirmarFragment();

@@ -53,8 +53,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/descripcion"
                 style="@style/AppTheme.TextInputEditText.Accent"
-                android:drawableStart="@drawable/ic_information"
-                />
+                android:drawableStart="@drawable/ic_information" />
 
         </com.google.android.material.textfield.TextInputLayout>
 

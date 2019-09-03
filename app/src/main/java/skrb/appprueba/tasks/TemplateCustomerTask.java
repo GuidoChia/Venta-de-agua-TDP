@@ -50,10 +50,10 @@ public abstract class TemplateCustomerTask extends AsyncTask<String, Void, Custo
         }
     }
 
-    protected void onPreExecute(){
-        Updatable observer =observerReference.get();
+    protected void onPreExecute() {
+        Updatable observer = observerReference.get();
 
-        if(observer!=null){
+        if (observer != null) {
             observer.onPreExecute();
         }
     }
