@@ -8,9 +8,33 @@ import androidx.room.PrimaryKey;
 public class ExtraBuyEntity {
     @NonNull
     @PrimaryKey(autoGenerate = true)
-    public int extraBuyId;
+    private int extraBuyId;
 
-    public String extraBuyDescription;
+    private String extraBuyDescription;
 
-    public int extra_buy_price;
+    private int extraBuyPrice;
+
+    public int getExtraBuyId() {
+        return extraBuyId;
+    }
+
+    public String getExtraBuyDescription() {
+        return extraBuyDescription;
+    }
+
+    public int getExtraBuyPrice() {
+        return extraBuyPrice;
+    }
+
+    public void setExtraBuyId(int extraBuyId) {
+        this.extraBuyId = extraBuyId;
+    }
+
+    public void setExtraBuyDescription(String extraBuyDescription) {
+        this.extraBuyDescription = extraBuyDescription;
+    }
+
+    public void setExtraBuyPrice(int extraBuyPrice) {
+        this.extraBuyPrice = extraBuyPrice;
+    }
 }

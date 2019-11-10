@@ -8,11 +8,27 @@ import androidx.room.PrimaryKey;
 public class TwentyBuyEntity {
     @NonNull
     @PrimaryKey(autoGenerate = true)
-    public int twentyId;
+    private int twentyId;
 
-    public int twentyBoughtAmount;
+    private int twentyBoughtAmount;
 
-    public int twentyReturnedAmount;
+    private int twentyReturnedAmount;
 
-    public int twentyPrice;
+    private int twentyPrice;
+
+    public int getTwentyId() {
+        return twentyId;
+    }
+
+    public int getTwentyBoughtAmount() {
+        return twentyBoughtAmount;
+    }
+
+    public int getTwentyReturnedAmount() {
+        return twentyReturnedAmount;
+    }
+
+    public int getTwentyPrice() {
+        return twentyPrice;
+    }
 }

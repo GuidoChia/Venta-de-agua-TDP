@@ -5,21 +5,51 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity (tableName = "customers")
+@Entity(tableName = "customers")
 public class CustomerEntity {
     @NonNull
     @PrimaryKey
-    public String customerName;
+    private String customerName;
 
     @ColumnInfo(defaultValue = "0")
-    public int customerBalance;
+    private int customerBalance;
 
     @ColumnInfo(defaultValue = "0")
-    public int customerTwentyBalance;
+    private int customerTwentyBalance;
 
     @ColumnInfo(defaultValue = "0")
-    public int customerTwelveBalance;
+    private int customerTwelveBalance;
 
+    @NonNull
+    public String getCustomerName() {
+        return customerName;
+    }
 
+    public int getCustomerBalance() {
+        return customerBalance;
+    }
 
+    public int getCustomerTwentyBalance() {
+        return customerTwentyBalance;
+    }
+
+    public int getCustomerTwelveBalance() {
+        return customerTwelveBalance;
+    }
+
+    public void setCustomerName(@NonNull String customerName) {
+        this.customerName = customerName;
+    }
+
+    public void setCustomerBalance(int customerBalance) {
+        this.customerBalance = customerBalance;
+    }
+
+    public void setCustomerTwentyBalance(int customerTwentyBalance) {
+        this.customerTwentyBalance = customerTwentyBalance;
+    }
+
+    public void setCustomerTwelveBalance(int customerTwelveBalance) {
+        this.customerTwelveBalance = customerTwelveBalance;
+    }
 }

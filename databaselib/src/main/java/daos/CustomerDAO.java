@@ -16,7 +16,7 @@ public interface CustomerDAO {
     @Insert
     void insert(CustomerEntity customer);
 
-    @Query("UPDATE customers SET customerBalance = :balance WHERE customerName = :customerName")
+    @Query("UPDATE customers SET customerBalance = :balance+customerBalance WHERE customerName = :customerName")
     void updateBalance(int balance, String customerName);
 
     @Query("SELECT customerName FROM customers")
@@ -24,4 +24,6 @@ public interface CustomerDAO {
 
     @Query("SELECT * FROM customers")
     List<CustomerEntity> getAll();
+
+
 }

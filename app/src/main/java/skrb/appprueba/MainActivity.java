@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
         );
 
         if (savedInstanceState == null) {
-            setFragment(new AgregarClienteFragment());
+            setFragment(new AboutFragment());
         }
 
     }
