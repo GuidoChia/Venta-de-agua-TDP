@@ -31,4 +31,20 @@ public class TwentyBuyEntity {
     public int getTwentyPrice() {
         return twentyPrice;
     }
+
+    public void setTwentyId(int twentyId) {
+        this.twentyId = twentyId;
+    }
+
+    public void setTwentyBoughtAmount(int twentyBoughtAmount) {
+        this.twentyBoughtAmount = twentyBoughtAmount;
+    }
+
+    public void setTwentyReturnedAmount(int twentyReturnedAmount) {
+        this.twentyReturnedAmount = twentyReturnedAmount;
+    }
+
+    public void setTwentyPrice(int twentyPrice) {
+        this.twentyPrice = twentyPrice;
+    }
 }

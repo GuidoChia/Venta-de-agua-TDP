@@ -8,6 +8,15 @@ import java.util.Date;
 
 @Entity(tableName = "buys", primaryKeys = {"customerName", "buyDate"})
 public class BuyEntity {
+    public BuyEntity(@NonNull String customerName, @NonNull Date buyDate, long twelveId, long twentyId, long extraBuyId, double buyPaid) {
+        this.customerName = customerName;
+        this.buyDate = buyDate;
+        this.twelveId = twelveId;
+        this.twentyId = twentyId;
+        this.extraBuyId = extraBuyId;
+        this.buyPaid = buyPaid;
+    }
+
     @NonNull
     @ForeignKey(entity = CustomerEntity.class, parentColumns = "customerName", childColumns = "customerName")
     private String customerName;
@@ -16,30 +25,30 @@ public class BuyEntity {
     private Date buyDate;
 
     @ForeignKey(entity = TwelveBuyEntity.class, parentColumns = "twelveId", childColumns = "twelveId")
-    private int twelveId;
+    private long twelveId;
 
     @ForeignKey(entity = TwentyBuyEntity.class, parentColumns = "twentyId", childColumns = "twentyId")
-    private int twentyId;
+    private long twentyId;
 
     @ForeignKey(entity = ExtraBuyEntity.class, parentColumns = "extraBuyId", childColumns = "extraBuyId")
-    private int extraBuyId;
+    private long extraBuyId;
 
-    private int buyPaid;
+    private double buyPaid;
 
     @NonNull
     public String getCustomerName() {
         return customerName;
     }
 
-    public int getTwelveId() {
+    public long getTwelveId() {
         return twelveId;
     }
 
-    public int getTwentyId() {
+    public long getTwentyId() {
         return twentyId;
     }
 
-    public int getExtraBuyId() {
+    public long getExtraBuyId() {
         return extraBuyId;
     }
 
@@ -48,7 +57,7 @@ public class BuyEntity {
         return buyDate;
     }
 
-    public int getBuyPaid() {
+    public double getBuyPaid() {
         return buyPaid;
     }
 
@@ -56,15 +65,15 @@ public class BuyEntity {
         this.customerName = customerName;
     }
 
-    public void setTwelveId(int twelveId) {
+    public void setTwelveId(long twelveId) {
         this.twelveId = twelveId;
     }
 
-    public void setTwentyId(int twentyId) {
+    public void setTwentyId(long twentyId) {
         this.twentyId = twentyId;
     }
 
-    public void setExtraBuyId(int extraBuyId) {
+    public void setExtraBuyId(long extraBuyId) {
         this.extraBuyId = extraBuyId;
     }
 
@@ -72,7 +81,7 @@ public class BuyEntity {
         this.buyDate = buyDate;
     }
 
-    public void setBuyPaid(int buyPaid) {
+    public void setBuyPaid(double buyPaid) {
         this.buyPaid = buyPaid;
     }
 }

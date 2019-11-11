@@ -12,7 +12,7 @@ public class CustomerEntity {
     private String customerName;
 
     @ColumnInfo(defaultValue = "0")
-    private int customerBalance;
+    private double customerBalance;
 
     @ColumnInfo(defaultValue = "0")
     private int customerTwentyBalance;
@@ -25,7 +25,7 @@ public class CustomerEntity {
         return customerName;
     }
 
-    public int getCustomerBalance() {
+    public double getCustomerBalance() {
         return customerBalance;
     }
 
@@ -41,7 +41,7 @@ public class CustomerEntity {
         this.customerName = customerName;
     }
 
-    public void setCustomerBalance(int customerBalance) {
+    public void setCustomerBalance(double customerBalance) {
         this.customerBalance = customerBalance;
     }
 

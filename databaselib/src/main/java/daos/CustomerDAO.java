@@ -10,8 +10,9 @@ import entities.CustomerEntity;
 
 @Dao
 public interface CustomerDAO {
-    @Query("INSERT INTO customers(customerName) VALUES(:customerName)")
+    @Query("INSERT OR IGNORE INTO customers(customerName) VALUES(:customerName)")
     void insert(String customerName);
+
 
     @Insert
     void insert(CustomerEntity customer);
@@ -24,6 +25,8 @@ public interface CustomerDAO {
 
     @Query("SELECT * FROM customers")
     List<CustomerEntity> getAll();
+
+
 
 
 }
