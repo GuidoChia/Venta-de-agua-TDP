@@ -12,7 +12,7 @@ public class ExtraBuyEntity {
 
     private String extraBuyDescription;
 
-    private int extraBuyPrice;
+    private double extraBuyPrice;
 
     public int getExtraBuyId() {
         return extraBuyId;
@@ -22,7 +22,7 @@ public class ExtraBuyEntity {
         return extraBuyDescription;
     }
 
-    public int getExtraBuyPrice() {
+    public double getExtraBuyPrice() {
         return extraBuyPrice;
     }
 
@@ -34,7 +34,7 @@ public class ExtraBuyEntity {
         this.extraBuyDescription = extraBuyDescription;
     }
 
-    public void setExtraBuyPrice(int extraBuyPrice) {
+    public void setExtraBuyPrice(double extraBuyPrice) {
         this.extraBuyPrice = extraBuyPrice;
     }
 }

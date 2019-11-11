@@ -3,6 +3,7 @@ package daos;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import java.util.Date;
 import java.util.List;
@@ -16,6 +17,12 @@ public interface ExtraBuyDAO {
 
     @Insert
     public long insertExtraBuy(ExtraBuyEntity entity);
+
+    @Update
+    public void update(ExtraBuyEntity entity);
+
+    @Query("SELECT * FROM extra_buys WHERE extraBuyId=:extraBuyId")
+    public ExtraBuyEntity getExtraBuy(long extraBuyId);
 
     @Query("SELECT * FROM extra_buys")
     public abstract List<ExtraBuyEntity> getAllExtraBuys();

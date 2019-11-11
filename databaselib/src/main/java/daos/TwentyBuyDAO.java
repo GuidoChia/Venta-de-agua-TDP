@@ -3,6 +3,7 @@ package daos;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import java.util.Date;
 import java.util.List;
@@ -16,6 +17,12 @@ public interface TwentyBuyDAO {
 
     @Insert
     public long insertTwentyBuy(TwentyBuyEntity entity);
+
+    @Update
+    void update(TwentyBuyEntity entity);
+
+    @Query("SELECT * FROM twenty_buys WHERE twentyId=:twentyId")
+    public TwentyBuyEntity getTwentyBuy(long twentyId);
 
     @Query("SELECT * FROM twenty_buys")
     public abstract List<TwentyBuyEntity> getAllTwentyBuys();

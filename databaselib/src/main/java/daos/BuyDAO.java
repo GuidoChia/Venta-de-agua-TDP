@@ -43,9 +43,12 @@ public abstract class BuyDAO {
     public long insertBuy(@NonNull String customerName, @NonNull Date buyDate, TwelveBuyEntity twelveBuyEntity, TwentyBuyEntity twentyBuyEntity, ExtraBuyEntity extraBuyEntity, double buyPaid) {
         BuyEntity entity;
         long twelveId, twentyId, extraBuyId;
-        twelveId = twentyId = extraBuyId = 0;
 
-        databaseInstance.getCustomerDAO().insert(customerName);
+        double twelveBuyBalace = 0, twentyBuyBalance = 0, extraBuyBalance = 0, totalBalance = 0;
+        int twelveCanistersBalance = 0, twentyCanistersBalance = 0;
+
+        CustomerDAO customerDAO = databaseInstance.getCustomerDAO();
+        customerDAO.insert(customerName);
 
         List<BuyEntity> entityList = getBuy(customerName, buyDate);
 
@@ -69,27 +72,46 @@ public abstract class BuyDAO {
 
                 twelveBuyDAO.update(originalTwelveBuy);
             }
+            twelveBuyBalace = twelveBuyEntity.getTwelveBoughtAmount() * twelveBuyEntity.getTwelvePrice();
+            twelveCanistersBalance = twelveBuyEntity.getTwelveBoughtAmount() - twelveBuyEntity.getTwelveReturnedAmount();
         }
 
         if (twentyBuyEntity != null) {
+            TwentyBuyDAO twentyBuyDAO = databaseInstance.getTwentyBuyDAO();
             if (entity.getTwentyId() == 0) {
-                twentyId = databaseInstance.getTwentyBuyDAO().insertTwentyBuy(twentyBuyEntity);
+                twentyId = twentyBuyDAO.insertTwentyBuy(twentyBuyEntity);
                 entity.setTwentyId(twentyId);
             } else {
-                //TODO actualizar la compra sumandole lo nuevo
+                TwentyBuyEntity originalTwentyBuy = twentyBuyDAO.getTwentyBuy(entity.getTwentyId());
+                originalTwentyBuy.setTwentyReturnedAmount(twentyBuyEntity.getTwentyReturnedAmount() + originalTwentyBuy.getTwentyReturnedAmount());
+                originalTwentyBuy.setTwentyBoughtAmount(twentyBuyEntity.getTwentyBoughtAmount() + originalTwentyBuy.getTwentyBoughtAmount());
+
+                twentyBuyDAO.update(originalTwentyBuy);
             }
+
+            twentyBuyBalance = twentyBuyEntity.getTwentyBoughtAmount() * twentyBuyEntity.getTwentyPrice();
+            twentyCanistersBalance = twentyBuyEntity.getTwentyBoughtAmount() - twentyBuyEntity.getTwentyReturnedAmount();
         }
 
         if (extraBuyEntity != null) {
+            ExtraBuyDAO extraBuyDAO = databaseInstance.getExtraBuyDAO();
             if (entity.getExtraBuyId() == 0) {
-                extraBuyId = databaseInstance.getExtraBuyDAO().insertExtraBuy(extraBuyEntity);
+                extraBuyId = extraBuyDAO.insertExtraBuy(extraBuyEntity);
+                entity.setExtraBuyId(extraBuyId);
             } else {
-                //TODO actualizar la compra sumandole lo nuevo
+                ExtraBuyEntity originalExtraBuy = extraBuyDAO.getExtraBuy(entity.getExtraBuyId());
+                originalExtraBuy.setExtraBuyPrice(originalExtraBuy.getExtraBuyPrice() + extraBuyEntity.getExtraBuyPrice());
+                originalExtraBuy.setExtraBuyDescription(originalExtraBuy.getExtraBuyDescription() + ". " + extraBuyEntity.getExtraBuyDescription());
+
+                extraBuyDAO.update(originalExtraBuy);
             }
+            extraBuyBalance = extraBuyEntity.getExtraBuyPrice();
         }
 
         entity.setBuyPaid(entity.getBuyPaid() + buyPaid);
 
+        totalBalance = twelveBuyBalace + twentyBuyBalance + extraBuyBalance;
+        customerDAO.updateBalances(customerName, totalBalance - buyPaid, twentyCanistersBalance, twelveCanistersBalance);
 
         return insertBuy(entity);
 

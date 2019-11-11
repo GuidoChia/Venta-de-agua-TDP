@@ -36,6 +36,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
 
+import database.DatabaseBuilderHelper;
+import database.YporaDatabase;
+import entities.TwelveBuyEntity;
+import entities.TwentyBuyEntity;
 import infos.BuyInfo;
 import infos.ConcreteBuyInfo;
 import infos.ConcretePriceInfo;
@@ -51,12 +55,12 @@ import writer.ExcelWriter;
 import static skrb.appprueba.helpers.Constants.DEF_VALUE_12;
 import static skrb.appprueba.helpers.Constants.DEF_VALUE_20;
 import static skrb.appprueba.helpers.FileHelper.findFileWrite;
-import static skrb.appprueba.helpers.FileHelper.initClientes;
 
 
 public class AgregarClienteFragment extends Fragment implements OnDateSetListener, DialogConfirmarFragment.DialogConfirmarListener {
 
     private String[] CLIENTES;
+    private YporaDatabase database;
 
 
     @Override
@@ -65,6 +69,8 @@ public class AgregarClienteFragment extends Fragment implements OnDateSetListene
 
         MainActivity act = (MainActivity) getActivity();
         Objects.requireNonNull(act.getSupportActionBar()).setTitle("Agregar Cliente");
+
+        database = DatabaseBuilderHelper.getDatabase(this.getContext());
 
         int day, month, year;
         Calendar actualDate = Calendar.getInstance();
@@ -84,7 +90,7 @@ public class AgregarClienteFragment extends Fragment implements OnDateSetListene
             botonConfirmar.setEnabled(false);
         } else {
             if (CLIENTES == null) {
-                CLIENTES = initClientes();
+                CLIENTES = database.getCustomerDAO().getCustomerNames().toArray(new String[0]);
             }
             ArrayAdapter<String> adapter = new ArrayAdapter<>(Objects.requireNonNull(getActivity()),
                     layout.simple_dropdown_item_1line, CLIENTES);
@@ -101,7 +107,6 @@ public class AgregarClienteFragment extends Fragment implements OnDateSetListene
 
 
     private void writeToFile(ExcelWriter writer, TextInputLayout[] textInputLayouts, View view) {
-
 
         int i = 0;
 
@@ -138,22 +143,39 @@ public class AgregarClienteFragment extends Fragment implements OnDateSetListene
             Log.e("Parse error ", e.getClass().toString(), e);
         }
 
-        BuyInfo info = new ConcreteBuyInfo(dinero_pagado, bidones20, bidones12, bidones_devueltos_20,
-                bidones_devueltos_12, date, name);
+        BuyInfo info = new ConcreteBuyInfo(dinero_pagado, bidones20, bidones12, bidones_devueltos_20, bidones_devueltos_12, date, name);
 
-
-        double twelvePrice,
+        int twelvePrice,
                 twentyPrice;
 
         SharedPreferences preferences = Objects.requireNonNull(getContext()).getSharedPreferences(Constants.PRICE_PREFS, 0);
-        twelvePrice = preferences.getFloat(Constants.PRICE_12, DEF_VALUE_12);
-        twentyPrice = preferences.getFloat(Constants.PRICE_20, DEF_VALUE_20);
+        twelvePrice = (int) preferences.getFloat(Constants.PRICE_12, DEF_VALUE_12);
+        twentyPrice = (int) preferences.getFloat(Constants.PRICE_20, DEF_VALUE_20);
 
         PriceInfo prices = new ConcretePriceInfo(twelvePrice, twentyPrice);
 
         File file = findFileWrite(name);
 
         writer.WriteBuy(info, prices, file);
+
+        TwentyBuyEntity twentyBuyEntity=null;
+        TwelveBuyEntity twelveBuyEntity=null;
+
+        if (bidones20!=0 || bidones_devueltos_20!=0){
+            twentyBuyEntity = new TwentyBuyEntity();
+            twentyBuyEntity.setTwentyPrice(twentyPrice);
+            twentyBuyEntity.setTwentyBoughtAmount(bidones20);
+            twentyBuyEntity.setTwentyReturnedAmount(bidones_devueltos_20);
+        }
+
+        if(bidones12!=0 || bidones_devueltos_12!=0){
+            twelveBuyEntity = new TwelveBuyEntity();
+            twelveBuyEntity.setTwelvePrice(twelvePrice);
+            twelveBuyEntity.setTwelveBoughtAmount(bidones12);
+            twelveBuyEntity.setTwelveReturnedAmount(bidones_devueltos_12);
+        }
+
+        database.getBuyDAO().insertBuy(name, date, twelveBuyEntity, twentyBuyEntity, null, dinero_pagado);
 
         Snackbar snackbarAgregado = Snackbar.make(view, string.msg_agregado, Snackbar.LENGTH_LONG);
         snackbarAgregado.show();

@@ -17,16 +17,18 @@ public interface CustomerDAO {
     @Insert
     void insert(CustomerEntity customer);
 
-    @Query("UPDATE customers SET customerBalance = :balance+customerBalance WHERE customerName = :customerName")
-    void updateBalance(int balance, String customerName);
+    @Query("UPDATE customers SET customerBalance = :balance+customerBalance, " +
+            "customerTwentyBalance=:twentyBalance+customerTwentyBalance, " +
+            "customerTwelveBalance=:twelveBalance+customerTwelveBalance " + "WHERE customerName =" +
+            " :customerName")
+    void updateBalances(String customerName, double balance, int twentyBalance, int twelveBalance);
+
 
     @Query("SELECT customerName FROM customers")
     List<String> getCustomerNames();
 
     @Query("SELECT * FROM customers")
     List<CustomerEntity> getAll();
-
-
 
 
 }
