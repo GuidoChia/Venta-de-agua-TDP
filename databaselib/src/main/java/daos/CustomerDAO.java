@@ -23,12 +23,17 @@ public interface CustomerDAO {
             " :customerName")
     void updateBalances(String customerName, double balance, int twentyBalance, int twelveBalance);
 
+    @Query("SELECT customerBalance FROM customers WHERE customerName=:customerName")
+    double getBalance(String customerName);
 
     @Query("SELECT customerName FROM customers")
     List<String> getCustomerNames();
 
     @Query("SELECT * FROM customers")
     List<CustomerEntity> getAll();
+
+    @Query("SELECT * FROM customers WHERE customerName=:customerName")
+    CustomerEntity getCustomer(String customerName);
 
 
 }

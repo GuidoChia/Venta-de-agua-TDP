@@ -6,7 +6,6 @@ import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.Editable;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,24 +26,22 @@ import androidx.transition.Visibility;
 
 import com.google.android.material.snackbar.Snackbar;
 
-import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Objects;
 
-import exceptions.WorkbookException;
-import infos.OutputInfo;
-import reader.ConcreteReader;
-import reader.ExcelReader;
+import daos.BuyDAO;
+import database.DatabaseBuilderHelper;
+import database.YporaDatabase;
+import entities.BuyEntity;
+import entities.CustomerEntity;
+import entities.ExtraBuyEntity;
+import entities.TwelveBuyEntity;
+import entities.TwentyBuyEntity;
 import skrb.appprueba.MainActivity;
 import skrb.appprueba.R;
 import skrb.appprueba.R.id;
 import skrb.appprueba.R.string;
-import skrb.appprueba.helpers.FileHelper;
-import writer.ConcreteWriter;
-import writer.ExcelWriter;
-
-import static skrb.appprueba.helpers.FileHelper.initClientes;
 
 
 public class BuscarClienteFragment extends Fragment implements DialogConfirmarFragment.DialogConfirmarListener {
@@ -52,6 +49,7 @@ public class BuscarClienteFragment extends Fragment implements DialogConfirmarFr
     private Button btnEliminar;
     private String ultimoCliente;
     private String[] CLIENTES;
+    private YporaDatabase database;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -60,20 +58,18 @@ public class BuscarClienteFragment extends Fragment implements DialogConfirmarFr
         final MainActivity act = (MainActivity) getActivity();
         Objects.requireNonNull(act.getSupportActionBar()).setTitle("Buscar Cliente");
 
+        database = DatabaseBuilderHelper.getDatabase(this.getContext());
+
         btnEliminar = view.findViewById(id.BotonEliminarCompra);
         Button btnAgregar = view.findViewById(id.BotonBuscarCliente);
-        if (ContextCompat.checkSelfPermission(this.getContext(),
-                Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(this.getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             btnAgregar.setEnabled(false);
         } else {
             if (CLIENTES == null) {
-                CLIENTES = initClientes();
+                CLIENTES = database.getCustomerDAO().getCustomerNames().toArray(new String[0]);
             }
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(Objects.requireNonNull(getActivity()),
-                    layout.simple_dropdown_item_1line, CLIENTES);
-            AutoCompleteTextView textView =
-                    view.findViewById(id.InputBuscar);
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(Objects.requireNonNull(getActivity()), layout.simple_dropdown_item_1line, CLIENTES);
+            AutoCompleteTextView textView = view.findViewById(id.InputBuscar);
 
             textView.setAdapter(adapter);
             btnAgregar.setOnClickListener(v -> {
@@ -91,48 +87,57 @@ public class BuscarClienteFragment extends Fragment implements DialogConfirmarFr
                 if (ultimoCliente.length() == 0) {
                     showError();
                 } else {
-                    ExcelReader reader = ConcreteReader.getInstance();
-                    File file = FileHelper.findFileRead(ultimoCliente);
-                    OutputInfo out;
-                    if (file.exists()) {
-                        try {
-                            out = reader.readInfo(file);
-                        } catch (WorkbookException e) {
-                            Log.e("Workbook error ", e.getClass().toString(), e);
-                            return;
-                        }
-                        if (out == null) {
-                            showError();
-                        } else {
-                            Bundle bnd = new Bundle();
+                    //ExcelReader reader = ConcreteReader.getInstance();
+                    //File file = FileHelper.findFileRead(ultimoCliente);
+                    //OutputInfo out;
+                    //if (file.exists()) {
+                    /*try {
+                        out = reader.readInfo(file);
+                    } catch (WorkbookException e) {
+                        Log.e("Workbook error ", e.getClass().toString(), e);
+                        return;
+                    }*/
+                    BuyEntity buyEntity = database.getBuyDAO().getLastBuy(ultimoCliente);
 
-                            bnd.putString("name", ultimoCliente);
-
-                            bnd.putDouble("balance", out.getBalance());
-
-                            DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-                            String dateString = format.format(out.getLastDate());
-                            bnd.putString("date", dateString);
-
-                            bnd.putInt("twelveBalance", out.getTwelveBalance());
-
-                            bnd.putInt("twentyBalance", out.getTwentyBalance());
-
-                            bnd.putInt("canistersBalance", out.getCanistersBalance());
-
-                            bnd.putInt("twelveBought", out.getTwelveBought());
-
-                            bnd.putInt("twentyBought", out.getTwentyBought());
-
-                            bnd.putString("description", out.getDescription());
-
-                            setFragment(FRAGMENT_RESULTADOS, bnd);
-
-                            btnEliminar.setVisibility(View.VISIBLE);
-                        }
-                    } else {
+                    if (buyEntity == null) {
                         showError();
+                    } else {
+                        Bundle bnd = new Bundle();
+
+                        CustomerEntity customer =  database.getCustomerDAO().getCustomer(ultimoCliente);
+
+                        TwelveBuyEntity twelveBuyEntity = database.getTwelveBuyDAO().getTwelveBuy(buyEntity.getTwelveId());
+                        TwentyBuyEntity twentyBuyEntity = database.getTwentyBuyDAO().getTwentyBuy(buyEntity.getTwentyId());
+                        ExtraBuyEntity extraBuyEntity = database.getExtraBuyDAO().getExtraBuy(buyEntity.getExtraBuyId());
+
+                        bnd.putString("name", ultimoCliente);
+
+                        bnd.putDouble("balance", customer.getCustomerBalance());
+
+                        DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+                        String dateString = format.format(buyEntity.getBuyDate());
+                        bnd.putString("date", dateString);
+
+                        bnd.putInt("twelveBalance", customer.getCustomerTwelveBalance());
+
+                        bnd.putInt("twentyBalance", customer.getCustomerTwentyBalance());
+
+                        bnd.putInt("canistersBalance", customer.getCustomerTwelveBalance()+customer.getCustomerTwentyBalance());
+
+
+                        bnd.putInt("twelveBought", twelveBuyEntity!=null? twelveBuyEntity.getTwelveBoughtAmount(): 0);
+
+                        bnd.putInt("twentyBought", twentyBuyEntity!=null? twentyBuyEntity.getTwentyBoughtAmount(): 0);
+
+                        bnd.putString("description", extraBuyEntity!=null? extraBuyEntity.getExtraBuyDescription(): "");
+
+                        setFragment(FRAGMENT_RESULTADOS, bnd);
+
+                        btnEliminar.setVisibility(View.VISIBLE);
                     }
+                    //} else {
+                    //  showError();
+                    //}
                 }
             });
             btnEliminar.setOnClickListener(new OnClickEliminarListener());
@@ -182,11 +187,14 @@ public class BuscarClienteFragment extends Fragment implements DialogConfirmarFr
             imm.hideSoftInputFromWindow(focus.getWindowToken(), 0);
         }
 
-        ExcelWriter writer = ConcreteWriter.getInstance();
-        File file = FileHelper.findFileRead(ultimoCliente);
-        if (file.exists()) {
-            writer.deleteBuy(file);
-        }
+        //ExcelWriter writer = ConcreteWriter.getInstance();
+        //File file = FileHelper.findFileRead(ultimoCliente);
+        //if (file.exists()) {
+        //    writer.deleteBuy(file);
+        //}
+
+        BuyDAO dao=database.getBuyDAO();
+        dao.delete(dao.getLastBuy(ultimoCliente));
 
         btnEliminar.setVisibility(View.GONE);
         View fragment = getActivity().findViewById(id.fragment_resultados);

@@ -48,6 +48,6 @@ dependencies {
 
     // Test helpers
     testImplementation "androidx.room:room-testing:$room_version"
-    compile project(path: ':coreLib')
+    implementation project(path: ':coreLib')
 
 }

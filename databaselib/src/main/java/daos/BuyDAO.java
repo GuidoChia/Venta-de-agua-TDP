@@ -1,9 +1,8 @@
 package daos;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
@@ -36,23 +35,26 @@ public abstract class BuyDAO {
     public abstract List<BuyEntity> getBuysFromCustomer(String customerName);
 
     @Query("SELECT * FROM buys WHERE customerName=:customerName AND buyDate=:buyDate")
-    public abstract List<BuyEntity> getBuy(String customerName, Date buyDate);
+    public abstract BuyEntity getBuy(String customerName, Date buyDate);
 
+    @Query("SELECT * FROM buys WHERE customerName=:customerName ORDER BY buyDate DESC LIMIT 1")
+    public abstract BuyEntity getLastBuy(String customerName);
+
+    @Delete
+    public abstract int deleteBuyOnly(@NonNull BuyEntity entity);
 
     @Transaction
     public long insertBuy(@NonNull String customerName, @NonNull Date buyDate, TwelveBuyEntity twelveBuyEntity, TwentyBuyEntity twentyBuyEntity, ExtraBuyEntity extraBuyEntity, double buyPaid) {
         BuyEntity entity;
         long twelveId, twentyId, extraBuyId;
 
-        double twelveBuyBalace = 0, twentyBuyBalance = 0, extraBuyBalance = 0, totalBalance = 0;
+        double twelveBuyBalance = 0, twentyBuyBalance = 0, extraBuyBalance = 0, totalBalance = 0;
         int twelveCanistersBalance = 0, twentyCanistersBalance = 0;
 
         CustomerDAO customerDAO = databaseInstance.getCustomerDAO();
         customerDAO.insert(customerName);
 
         List<BuyEntity> entityList = getBuy(customerName, buyDate);
-
-        Log.d("Ypora", "SIZE ENTITY: " + entityList.size());
 
         if (entityList.size() == 0) {
             entity = new BuyEntity(customerName, buyDate, 0, 0, 0, 0);
@@ -72,7 +74,8 @@ public abstract class BuyDAO {
 
                 twelveBuyDAO.update(originalTwelveBuy);
             }
-            twelveBuyBalace = twelveBuyEntity.getTwelveBoughtAmount() * twelveBuyEntity.getTwelvePrice();
+
+            twelveBuyBalance = twelveBuyEntity.getTwelveBoughtAmount() * twelveBuyEntity.getTwelvePrice();
             twelveCanistersBalance = twelveBuyEntity.getTwelveBoughtAmount() - twelveBuyEntity.getTwelveReturnedAmount();
         }
 
@@ -110,10 +113,46 @@ public abstract class BuyDAO {
 
         entity.setBuyPaid(entity.getBuyPaid() + buyPaid);
 
-        totalBalance = twelveBuyBalace + twentyBuyBalance + extraBuyBalance;
+        totalBalance = twelveBuyBalance + twentyBuyBalance + extraBuyBalance;
         customerDAO.updateBalances(customerName, totalBalance - buyPaid, twentyCanistersBalance, twelveCanistersBalance);
 
         return insertBuy(entity);
 
+    }
+
+    @Transaction
+    public long delete(@NonNull BuyEntity entity) {
+        double twelveBuyBalance = 0, twentyBuyBalance = 0, extraBuyBalance = 0, totalBalance = 0;
+        int twelveCanistersBalance = 0, twentyCanistersBalance = 0;
+
+        if (entity.getExtraBuyId() > 0) {
+            ExtraBuyDAO extraBuyDAO = databaseInstance.getExtraBuyDAO();
+            ExtraBuyEntity extraBuyEntity = extraBuyDAO.getExtraBuy(entity.getExtraBuyId());
+            extraBuyBalance = extraBuyEntity.getExtraBuyPrice();
+            extraBuyDAO.delete(extraBuyEntity);
+        }
+
+        if (entity.getTwentyId() > 0) {
+            TwentyBuyDAO twentyBuyDAO = databaseInstance.getTwentyBuyDAO();
+            TwentyBuyEntity twentyBuyEntity = twentyBuyDAO.getTwentyBuy(entity.getTwentyId());
+            twentyBuyBalance = twentyBuyEntity.getTwentyBoughtAmount() * twentyBuyEntity.getTwentyPrice();
+            twentyCanistersBalance = twentyBuyEntity.getTwentyBoughtAmount() - twentyBuyEntity.getTwentyReturnedAmount();
+
+            twentyBuyDAO.delete(twentyBuyEntity);
+        }
+
+        if (entity.getTwelveId() > 0) {
+            TwelveBuyDAO twelveBuyDAO = databaseInstance.getTwelveBuyDAO();
+            TwelveBuyEntity twelveBuyEntity = twelveBuyDAO.getTwelveBuy(entity.getTwelveId());
+            twelveBuyBalance = twelveBuyEntity.getTwelveBoughtAmount() * twelveBuyEntity.getTwelvePrice();
+            twelveCanistersBalance = twelveBuyEntity.getTwelveBoughtAmount() - twelveBuyEntity.getTwelveReturnedAmount();
+            twelveBuyDAO.delete(twelveBuyEntity);
+        }
+
+        totalBalance = twelveBuyBalance + twentyBuyBalance + extraBuyBalance;
+        CustomerDAO customerDAO = databaseInstance.getCustomerDAO();
+        customerDAO.updateBalances(entity.getCustomerName(), -(totalBalance - entity.getBuyPaid()), -twentyCanistersBalance, -twelveCanistersBalance);
+
+        return deleteBuyOnly(entity);
     }
 }

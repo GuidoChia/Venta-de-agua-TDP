@@ -1,6 +1,7 @@
 package daos;
 
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
@@ -32,5 +33,11 @@ public interface ExtraBuyDAO {
 
     @Query("SELECT count(extraBuyId) FROM extra_buys NATURAL JOIN buys " + "WHERE buyDate BETWEEN :date1 AND :date2 " + "GROUP BY extraBuyId")
     public abstract int countExtraBuysBetween(Date date1, Date date2);
+
+    @Query("DELETE FROM extra_buys WHERE extraBuyId=:extraBuyId")
+    public abstract int delete(long extraBuyId);
+
+    @Delete
+    public abstract  int delete(ExtraBuyEntity entity);
 
 }
