@@ -54,12 +54,10 @@ public abstract class BuyDAO {
         CustomerDAO customerDAO = databaseInstance.getCustomerDAO();
         customerDAO.insert(customerName);
 
-        List<BuyEntity> entityList = getBuy(customerName, buyDate);
+        entity = getBuy(customerName, buyDate);
 
-        if (entityList.size() == 0) {
+        if (entity == null) {
             entity = new BuyEntity(customerName, buyDate, 0, 0, 0, 0);
-        } else {
-            entity = entityList.get(0);
         }
 
         if (twelveBuyEntity != null) {

@@ -5,6 +5,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation files('../coreLib/libs/poishadow-all.jar')
+
 }
 
 

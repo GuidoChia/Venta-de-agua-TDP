@@ -3,6 +3,7 @@ apply plugin: 'com.android.library'
 android {
     compileSdkVersion 28
 
+    useLibrary 'android.test.mock'
 
     defaultConfig {
         minSdkVersion 21
@@ -48,6 +49,8 @@ dependencies {
 
     // Test helpers
     testImplementation "androidx.room:room-testing:$room_version"
-    implementation project(path: ':coreLib')
+
+    implementation files('../coreLib/libs/poishadow-all.jar')
+    compile project(path: ':coreLib')
 
 }

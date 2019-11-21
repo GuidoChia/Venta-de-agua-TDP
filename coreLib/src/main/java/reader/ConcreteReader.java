@@ -356,8 +356,7 @@ public class ConcreteReader implements ExcelReader {
      * @return true if the cell is empty, false otherwise.
      */
     private boolean isEmpty(Cell c) {
-        return ((c == null) || (c.getCellTypeEnum() == CellType.BLANK) ||
-                ((c.getCellTypeEnum() == CellType.STRING) && c.getStringCellValue().trim().isEmpty()));
+        return ((c == null) || (c.getCellTypeEnum() == CellType.BLANK) || ((c.getCellTypeEnum() == CellType.STRING) && c.getStringCellValue().trim().isEmpty()));
     }
 
     /**
@@ -369,8 +368,7 @@ public class ConcreteReader implements ExcelReader {
     private OutputInfo getInfo(Row row) {
         Cell cell = row.getCell(0);
         Date date = null;
-        if (cell.getCellTypeEnum() == CellType.NUMERIC)
-            date = cell.getDateCellValue();
+        if (cell.getCellTypeEnum() == CellType.NUMERIC) date = cell.getDateCellValue();
         else {
             String dateString = cell.getStringCellValue();
             SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
@@ -402,4 +400,6 @@ public class ConcreteReader implements ExcelReader {
 
         return new ConcreteOutputInfo(date, balance, twentyBalance, twelveBalance, twentyBought, twelveBought, description);
     }
+
+
 }
