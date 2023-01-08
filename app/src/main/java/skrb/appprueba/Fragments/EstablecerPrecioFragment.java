@@ -32,10 +32,7 @@ import skrb.appprueba.helpers.Constants;
 import static skrb.appprueba.helpers.Constants.DEF_VALUE_DEST_1;
 import static skrb.appprueba.helpers.Constants.DEF_VALUE_DEST_2;
 import static skrb.appprueba.helpers.Constants.DEF_VALUE_DEST_5;
-import static skrb.appprueba.helpers.Constants.DEF_VALUE_MIEL_1_COMERCIO;
-import static skrb.appprueba.helpers.Constants.DEF_VALUE_MIEL_1_NORMAL;
-import static skrb.appprueba.helpers.Constants.DEF_VALUE_MIEL_MEDIO_COMERCIO;
-import static skrb.appprueba.helpers.Constants.DEF_VALUE_MIEL_MEDIO_NORMAL;
+import static skrb.appprueba.helpers.Constants.DEF_VALUE_DEST_LITRO;
 import static skrb.appprueba.helpers.Constants.PRICE_12;
 import static skrb.appprueba.helpers.Constants.PRICE_20;
 import static skrb.appprueba.helpers.Constants.PRICE_BOT;
@@ -43,10 +40,7 @@ import static skrb.appprueba.helpers.Constants.PRICE_DEST_1;
 import static skrb.appprueba.helpers.Constants.PRICE_DEST_2;
 import static skrb.appprueba.helpers.Constants.PRICE_DEST_5;
 import static skrb.appprueba.helpers.Constants.PRICE_DISP_MESA;
-import static skrb.appprueba.helpers.Constants.PRICE_MIEL_1_COMERCIO;
-import static skrb.appprueba.helpers.Constants.PRICE_MIEL_1_NORMAL;
-import static skrb.appprueba.helpers.Constants.PRICE_MIEL_MEDIO_COMERCIO;
-import static skrb.appprueba.helpers.Constants.PRICE_MIEL_MEDIO_NORMAL;
+import static skrb.appprueba.helpers.Constants.PRICE_DEST_LITRO;
 import static skrb.appprueba.helpers.Constants.PRICE_PREFS;
 
 public class EstablecerPrecioFragment extends Fragment {
@@ -103,13 +97,7 @@ public class EstablecerPrecioFragment extends Fragment {
                 } else if (selection.equals(strings[6])) {
                     preferencesEditor.putFloat(PRICE_DISP_MESA, precio);
                 } else if (selection.equals(strings[7])) {
-                    preferencesEditor.putFloat(PRICE_MIEL_1_NORMAL, precio);
-                } else if (selection.equals(strings[8])) {
-                    preferencesEditor.putFloat(PRICE_MIEL_1_COMERCIO, precio);
-                } else if (selection.equals(strings[9])) {
-                    preferencesEditor.putFloat(PRICE_MIEL_MEDIO_NORMAL, precio);
-                } else if (selection.equals(strings[10])) {
-                    preferencesEditor.putFloat(PRICE_MIEL_MEDIO_COMERCIO, precio);
+                    preferencesEditor.putFloat(PRICE_DEST_LITRO, precio);
                 }
                 preferencesEditor.apply();
                 updatePrecios(view);
@@ -151,17 +139,9 @@ public class EstablecerPrecioFragment extends Fragment {
         txt = view.findViewById(id.precio_actual_dispenser_mesa);
         txt.setText(titles[6] + ": " + prefs.getFloat(PRICE_DISP_MESA, Constants.DEF_VALUE_DISP_MESA));
 
-        txt = view.findViewById(id.precio_actual_miel_1_normal);
-        txt.setText(titles[7] + ": " + prefs.getFloat(PRICE_MIEL_1_NORMAL, DEF_VALUE_MIEL_1_NORMAL));
+        txt = view.findViewById(id.precio_actual_destilada_litro);
+        txt.setText(titles[7] + ": " + prefs.getFloat(PRICE_DEST_LITRO, DEF_VALUE_DEST_LITRO));
 
-        txt = view.findViewById(id.precio_actual_miel_1_comercio);
-        txt.setText(titles[8] + ": " + prefs.getFloat(PRICE_MIEL_1_COMERCIO, DEF_VALUE_MIEL_1_COMERCIO));
-
-        txt = view.findViewById(id.precio_actual_miel_medio_normal);
-        txt.setText(titles[9] + ": " + prefs.getFloat(PRICE_MIEL_MEDIO_NORMAL, DEF_VALUE_MIEL_MEDIO_NORMAL));
-
-        txt = view.findViewById(id.precio_actual_miel_medio_comercio);
-        txt.setText(titles[10] + ": " + prefs.getFloat(PRICE_MIEL_MEDIO_COMERCIO, DEF_VALUE_MIEL_MEDIO_COMERCIO));
 
     }
 }

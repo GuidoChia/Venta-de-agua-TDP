@@ -91,33 +91,11 @@
             android:textSize="20sp" />
 
         <TextView
-            android:id="@+id/precio_actual_miel_1_normal"
+            android:id="@+id/precio_actual_destilada_litro"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:textIsSelectable="true"
             android:textSize="20sp" />
-
-        <TextView
-            android:id="@+id/precio_actual_miel_1_comercio"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:textIsSelectable="true"
-            android:textSize="20sp" />
-
-        <TextView
-            android:id="@+id/precio_actual_miel_medio_normal"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:textIsSelectable="true"
-            android:textSize="20sp" />
-
-        <TextView
-            android:id="@+id/precio_actual_miel_medio_comercio"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:textIsSelectable="true"
-            android:textSize="20sp" />
-
 
     </LinearLayout>
 
